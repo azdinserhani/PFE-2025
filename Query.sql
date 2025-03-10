@@ -65,3 +65,29 @@ CREATE TABLE quiz_answer(
     is_correct BOOLEAN NOT NULL,
     CONSTRAINT fk_quiz_question FOREIGN KEY (question_id) REFERENCES quiz_question(id)
 )
+
+CREATE Table lesson(
+id SERIAL  PRIMARY KEY NOT NULL,
+module_id int PRIMARY KEY NOT NULL,
+name varchar(255) NOT NULL,
+number int NOT NULL,
+video_url VARCHAR(255) NOT NULL,
+lessons_details VARCHAR(255) NOT NULL,
+is_free BOOLEAN
+CONSTRAINT fk_module FOREIGN KEY (module_id) REFERENCES module(id)
+)
+CREATE TABLE student_quiz_attempt (
+id SERIAL PRIMARY KEY NOT NULL,
+student_id  int PRIMARY KEY NOT NULL,
+quiz_id int PRIMARY KEY NOT NULL,
+score_archived int NOT NULL,
+CONSTRAINT fk_student FOREIGN KEY (student_id) REFERENCES user(id)
+)
+CREATE TABLE student_lesson(
+id SERIAL PRIMARY KEY NOT NULL,
+student_id int NOT NULL,
+lesson_id int NOT NULL,
+is_completed BOOLEAN,
+CONSTRAINT fk_student FOREIGN KEY (student_id) REFERENCES user(id),
+CONSTRAINT fk_lesson FOREIGN KEY (lesson_id) REFERENCES lesson(id),
+)
