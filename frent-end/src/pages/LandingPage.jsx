@@ -1,10 +1,10 @@
-import ExploreCourse from "../components/ExploreCourse";
-import Features from "../components/Features";
-import Hero from "../components/Hero";
-import Info from "../components/Info";
-import Instructors from "../components/Instructors";
-import NewsLettre from "../components/NewsLettre";
-import TrustedBy from "../components/TrustedBy";
+import ExploreCourse from "../components/LandingPage/ExploreCourse";
+import Features from "../components/LandingPage/Features";
+import Hero from "../components/LandingPage/Hero";
+import Info from "../components/LandingPage/Info";
+import Instructors from "../components/LandingPage/Instructors";
+import NewsLettre from "../components/LandingPage/NewsLettre";
+import TrustedBy from "../components/LandingPage/TrustedBy";
 const LandingPage = () => {
   return (
     <div className="">
