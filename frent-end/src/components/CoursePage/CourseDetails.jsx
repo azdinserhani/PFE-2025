@@ -1,9 +1,14 @@
 import React from "react";
 import CourseSections from "./CourseSections";
-
+import { TbClockHour2 } from "react-icons/tb";
+import { FaWifi } from "react-icons/fa6";
+import { FaBook } from "react-icons/fa";
+import { AiOutlineInbox } from "react-icons/ai";
+import { FaRegUser } from "react-icons/fa";
+import { PiShoppingCartLight } from "react-icons/pi";
 const CourseDetails = () => {
   return (
-    <div className="flex flex-col justify-center items-center  gap-7">
+    <div className="flex flex-col justify-center items-center gap-7 mt-4">
       <h2 className="text-2xl font-semibold">Spoken English Popular Course</h2>
       <div className="flex items-center gap-1 w-full justify-center">
         <img
@@ -13,13 +18,26 @@ const CourseDetails = () => {
         />
         <span>Calvin Carlo</span>
       </div>
-      <div className="flex w-full justify-center gap-4 text-gray-500">
-        <span>10 hours</span>
-        <span>All Levels</span>
-        <span>16 Lessons</span>
-        <span>0 Quiz</span>
-        <span>5 Students</span>
-        <button>Enroll Now</button>
+      <div className="flex w-full justify-center gap-7 text-gray-500">
+        <span className="flex items-center gap-1">
+          <TbClockHour2 color="black" /> 10 hours
+        </span>
+        <span className="flex items-center gap-1">
+          <FaWifi color="black" /> All Levels
+        </span>
+        <span className="flex items-center gap-1">
+          <FaBook color="black" /> 16 Lessons
+        </span>
+        <span className="flex items-center gap-1">
+          <AiOutlineInbox color="black" /> 0 Quiz
+        </span>
+        <span className="flex items-center gap-1">
+          <FaRegUser color="black" /> 5 Students
+        </span>
+
+        <button className="flex  items-center justify-center w-fit py-2 px-4 bg-purple-300  text-purple-900 font-semibold gap-2 rounded-md cursor-pointer   hover:bg-purple-500 hover:text-white duration-300 hover:rotate-3">
+          <PiShoppingCartLight /> Buy now
+        </button>
       </div>
       <img
         src="/Info2.jpg"
@@ -49,8 +67,10 @@ const CourseDetails = () => {
           defend our planet against pollution. Also dark wizards.
         </p>
       </div>
-      <div className="">
+      <div className="flex flex-col gap-4">
         <span className="text-2xl font-semibold">Curriculum</span>
+        <CourseSections />
+        <CourseSections />
         <CourseSections />
       </div>
     </div>
