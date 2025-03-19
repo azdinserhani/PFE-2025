@@ -2,7 +2,7 @@ import { FaDisplay } from "react-icons/fa6";
 import { FaLongArrowAltRight } from "react-icons/fa";
 const Hero = () => {
   return (
-    <div className="flex mx-4 h-[calc(100vh-60px)]">
+    <div className="container mx-auto flex  h-[calc(100vh-60px)]">
       <div className="flex flex-1/2  items-center h-full">
         <div className=" flex flex-col  justify-center space-y-4">
           <h2 className="text-5xl font-semibold">

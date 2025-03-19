@@ -49,33 +49,34 @@ const CoursesPage = () => {
     },
   ];
   return (
-    <div>
+    <div className="">
       <Header />
-      <div className="flex gap-4 p-4">
-        <div className="flex-2/3 grid grid-cols-2 gap-7">
-          {courses.map((course) => {
-            return <CourseCard item={course} />;
-          })}
+      <div className="container mx-auto">
+        <div className=" flex gap-4 p-4">
+          <div className="flex-2/3 grid grid-cols-2 gap-7">
+            {courses.map((course) => {
+              return <CourseCard item={course} />;
+            })}
+          </div>
+          <div className="flex-1/3">
+            <SideBar />
+          </div>
         </div>
-        <div className="flex-1/3">
-          <SideBar />
+        <div className="flex w-full justify-center my-10 ">
+          <Stack spacing={2}>
+            <Pagination
+              count={10}
+              sx={{
+                "& .MuiPaginationItem-root": {
+                  color: "purple",
+                },
+              }}
+              onChange={(event, value) => {
+                console.log("Current page:", value);
+              }}
+            />
+          </Stack>
         </div>
-      </div>
-      <div className="flex w-full justify-center my-10 ">
-        <Stack spacing={2}>
-          <Pagination
-            count={10}
-            
-            sx={{
-              "& .MuiPaginationItem-root": {
-                color: "purple",
-              },
-            }}
-            onChange={(event, value) => {
-              console.log("Current page:", value);
-            }}
-          />
-        </Stack>
       </div>
     </div>
   );

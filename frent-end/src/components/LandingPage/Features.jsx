@@ -27,7 +27,7 @@ const Features = () => {
     },
   ];
   return (
-    <div className="h-[80vh] flex flex-col  items-center justify-center">
+    <div className="container mx-auto h-[80vh] flex flex-col  items-center justify-center">
       <h2 className="text-4xl font-bold">Discover Powerful Features</h2>
       <p className="text-gray-400 font-bold mt-4">
         Discover a world of knowledge and opportunities with our online

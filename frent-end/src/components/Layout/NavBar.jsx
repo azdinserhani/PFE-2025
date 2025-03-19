@@ -6,7 +6,7 @@ import { Link } from "react-router";
 const NavBar = () => {
   const [menuOpen, setMenuOpen] = useState(false);
   return (
-    <div className="flex justify-between  top-0 w-full z-10 transition-all duration-300  p-4  bg-opacity-90 ">
+    <div className="container mx-auto flex justify-between  top-0 w-full z-10 transition-all duration-300  p-4  bg-opacity-90 ">
       <div className="">Logo</div>
       <div className="flex list-none gap-6 text-[15px]">
         <li className="cursor-pointer hover:text-purple-400 duration-300">

@@ -2,7 +2,7 @@ import React from "react";
 
 const TrustedBy = () => {
   return (
-    <div className="flex flex-col w-full my-7">
+    <div className="container mx-auto flex flex-col w-full my-7">
       <h2 className="text-center mb-7 text-2xl font-bold text-gray-500">
         Trusted By:
       </h2>

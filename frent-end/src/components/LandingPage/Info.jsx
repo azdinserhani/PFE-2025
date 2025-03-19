@@ -2,7 +2,7 @@ import { FaLongArrowAltRight } from "react-icons/fa";
 
 const Info = () => {
   return (
-    <div className="flex h-[80vh]">
+    <div className="container mx-auto flex h-[80vh]">
       <div className="flex-1/2 relative flex items-center">
         <img
           src="/Info1.jpg"

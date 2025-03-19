@@ -5,6 +5,7 @@ const InputField = ({ label, type, id, placeholder }) => {
         {label}
       </label>
       <input
+        
         type={type}
         id={id}
         placeholder={placeholder}

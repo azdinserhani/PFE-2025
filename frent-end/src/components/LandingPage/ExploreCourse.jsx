@@ -47,7 +47,7 @@ const ExploreCourse = () => {
   ];
 
   return (
-    <div className="min-h-screen flex flex-col  items-center  mt-20">
+    <div className="container mx-auto min-h-screen flex flex-col  items-center  mt-20">
       <h2 className="text-4xl font-bold">Explore Our Best Courses</h2>
       <p className="text-gray-400 font-bold mt-4 text-center">
         Discover a world of knowledge and opportunities with our online <br />
