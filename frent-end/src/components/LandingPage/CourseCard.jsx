@@ -16,12 +16,15 @@ const CourseCard = ({ item }) => {
 
       <h3 className="font-semibold text-[22px]">{item.title}</h3>
       <p className="text-gray-400 font-semibold">{item.description}</p>
-      <div className="w-full  h-2 bg-gray-200  rounded-4xl z-0">
-        <div
-          className=" my-3 h-2 bg-purple-500 transition-all duration-500 rounded-4xl "
-          style={{ width: `${item.progress}%` }}
-        ></div>
-      </div>
+      {item.isEnrolled && (
+        <div className="w-full  h-2 bg-gray-200  rounded-4xl z-0">
+          <div
+            className=" my-3 h-2 bg-purple-500 transition-all duration-500 rounded-4xl "
+            style={{ width: `${item.progress}%` }}
+          ></div>
+        </div>
+      )}
+
       <div className="flex items-center justify-between mt-5">
         <div className="flex gap-4 items-center">
           <img
