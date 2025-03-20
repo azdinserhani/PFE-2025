@@ -3,12 +3,17 @@ import { IoMdSettings } from "react-icons/io";
 import { FaUser } from "react-icons/fa";
 import { IoLogOut } from "react-icons/io5";
 import { BiSolidDashboard } from "react-icons/bi";
+import { Link } from "react-router";
 const ProfileMenu = () => {
   const menuItems = [
-    { icon: <BiBookAlt />, label: "My Learning" },
-    { icon: <FaUser />, label: "My Profile" },
-    { icon: <BiSolidDashboard />, label: "Instructor Dashboard" },
-    { icon: <IoMdSettings />, label: "Settings" },
+    { icon: <BiBookAlt />, label: "My Learning", link: "/myLearning" },
+    { icon: <FaUser />, label: "My Profile", link: "/myProfile" },
+    {
+      icon: <BiSolidDashboard />,
+      label: "Instructor Dashboard",
+      link: "/myDashboard",
+    },
+    { icon: <IoMdSettings />, label: "Settings", link: "/setting" },
     { icon: <IoLogOut />, label: "Logout" },
   ];
 
@@ -20,8 +25,10 @@ const ProfileMenu = () => {
             key={index}
             className="flex items-center gap-2 text-gray-400 hover:text-purple-500 duration-300 hover:pl-2"
           >
-            {item.icon}
-            {item.label}
+            <Link to={item.link} className="flex gap-2">
+              {item.icon}
+              {item.label}
+            </Link>
           </li>
         ))}
       </ul>

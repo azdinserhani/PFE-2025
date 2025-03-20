@@ -8,6 +8,9 @@ import CoursesPage from "./pages/CoursesPage";
 import CoursePage from "./pages/CoursePage";
 import ForgetPassword from "./pages/Auth/ForgetPassword";
 import MyProfile from "./pages/MyProfile";
+import AboutPage from "./pages/AboutPage";
+import ContactPage from "./pages/ContactPage";
+import MyLearning from "./pages/MyLearning";
 function App() {
   return (
     <div className="">
@@ -16,9 +19,10 @@ function App() {
           <Route path="/" element={<LandingPage />} />
           <Route path="/courses" element={<CoursesPage />} />
           <Route path="/course/:id" element={<CoursePage />} />
-          <Route path="/about" element={<p>about</p>} />
-          <Route path="/contact" element={<p>contact</p>} />
+          <Route path="/about" element={<AboutPage />} />
+          <Route path="/contact" element={<ContactPage />} />
           <Route path="/myProfile" element={<MyProfile />} />
+          <Route path="/myLearning" element={<MyLearning />} />
         </Route>
         <Route path="/Signup" element={<SignUp />} />
         <Route path="/Signin" element={<Login />} />

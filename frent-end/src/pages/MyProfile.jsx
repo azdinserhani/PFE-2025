@@ -11,7 +11,7 @@ const MyProfile = () => {
     const file = event.target.files[0];
     if (file) {
       setFileName(file.name);
-      setProfile(URL.createObjectURL(file)); // Generate a temporary URL for the selected file
+      setProfile(URL.createObjectURL(file));
     }
   };
 
