@@ -1,11 +1,12 @@
-const InputField = ({ label, type, id, placeholder }) => {
+const InputField = ({ label, type, id, placeholder,value,disabled }) => {
   return (
     <div className="flex flex-col gap-2 flex-1/2">
       <label htmlFor={id} className="font-semibold text-[15px]">
         {label}
       </label>
       <input
-        
+        disabled={disabled}
+        value={value}
         type={type}
         id={id}
         placeholder={placeholder}

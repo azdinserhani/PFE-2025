@@ -16,13 +16,9 @@ const MyProfile = () => {
   };
 
   return (
-    <div className="flex flex-col h-screen bg-gray-100 p-6">
-      <h2 className="text-2xl font-bold mb-6 text-center text-gray-800">
-        👤 Profile Overview
-      </h2>
-
+    <div className="flex flex-col h-screen p-6 w-[25%]">
       {/* Profile Update Form */}
-      <div className="flex flex-col items-center bg-white shadow-md rounded-lg p-6 w-full max-w-md mx-auto">
+      <div className="flex flex-col items-center bg-white shadow-md rounded-lg p-6 w-full  mx-auto">
         <form className="flex flex-col gap-6 w-full">
           <div className="flex flex-col gap-4 items-center justify-center">
             <input
@@ -61,6 +57,14 @@ const MyProfile = () => {
                 label={"Email Address"}
                 type={"email"}
                 placeholder={"Enter your email"}
+              />
+              <InputField
+                value={"************"}
+                disabled={true}
+                id={"pass"}
+                label={"password"}
+                type={"password"}
+                placeholder={"password"}
               />
             </div>
 

@@ -35,11 +35,17 @@ const NavBar = () => {
         </div>
         <div
           className="rounded-2xl bg-amber-700 h-8 w-8 relative cursor-pointer"
-          onClick={() => setMenuOpen(!menuOpen)}
+          onClick={() => setMenuOpen(true)}
         >
           {menuOpen && <ProfileMenu />}
         </div>
       </div>
+      {menuOpen && (
+        <div
+          className=" h-screen w-screen absolute top-0 right-0"
+          onClick={() => setMenuOpen(!menuOpen)}
+        ></div>
+      )}
     </div>
   );
 };
