@@ -3,8 +3,10 @@ import { IoCartOutline } from "react-icons/io5";
 import { useState } from "react";
 import ProfileMenu from "../ProfileMenu";
 import { Link } from "react-router";
+import SearchForm from "../SideBar/SearchForm";
 const NavBar = () => {
   const [menuOpen, setMenuOpen] = useState(false);
+  const [searchOpen, setSearchOpen] = useState(false);
   return (
     <div className="container mx-auto flex justify-between  top-0 w-full z-10 transition-all duration-300  p-4  bg-opacity-90 ">
       <div className="">Logo</div>
@@ -27,7 +29,13 @@ const NavBar = () => {
         <a className="cursor-pointer text-white duration-300 bg-purple-500 py-1 px-2 rounded-lg hover:text-purple-500 hover:bg-white border-purple-500 border">
           <Link to={"/signin"}>Sign In</Link>
         </a>
-        <div className="">
+        <div className="cursor-pointer" onClick={() => setSearchOpen(true)}>
+          {searchOpen && (
+            <>
+              <SearchForm />
+              <div className="fixed z-[9998] left-0 top-0 bg-black/50 h-screen w-full"></div>
+            </>
+          )}
           <VscSearch fontSize={20} />
         </div>
         <div className="h-8 w-8 bg-purple-500 flex items-center justify-center border rounded-2xl  text-white">
@@ -40,6 +48,12 @@ const NavBar = () => {
           {menuOpen && <ProfileMenu />}
         </div>
       </div>
+      {searchOpen && (
+        <div
+          className=" h-screen w-screen absolute top-0 right-0 "
+          onClick={() => setSearchOpen(!searchOpen)}
+        ></div>
+      )}
       {menuOpen && (
         <div
           className=" h-screen w-screen absolute top-0 right-0"
