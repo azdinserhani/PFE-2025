@@ -1,5 +1,6 @@
 import React from "react";
 import { FaLongArrowAltRight } from "react-icons/fa";
+import { Link } from "react-router";
 
 const CourseCard = ({ item }) => {
   return (
@@ -26,27 +27,30 @@ const CourseCard = ({ item }) => {
       )}
 
       <div className="flex items-center justify-between mt-5">
-        <div className="flex gap-4 items-center">
-          <img
-            src="./instu1.jpg"
-            alt=""
-            className="h-10 w-10 rounded-full object-cover"
-          />
-          <span className="font-bold ">{item.instructor}</span>
-        </div>
-
-        <button className="flex  items-center justify-center w-fit py-2 px-4 bg-purple-300  text-purple-900 font-semibold gap-2 rounded-md cursor-pointer   hover:bg-purple-500 hover:text-white duration-300 hover:rotate-3">
-          {item.isEnrolled ? (
-            <>
-              Complete <FaLongArrowAltRight />
-            </>
-          ) : (
-            <>
-              Learn more
-              <FaLongArrowAltRight />
-            </>
-          )}
-        </button>
+        <Link to={"/instructor/2"}>
+          <div className="flex gap-4 items-center">
+            <img
+              src="/instu1.jpg"
+              alt=""
+              className="h-10 w-10 rounded-full object-cover"
+            />
+            <span className="font-bold ">{item.instructor}</span>
+          </div>
+        </Link>
+        <Link to={"/course/2"}>
+          <button className="flex  items-center justify-center w-fit py-2 px-4 bg-purple-300  text-purple-900 font-semibold gap-2 rounded-md cursor-pointer   hover:bg-purple-500 hover:text-white duration-300 hover:rotate-3">
+            {item.isEnrolled ? (
+              <>
+                Complete <FaLongArrowAltRight />
+              </>
+            ) : (
+              <>
+                Learn more
+                <FaLongArrowAltRight />
+              </>
+            )}
+          </button>
+        </Link>
       </div>
     </div>
   );

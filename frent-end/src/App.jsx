@@ -12,6 +12,7 @@ import AboutPage from "./pages/AboutPage";
 import ContactPage from "./pages/ContactPage";
 import MyLearning from "./pages/MyLearning";
 import DashBoardLayout from "./components/Layout/DashBoardLayout";
+import InstructorPageInfo from "./pages/InstructorPageInfo";
 function App() {
   return (
     <div className="">
@@ -22,6 +23,7 @@ function App() {
           <Route path="/course/:id" element={<CoursePage />} />
           <Route path="/about" element={<AboutPage />} />
           <Route path="/contact" element={<ContactPage />} />
+          <Route path="/instructor/:id" element={<InstructorPageInfo />} />
         </Route>
         <Route path="/" element={<DashBoardLayout />}>
           <Route path="/myProfile" element={<MyProfile />} />

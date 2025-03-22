@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import CourseSections from "./CourseSections";
 import { TbClockHour2 } from "react-icons/tb";
 import { FaWifi } from "react-icons/fa6";
@@ -7,6 +7,9 @@ import { AiOutlineInbox } from "react-icons/ai";
 import { FaRegUser } from "react-icons/fa";
 import { PiShoppingCartLight } from "react-icons/pi";
 const CourseDetails = () => {
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
   return (
     <div className="flex flex-col justify-center items-center gap-7 mt-4">
       <h2 className="text-2xl font-semibold">Spoken English Popular Course</h2>

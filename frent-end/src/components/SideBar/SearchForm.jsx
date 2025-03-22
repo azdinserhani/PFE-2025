@@ -1,6 +1,6 @@
 import React from "react";
 import { IoClose } from "react-icons/io5";
-const SearchForm = ({setSearchOpen }) => {
+const SearchForm = ({ setSearchOpen, searchOpen }) => {
   return (
     <div className="w-[100%] ">
       <div className="fixed top-16 left-1/2 transform -translate-x-1/2 w-[85%] z-[9999] ">
@@ -13,7 +13,8 @@ const SearchForm = ({setSearchOpen }) => {
             />
             <button
               type="button"
-              className="absolute top-2 right-2  cursor-pointer p-2 text-gray-500 rounded-full" onClick={() => setSearchOpen(false)}
+              className="absolute top-2 right-2  cursor-pointer p-2 text-gray-500 rounded-full"
+              onClick={() => setSearchOpen(false)}
             >
               <IoClose />
             </button>
