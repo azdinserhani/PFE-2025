@@ -89,4 +89,3 @@ CREATE TABLE student_lesson(
     CONSTRAINT fk_student FOREIGN KEY (student_id) REFERENCES user_acount(id),
     CONSTRAINT fk_lesson FOREIGN KEY (lesson_id) REFERENCES lesson(id)
 )
---gdfbvfgbfgbfgb
