@@ -13,6 +13,7 @@ import ContactPage from "./pages/ContactPage";
 import MyLearning from "./pages/MyLearning";
 import DashBoardLayout from "./components/Layout/DashBoardLayout";
 import InstructorPageInfo from "./pages/InstructorPageInfo";
+import PlayCourse from "./pages/PlayCourse/PlayCourse";
 function App() {
   return (
     <div className="">
@@ -28,6 +29,7 @@ function App() {
         <Route path="/" element={<DashBoardLayout />}>
           <Route path="/myProfile" element={<MyProfile />} />
           <Route path="/myLearning" element={<MyLearning />} />
+          <Route path="/course/learn/:id" element={<PlayCourse />} />
         </Route>
 
         <Route path="/Signup" element={<SignUp />} />

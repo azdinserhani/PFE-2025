@@ -24,7 +24,7 @@ const ProfileMenu = () => {
   console.log(isDark);
 
   return (
-    <div className="absolute top-10 right-0 w-[210px] p-3 rounded-lg shadow-2xl shadow-gray-200 bg-white z-50">
+    <div className="absolute top-10 right-0 w-[210px] p-3 rounded-lg shadow-2xl shadow-gray-200 bg-white z-100">
       <ul className="flex flex-col gap-3">
         {menuItems.map((item, index) => (
           <li

@@ -40,15 +40,19 @@ const CourseCard = ({ item }) => {
         <Link to={"/course/2"}>
           <button className="flex  items-center justify-center w-fit py-2 px-4 bg-purple-300  text-purple-900 font-semibold gap-2 rounded-md cursor-pointer   hover:bg-purple-500 hover:text-white duration-300 hover:rotate-3">
             {item.isEnrolled ? (
-              <>
+            <Link to={"/course/learn/2"}>
+              <div className="flex items-center gap-2">
                 Complete <FaLongArrowAltRight />
-              </>
-            ) : (
-              <>
+              </div>
+            </Link>
+          ) : (
+            <Link to={"/course/2"}>
+              <div className="flex items-center gap-2">
                 Learn more
                 <FaLongArrowAltRight />
-              </>
-            )}
+              </div>
+            </Link>
+          )}
           </button>
         </Link>
       </div>
