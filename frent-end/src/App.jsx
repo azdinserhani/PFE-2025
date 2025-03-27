@@ -14,6 +14,8 @@ import MyLearning from "./pages/MyLearning";
 import DashBoardLayout from "./components/Layout/DashBoardLayout";
 import InstructorPageInfo from "./pages/InstructorPageInfo";
 import PlayCourse from "./pages/PlayCourse/PlayCourse";
+import CourseByInstructor from "./pages/InstroctorDashbaord/CourseByInstructor";
+import Analytics from "./pages/InstroctorDashbaord/Analytics";
 function App() {
   return (
     <div className="">
@@ -30,6 +32,8 @@ function App() {
           <Route path="/myProfile" element={<MyProfile />} />
           <Route path="/myLearning" element={<MyLearning />} />
           <Route path="/course/learn/:id" element={<PlayCourse />} />
+          <Route path="/instructorCourse" element={<CourseByInstructor />} />
+          <Route path="/analytics" element={<Analytics />} />
         </Route>
 
         <Route path="/Signup" element={<SignUp />} />

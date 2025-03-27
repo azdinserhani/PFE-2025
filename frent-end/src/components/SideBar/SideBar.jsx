@@ -11,6 +11,8 @@ import { IoIosInformationCircleOutline } from "react-icons/io";
 import { BiBookAlt } from "react-icons/bi";
 import NavItem from "./NavItem";
 import { Link } from "react-router";
+import { TbBrandGoogleAnalytics } from "react-icons/tb";
+import { IoIosList } from "react-icons/io";
 const SideBar = () => {
   const [open, setOpen] = useState(true);
   const [menuOpen, setMenuOpen] = useState(false);
@@ -64,6 +66,28 @@ const SideBar = () => {
                 icon={BiBookAlt}
                 open={open}
                 onClick={() => handleItemClick("learning")}
+              />
+            </Link>
+          </div>
+          <div
+            className={selectedItem === "instructorCourse" ? "text-black" : ""}
+          >
+            <Link to="/instructorCourse">
+              <NavItem
+                label={"My Courses"}
+                icon={IoIosList}
+                open={open}
+                onClick={() => handleItemClick("instructorCourse")}
+              />
+            </Link>
+          </div>
+          <div className={selectedItem === "analytics" ? "text-black" : ""}>
+            <Link to="/analytics">
+              <NavItem
+                label={"Analytics"}
+                icon={TbBrandGoogleAnalytics}
+                open={open}
+                onClick={() => handleItemClick("analytics")}
               />
             </Link>
           </div>
