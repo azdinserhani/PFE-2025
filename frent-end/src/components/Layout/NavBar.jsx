@@ -7,11 +7,11 @@ import SearchForm from "../SideBar/SearchForm";
 const NavBar = () => {
   const [menuOpen, setMenuOpen] = useState(false);
   const [searchOpen, setSearchOpen] = useState(false);
-
+  const [isMenuOpen, setisMenuOpen] = useState(false);
   return (
     <div className="container mx-auto flex justify-between  top-0 w-full z-10 transition-all duration-300  p-4  bg-opacity-90 ">
       <div className="">Logo</div>
-      <div className="flex list-none gap-6 text-[15px]">
+      <ul className=" hidden xl:flex list-none gap-6 text-[15px]">
         <li className="cursor-pointer hover:text-purple-400 duration-300">
           <Link to={"/"}>Home</Link>
         </li>
@@ -24,7 +24,7 @@ const NavBar = () => {
         <li className="cursor-pointer hover:text-purple-400 duration-300">
           <Link to={"/contact"}>Contact Us</Link>
         </li>
-      </div>
+      </ul>
       <div className="flex items-center gap-3">
         {" "}
         <a className="cursor-pointer text-white duration-300 bg-purple-500 py-1 px-2 rounded-lg hover:text-purple-500 hover:bg-white border-purple-500 border">
@@ -58,6 +58,31 @@ const NavBar = () => {
           onClick={() => setMenuOpen(!menuOpen)}
         ></div>
       )}
+      <div>
+        <i
+          className=" hidden md: bx bx-menu  black cursor-pointer text-4xl"
+          onClick={() => setisMenuOpen(!isMenuOpen)}
+        ></i>
+        <div
+          className={`absolute xl:hidden top-18 z-[9999]   left-0 w-full  bg-white flex flex-col items-center gap-6 font-semibold text-lg transform transition-transform ${
+            isMenuOpen ? "opacity-100" : "opacity-0"
+          }`}
+          style={{ transition: "transform 0.3s ease,opcity 0.3s ease" }}
+        >
+          <li className="list-none w-full text-center p-4 transition-all cursor-pointer hover:text-purple-400 duration-300">
+            <Link to={"/"}>Home</Link>
+          </li>
+          <li className="list-none w-full text-center p-4 transition-all cursor-pointer hover:text-purple-400 duration</li>-300">
+            <Link to={"/courses"}>Courses</Link>
+          </li>
+          <li className="list-none w-full text-center p-4 transition-all cursor-pointer hover:text-purple-400 duration-300">
+            <Link to={"/about"}>About Us</Link>
+          </li>
+          <li className="list-none w-full text-center p-4 transition-all cursor-pointer hover:text-purple-400 duration-300">
+            <Link to={"/contact"}>Contact Us</Link>
+          </li>
+        </div>
+      </div>
     </div>
   );
 };

@@ -27,13 +27,13 @@ const Features = () => {
     },
   ];
   return (
-    <div className="container mx-auto h-[80vh] flex flex-col  items-center justify-center">
-      <h2 className="text-4xl font-bold">Discover Powerful Features</h2>
-      <p className="text-gray-400 font-bold mt-4">
+    <div className="container mx-auto h-auto flex flex-col items-center justify-center px-4">
+      <h2 className="text-4xl font-bold text-center">Discover Powerful Features</h2>
+      <p className="text-gray-400 font-bold mt-4 text-center">
         Discover a world of knowledge and opportunities with our online
         education platform pursue a new career.
       </p>
-      <div className="flex gap-6 mt-12 p-4">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mt-12 p-4">
         {featureContent.map((feature) => {
           return <FeatureCard item={feature} icon={feature.icon} />;
         })}

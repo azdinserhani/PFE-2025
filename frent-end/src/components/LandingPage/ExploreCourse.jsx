@@ -53,7 +53,7 @@ const ExploreCourse = () => {
         Discover a world of knowledge and opportunities with our online <br />
         education platform pursue a new career.
       </p>
-      <div className="grid grid-cols-3 gap-7 mt-7">
+      <div className="grid grid-cols-1 sm:grid-cols-2  lg:grid-cols-3 gap-7 mt-7">
         {courses.map((course) => {
           return <CourseCard item={course} />;
         })}

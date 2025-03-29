@@ -25,7 +25,7 @@ const Instructors = () => {
     },
   ];
   return (
-    <div className="container mx-auto">
+    <div className="container mx-auto flex flex-col items-center justify-center">
       <div
         className=" text-center h-[20vh] flex flex-col  items-center justify-center"
         style={{ display: "flex" }}
@@ -36,7 +36,7 @@ const Instructors = () => {
           education <br /> platform pursue a new career.
         </p>
       </div>
-      <div className="grid grid-cols-4 gap-6 mt-12 p-4">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mt-12 p-4">
         {instructorsContent.map((instructors) => {
           return <InstructorsCard item={instructors} />;
         })}
