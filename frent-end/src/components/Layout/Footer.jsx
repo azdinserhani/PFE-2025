@@ -10,7 +10,7 @@ import { FaLocationDot } from "react-icons/fa6";
 const Footer = () => {
   return (
     <div className=" bg-gray-900 text-white p-10">
-      <div className="container mx-auto flex gap-10">
+      <div className="container mx-auto md:flex gap-10">
         <div>
           <span className="font-bold">Logo</span>
           <p className="text-gray-400 mt-5">
