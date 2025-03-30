@@ -1,4 +1,5 @@
 import React from "react";
+import { motion } from "framer-motion";
 import StatCard from "../../components/MyLearning/StatCard";
 import PieChart from "../../components/InstroctorDashbaord/PieChart";
 import LineChart from "../../components/InstroctorDashbaord/LineChart";
@@ -50,45 +51,88 @@ const Analytics = () => {
       rating: 4.3,
     },
   ];
+
+  const containerVariants = {
+    hidden: { opacity: 0, y: 20 },
+    visible: { opacity: 1, y: 0, transition: { duration: 0.5 } },
+  };
+
   return (
-    <div
+    <motion.div
       className="container mx-auto py-5 max-h-screen overflow-y-scroll"
       style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
+      initial="hidden"
+      animate="visible"
     >
-      <div className="grid grid-cols-4 gap-4">
+      <motion.div
+        className="grid grid-cols-4 gap-4"
+        variants={containerVariants}
+      >
         {analyticsData.map((item, index) => {
-          return <StatCard key={index} item={item} />;
+          return (
+            <motion.div
+              key={index}
+              variants={containerVariants}
+              custom={index}
+              initial="hidden"
+              animate="visible"
+            >
+              <StatCard item={item} />
+            </motion.div>
+          );
         })}
-      </div>
-      <div className="grid grid-cols-3 mt-10 gap-6">
-        <div className=" bg-white shadow-lg rounded-2xl p-6">
+      </motion.div>
+      <motion.div
+        className="grid grid-cols-3 mt-10 gap-6"
+        variants={containerVariants}
+      >
+        <motion.div
+          className="bg-white shadow-lg rounded-2xl p-6"
+          variants={containerVariants}
+        >
           <h2 className="text-center mb-5 font-semibold text-2xl">
             Course Revenue
           </h2>
           <PieChart />
-        </div>
-        <div className="bg-white shadow-lg rounded-2xl p-6 col-span-2">
+        </motion.div>
+        <motion.div
+          className="bg-white shadow-lg rounded-2xl p-6 col-span-2"
+          variants={containerVariants}
+        >
           <h2 className="text-center mb-5 font-semibold text-2xl">
             Student Enrollment
           </h2>
           <LineChart />
-        </div>
-        <div className="bg-white shadow-lg rounded-2xl p-6 col-span-2">
+        </motion.div>
+        <motion.div
+          className="bg-white shadow-lg rounded-2xl p-6 col-span-2"
+          variants={containerVariants}
+        >
           <h2 className="text-center mb-5 font-semibold text-2xl">
             Course Completion Rate
           </h2>
           <BarChart />
-        </div>
-        <div className="bg-white shadow-lg rounded-2xl p-6 ">
-          <h2 className="text-center mb-5 font-semibold text-2xl">Monthly Revenue Growth</h2>
+        </motion.div>
+        <motion.div
+          className="bg-white shadow-lg rounded-2xl p-6"
+          variants={containerVariants}
+        >
+          <h2 className="text-center mb-5 font-semibold text-2xl">
+            Monthly Revenue Growth
+          </h2>
           <DoughnutChart />
-        </div>
-        <div className="bg-white shadow-lg rounded-2xl p-6 col-span-3">
-          <h2 className="text-center mb-5 font-semibold text-2xl">Best-Selling Courses</h2>
+        </motion.div>
+        <motion.div
+          className="bg-white shadow-lg rounded-2xl p-6 col-span-3"
+          variants={containerVariants}
+        >
+          <h2 className="text-center mb-5 font-semibold text-2xl">
+            Best-Selling Courses
+          </h2>
           <LeaderboardTable data={courses} />
-        </div>
-      </div>
-    </div>
+        </motion.div>
+      </motion.div>
+    </motion.div>
   );
 };
 

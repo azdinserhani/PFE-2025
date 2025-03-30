@@ -7,7 +7,7 @@ import CourseOverview from "../../components/PlayCourse/CourseOverview";
 const PlayCourse = () => {
   return (
     <div className="flex p-5 gap-4 h-screen">
-      <div className="flex-2/3 overflow-y-scroll">
+      <div className="flex-2/3 overflow-y-scroll p-6">
         <div className="">
           <Player />
         </div>

@@ -2,6 +2,7 @@ import { FaUserAlt } from "react-icons/fa";
 import InputField from "../components/Auth/InputField";
 import ButtonAuth from "../components/Auth/Button";
 import { useState } from "react";
+import { motion } from "framer-motion";
 
 const MyProfile = () => {
   const [profile, setProfile] = useState(null);
@@ -16,11 +17,16 @@ const MyProfile = () => {
   };
 
   return (
-    <div className="flex flex-col h-screen p-6 w-[25%]">
+    <div className="flex flex-col h-screen p-6 w-full md:w-[50%] lg:w-[35%] mx-auto bg-gray-100">
       {/* Profile Update Form */}
-      <div className="flex flex-col items-center bg-white shadow-md rounded-lg p-6 w-full  mx-auto">
-        <form className="flex flex-col gap-6 w-full">
-          <div className="flex flex-col gap-4 items-center justify-center">
+      <motion.div
+        initial={{ opacity: 0, y: 50 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5 }}
+        className="flex flex-col items-center bg-white shadow-lg rounded-xl p-8 w-full"
+      >
+        <form className="flex flex-col gap-8 w-full">
+          <div className="flex flex-col gap-6 items-center justify-center">
             <input
               type="file"
               name="profile"
@@ -31,20 +37,21 @@ const MyProfile = () => {
             />
             <label
               htmlFor="profile"
-              className="h-32 w-32 bg-gray-300 rounded-full flex justify-center items-center cursor-pointer hover:bg-gray-400 transition duration-300 shadow-md"
+              className="h-36 w-36 bg-gray-200 rounded-full flex justify-center items-center cursor-pointer hover:bg-gray-300 transition duration-300 shadow-md overflow-hidden"
             >
               {profile ? (
                 <img
                   src={profile}
                   alt="Selected Profile"
-                  className="h-full w-full object-cover rounded-full"
+                  className="h-full w-full object-cover"
                 />
               ) : (
-                <FaUserAlt className="text-white text-4xl" />
+                <FaUserAlt className="text-gray-500 text-5xl" />
               )}
             </label>
+           
           </div>
-          <div className="flex flex-col gap-4">
+          <div className="flex flex-col gap-6">
             <div className="flex flex-col gap-4">
               <InputField
                 id={"username"}
@@ -62,27 +69,32 @@ const MyProfile = () => {
                 value={"************"}
                 disabled={true}
                 id={"pass"}
-                label={"password"}
+                label={"Password"}
                 type={"password"}
-                placeholder={"password"}
+                placeholder={"Password"}
               />
             </div>
 
-            <div className="flex flex-col gap-2 bg-gray-50 p-4 rounded-lg shadow-inner">
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 0.3 }}
+              className="flex flex-col gap-2 bg-gray-50 p-4 rounded-lg shadow-inner"
+            >
               <p className="font-semibold text-gray-700">
                 Join Date: <span className="font-normal pl-2">25/12/2005</span>
               </p>
               <p className="font-semibold text-gray-700">
                 Role: <span className="font-normal pl-2">Student</span>
               </p>
-            </div>
+            </motion.div>
           </div>
           <ButtonAuth
             label={"Update"}
-            className="w-full bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 rounded-lg transition duration-300"
+            className="w-full bg-blue-500 hover:bg-blue-600 text-white font-semibold py-3 rounded-lg transition duration-300"
           />
         </form>
-      </div>
+      </motion.div>
     </div>
   );
 };

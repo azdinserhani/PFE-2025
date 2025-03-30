@@ -1,42 +1,48 @@
 import { useState } from "react";
+import { motion } from "framer-motion";
+import { FaChevronDown } from "react-icons/fa";
 
 export default function CourseSections() {
   const [open, setOpen] = useState(false);
+
   return (
-    <div className="flex flex-col p-4 bg-white w-[500px] border-gray-200 border rounded-2xl">
-      <div
-        className="flex justify-between p-3 border-b border-gray-200 font-semibold cursor-pointer"
+    <div className="flex flex-col p-6 bg-white w-full max-w-md border border-gray-200 rounded-2xl shadow-lg">
+      <motion.div
+        className="flex justify-between items-center p-4 border-b border-gray-200 font-semibold text-gray-800 cursor-pointer"
         onClick={() => setOpen(!open)}
+        whileTap={{ scale: 0.98 }}
       >
-        <span>title</span>
-        <span>2 hrs</span>
-      </div>
-      <div
-        className={`overflow-hidden transition-max-height duration-500 ease-in-out ${
-          open ? "max-h-screen" : "max-h-0"
-        }`}
+        <div className="flex items-center gap-1.5">
+          <motion.div
+          className="text-gray-500"
+          animate={{ rotate: open ? 180 : 0 }}
+          transition={{ duration: 0.3 }}
+        >
+          <FaChevronDown />
+        </motion.div>
+        <span className="text-lg">Title</span>
+        </div>
+        
+        <span className="flex items-center gap-2 text-sm text-gray-500">
+          2 hrs
+        </span>
+      </motion.div>
+      <motion.div
+        className={`overflow-hidden`}
+        initial={{ maxHeight: 0 }}
+        animate={{ maxHeight: open ? "1000px" : 0 }}
+        transition={{ duration: 0.5, ease: "easeInOut" }}
       >
-        <div className="p-2 pl-8 flex justify-between border-b border-gray-200 text-gray-600">
-          <span>learn the basics</span>
-          <span>30 min</span>
-        </div>
-        <div className="p-2 pl-8 flex justify-between border-b border-gray-200 text-gray-600">
-          <span>learn the basics</span>
-          <span>30 min</span>
-        </div>
-        <div className="p-2 pl-8 flex justify-between border-b border-gray-200 text-gray-600">
-          <span>learn the basics</span>
-          <span>30 min</span>
-        </div>
-        <div className="p-2 pl-8 flex justify-between border-b border-gray-200 text-gray-600">
-          <span>learn the basics</span>
-          <span>30 min</span>
-        </div>
-        <div className="p-2 pl-8 flex justify-between border-b border-gray-200 text-gray-600">
-          <span>learn the basics</span>
-          <span>30 min</span>
-        </div>
-      </div>
+        {[...Array(5)].map((_, index) => (
+          <div
+            key={index}
+            className="p-3 pl-8 flex justify-between items-center border-b border-gray-200 text-gray-600 text-sm"
+          >
+            <span>Learn the basics</span>
+            <span>30 min</span>
+          </div>
+        ))}
+      </motion.div>
     </div>
   );
 }

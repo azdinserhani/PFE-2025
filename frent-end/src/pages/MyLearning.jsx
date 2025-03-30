@@ -1,6 +1,7 @@
 import React from "react";
 import StatCard from "../components/MyLearning/StatCard";
 import CourseCard from "../components/LandingPage/CourseCard";
+import { motion } from "framer-motion";
 
 const MyLearning = () => {
   const cards = [
@@ -201,19 +202,43 @@ const MyLearning = () => {
   ];
 
   return (
-    <div className="container mx-auto max-h-screen pt-10 overflow-y-scroll">
-      <div className="flex gap-4 ">
+    <motion.div
+      className="w-full max-h-screen pt-10 overflow-y-scroll p-10"
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.5 }}
+    >
+      <div className="flex gap-4">
         {cards.map((item, index) => {
-          return <StatCard item={item} key={index} />;
+          return (
+            <motion.div
+              key={index}
+              initial={{ opacity: 0, scale: 0.9 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 0.3, delay: index * 0.1 }}
+              className="w-full"
+            >
+              <StatCard item={item} />
+            </motion.div>
+          );
         })}
       </div>
-      <h2 className="mt-10 mb-5  text-3xl">My courses</h2>
-      <div className="grid grid-cols-3 gap-4">
+      <h2 className="mt-10 mb-5 text-3xl">My courses</h2>
+      <div className="grid grid-cols-3 gap-4 overflow-x-hidden">
         {courses.map((item, index) => {
-          return <CourseCard item={item} />;
+          return (
+            <motion.div
+              key={index}
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.3, delay: index * 0.1 }}
+            >
+              <CourseCard item={item} />
+            </motion.div>
+          );
         })}
       </div>
-    </div>
+    </motion.div>
   );
 };
 

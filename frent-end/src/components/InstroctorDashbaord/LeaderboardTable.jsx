@@ -27,8 +27,8 @@ export function LeaderboardTable({ data, title }) {
             <tr
               key={index}
               className={`border ${
-                index % 2 === 0 ? "bg-gray-100" : "bg-white"
-              } hover:bg-blue-100 transition-colors`}
+                index % 2 === 0 ? "bg-purple-100" : "bg-white"
+              } hover:bg-blue-100 cursor-pointer transition-colors`}
             >
               <td className="p-3 text-center font-semibold text-gray-700">
                 {item.rank}
