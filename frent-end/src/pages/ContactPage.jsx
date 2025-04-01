@@ -1,6 +1,6 @@
 import React from 'react'
 import Message from '../components/ContactPage/Message';
-import Carddet from '../components/ContactPage/carddet';
+import Carddet from '../components/ContactPage/Carddet';
 const ContactPage = () => {
   return (
     <div className='container mx-auto'>
