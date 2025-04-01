@@ -4,7 +4,7 @@ import Info from "../components/LandingPage/Info";
 import Features from "../components/LandingPage/Features";
 import Instructors from "../components/LandingPage/Instructors";
 import Question from "../components/AboutPage/Question";
-import CoverImg from "../components/AboutPage/CoverImg";
+import CoverImg from "../components/AboutPage/Coverimg";
 
 const AboutPage = () => {
   return (
