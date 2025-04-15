@@ -6,7 +6,7 @@ export default function CourseSections() {
   const [open, setOpen] = useState(false);
 
   return (
-    <div className="flex flex-col p-6 bg-white w-full max-w-md border border-gray-200 rounded-2xl shadow-lg">
+    <div className="flex flex-col p-6 bg-white w-full min-w-md border border-gray-200 rounded-2xl shadow-lg">
       <motion.div
         className="flex justify-between items-center p-4 border-b border-gray-200 font-semibold text-gray-800 cursor-pointer"
         onClick={() => setOpen(!open)}

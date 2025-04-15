@@ -58,7 +58,7 @@ const NavBar = () => {
           onClick={() => setMenuOpen(!menuOpen)}
         ></div>
       )}
-      <div>
+      {/* <div>
         <i
           className=" hidden md: bx bx-menu  black cursor-pointer text-4xl"
           onClick={() => setisMenuOpen(!isMenuOpen)}
@@ -82,7 +82,7 @@ const NavBar = () => {
             <Link to={"/contact"}>Contact Us</Link>
           </li>
         </div>
-      </div>
+      </div> */}
     </div>
   );
 };

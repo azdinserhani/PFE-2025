@@ -16,6 +16,7 @@ import InstructorPageInfo from "./pages/InstructorPageInfo";
 import PlayCourse from "./pages/PlayCourse/PlayCourse";
 import CourseByInstructor from "./pages/InstroctorDashbaord/CourseByInstructor";
 import Analytics from "./pages/InstroctorDashbaord/Analytics";
+import CreateCourse from "./pages/InstroctorDashbaord/CreateCourse";
 function App() {
   return (
     <div className="">
@@ -34,6 +35,7 @@ function App() {
           <Route path="/course/learn/:id" element={<PlayCourse />} />
           <Route path="/instructorCourse" element={<CourseByInstructor />} />
           <Route path="/analytics" element={<Analytics />} />
+          <Route path="/instructor/create-course" element={<CreateCourse/>} />
         </Route>
 
         <Route path="/Signup" element={<SignUp />} />
