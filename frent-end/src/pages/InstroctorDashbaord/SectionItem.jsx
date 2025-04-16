@@ -3,8 +3,10 @@ import { CiEdit } from "react-icons/ci";
 import { FaPlus } from "react-icons/fa";
 import { MdOutlineDeleteOutline } from "react-icons/md";
 import CurriculumItemForm from "./CurriculumItemForm";
+import LectureItem from "./LectureItem";
 const SectionItem = ({ section, index }) => {
   const [curriculumItemFormOpen, setCurriculumItemFormOpen] = useState(false);
+  const [lectures, setLectures] = useState([]);
   return (
     <div className="flex flex-col gap-4 bg-gray-100 px-4 py-2 rounded-md border border-gray-500">
       <div className="flex items-center justify-between">
@@ -17,9 +19,14 @@ const SectionItem = ({ section, index }) => {
           <MdOutlineDeleteOutline className="text-gray-500 cursor-pointer" />
         </div>
       </div>
+      {lectures.map((lecture, index) => {
+        return <LectureItem lecture={lecture} index={index} />;
+      })}
       {curriculumItemFormOpen && (
         <CurriculumItemForm
           setCurriculumItemFormOpen={setCurriculumItemFormOpen}
+          setLectures={setLectures}
+          lectures={lectures}
         />
       )}
       {!curriculumItemFormOpen && (

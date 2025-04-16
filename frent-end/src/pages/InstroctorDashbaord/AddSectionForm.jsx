@@ -49,6 +49,7 @@ const AddSectionForm = ({ setSectionFormOpen, setSections, sections }) => {
         <button
           onClick={() => {
             handleAddSection();
+            setSectionFormOpen(false);
           }}
           className="p-4 w-[200px] h-12 flex justify-center items-center rounded-md gap-2.5 text-white bg-purple-700 font-semibold cursor-pointer hover:bg-purple-500 transition duration-300 ease-in-out "
         >
