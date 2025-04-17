@@ -40,12 +40,6 @@ const courseSlice = createSlice({
         state.sections[sectionIndex].lecture[lectureIndex].video = video;
       }
     },
-    reorderLectures: (state, action) => {
-      const { sectionIndex, sourceIndex, destinationIndex } = action.payload;
-      const section = state.sections[sectionIndex];
-      const [removed] = section.lecture.splice(sourceIndex, 1);
-      section.lecture.splice(destinationIndex, 0, removed);
-    },
     reorderSections: (state, action) => {
       const { sourceIndex, destinationIndex } = action.payload;
       const [removed] = state.sections.splice(sourceIndex, 1);
