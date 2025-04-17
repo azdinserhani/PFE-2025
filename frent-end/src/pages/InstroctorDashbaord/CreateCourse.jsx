@@ -4,7 +4,9 @@ import { FaUserAlt, FaImage, FaPlus } from "react-icons/fa";
 import { LuListTodo } from "react-icons/lu";
 import AddSectionForm from "./AddSectionForm";
 import SectionItem from "./SectionItem";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+import { DragDropContext, Droppable } from "@hello-pangea/dnd";
+import { reorderSections } from "../../redux/features/courseSlice";
 
 const CreateCourse = () => {
   const [img, setImg] = useState(null);
@@ -16,6 +18,7 @@ const CreateCourse = () => {
   const [progress, setProgress] = useState(0);
   const sec = useSelector((stat) => stat.course.sections);
   const [sectionFormOpen, setSectionFormOpen] = useState(false);
+  const dispatch = useDispatch();
 
   const handleFileChange = (event) => {
     const file = event.target.files[0];
@@ -23,6 +26,17 @@ const CreateCourse = () => {
       setFileName(file.name);
       setImg(URL.createObjectURL(file));
     }
+  };
+
+  const handleDragEnd = (result) => {
+    if (!result.destination) return;
+
+    const sourceIndex = result.source.index;
+    const destinationIndex = result.destination.index;
+
+    if (sourceIndex === destinationIndex) return;
+
+    dispatch(reorderSections({ sourceIndex, destinationIndex }));
   };
 
   // Calculate progress
@@ -139,7 +153,6 @@ const CreateCourse = () => {
                   <option value="Marketing">Marketing</option>
                   <option value="Business">Business</option>
                 </select>
-                
               </div>
             </div>
           </div>
@@ -156,9 +169,26 @@ const CreateCourse = () => {
             </h2>
           </div>
           <div className="bg-white shadow-md p-6 rounded-lg flex flex-col gap-4">
-            {sec.map((section, index) => (
-              <SectionItem section={section.title} index={index} key={index} />
-            ))}
+            <DragDropContext onDragEnd={handleDragEnd}>
+              <Droppable droppableId="sections" type="section">
+                {(provided) => (
+                  <div
+                    {...provided.droppableProps}
+                    ref={provided.innerRef}
+                    className="flex flex-col gap-4"
+                  >
+                    {sec.map((section, index) => (
+                      <SectionItem
+                        section={section.title}
+                        index={index}
+                        key={section.id || index}
+                      />
+                    ))}
+                    {provided.placeholder}
+                  </div>
+                )}
+              </Droppable>
+            </DragDropContext>
             {!sectionFormOpen && (
               <button
                 onClick={() => setSectionFormOpen(!sectionFormOpen)}

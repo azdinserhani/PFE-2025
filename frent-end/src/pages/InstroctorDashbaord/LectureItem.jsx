@@ -1,7 +1,7 @@
 import { CgNotes } from "react-icons/cg";
 import { FaCheckCircle, FaPlus } from "react-icons/fa";
 import { CiEdit } from "react-icons/ci";
-import { MdOutlineDeleteOutline } from "react-icons/md";
+import { MdDragIndicator, MdOutlineDeleteOutline } from "react-icons/md";
 import { useState } from "react";
 import ContentForm from "./ContentForm";
 import { useDispatch } from "react-redux";
@@ -35,9 +35,12 @@ const LectureItem = ({ lecture, index, sectionId }) => {
     >
       <div className="flex justify-between">
         <div className="flex items-center gap-2">
+          <MdDragIndicator className="text-gray-400 cursor-grab" />
           <h2 className="text-md font-medium flex items-center gap-2">
             <FaCheckCircle fontSize={12} />
-            <span className="font-semibold mr-2">Lecture {index + 1}:</span>{" "}
+            <span className="font-semibold mr-2">
+              Lecture {index + 1}:
+            </span>{" "}
             <CgNotes fontSize={12} />
             {lecture}
           </h2>
@@ -53,7 +56,8 @@ const LectureItem = ({ lecture, index, sectionId }) => {
         >
           {contentFormOpen ? (
             <>
-              <FaPlus className="text-gray-400 rotate-45 duration-300" /> Content
+              <FaPlus className="text-gray-400 rotate-45 duration-300" />{" "}
+              Content
             </>
           ) : (
             <>
