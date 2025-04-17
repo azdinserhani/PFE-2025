@@ -24,7 +24,7 @@ const LectureForm = ({
     <div className="w-full h-[180px] flex flex-col gap-4 bg-white p-4 rounded-md border border-purple-500 relative">
       <IoMdClose
         onClick={() => setLectureFormOpen(false)}
-        className="bg-purple-200 h-5 w-5 text-purple-900 cursor-pointer"
+        className="h-5 w-5 text-purple-900 cursor-pointer"
       />
       <div className="flex items-center gap-2 w-full">
         <span className="w-[120px] font-semibold text-purple-900">
