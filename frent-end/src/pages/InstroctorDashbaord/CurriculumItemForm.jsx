@@ -4,8 +4,8 @@ import { IoMdClose } from "react-icons/io";
 import LectureForm from "./LectureForm";
 const CurriculumItemForm = ({
   setCurriculumItemFormOpen,
-  setLectures,
-  lectures,
+
+  sectionId,
 }) => {
   const [lectureFomOpen, setLectureFormOpen] = useState(false);
 
@@ -13,8 +13,7 @@ const CurriculumItemForm = ({
     <div className="  flex items-center">
       {lectureFomOpen && (
         <LectureForm
-          lectures={lectures}
-          setLectures={setLectures}
+          sectionId={sectionId}
           setLectureFormOpen={setLectureFormOpen}
         />
       )}

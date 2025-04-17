@@ -7,10 +7,12 @@ import { FaImage } from "react-icons/fa";
 import { FaPlus } from "react-icons/fa";
 import AddSectionForm from "./AddSectionForm";
 import SectionItem from "./SectionItem";
+import { useSelector } from "react-redux";
 const CreateCourse = () => {
   const [img, setImg] = useState(null);
   const [fileName, setFileName] = useState("");
-  const [sections, setSections] = useState([]);
+
+  const sec = useSelector((stat) => stat.course.sections);
 
   const [sectionFormOpen, setSectionFormOpen] = useState(false);
 
@@ -103,8 +105,10 @@ const CreateCourse = () => {
             </div>
             <h2 className="text-lg font-semibold">Course Content</h2>
           </div>
-          {sections.map((section, index) => {
-              return <SectionItem section={ section } index={ index} />;
+          {sec.map((section, index) => {
+            return (
+              <SectionItem section={section.title} index={index} key={index} />
+            );
           })}
 
           {!sectionFormOpen && (
@@ -117,11 +121,7 @@ const CreateCourse = () => {
           )}
 
           {sectionFormOpen && (
-            <AddSectionForm
-              setSectionFormOpen={setSectionFormOpen}
-              setSections={setSections}
-              sections={sections}
-            />
+            <AddSectionForm setSectionFormOpen={setSectionFormOpen} />
           )}
         </div>
       </div>

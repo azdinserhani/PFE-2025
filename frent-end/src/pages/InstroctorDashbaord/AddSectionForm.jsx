@@ -1,9 +1,10 @@
 import { useState } from "react";
 import { IoMdClose } from "react-icons/io";
-
+import { useDispatch } from "react-redux";
+import { createSection } from "../../redux/ApiCalls";
 const AddSectionForm = ({ setSectionFormOpen, setSections, sections }) => {
+  const dispatch = useDispatch();
   const [sectionTitle, setSectionTitle] = useState("");
-  // const [sectionTitle, setSectionTitle] = useState("");
   const handleInputChange = (e) => {
     if (e.target.value.length <= 80) {
       setSectionTitle(e.target.value);
@@ -12,8 +13,12 @@ const AddSectionForm = ({ setSectionFormOpen, setSections, sections }) => {
 
   const handleAddSection = () => {
     if (sectionTitle.trim()) {
-      setSections([...sections, sectionTitle]);
-      setSectionTitle("");
+      const newSection = {
+        title: sectionTitle,
+        lectures: [],
+      };
+
+      createSection(dispatch, newSection);
     }
   };
   return (

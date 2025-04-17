@@ -17,7 +17,10 @@ import PlayCourse from "./pages/PlayCourse/PlayCourse";
 import CourseByInstructor from "./pages/InstroctorDashbaord/CourseByInstructor";
 import Analytics from "./pages/InstroctorDashbaord/Analytics";
 import CreateCourse from "./pages/InstroctorDashbaord/CreateCourse";
+import { useSelector } from "react-redux";
 function App() {
+
+  
   return (
     <div className="">
       <Routes>

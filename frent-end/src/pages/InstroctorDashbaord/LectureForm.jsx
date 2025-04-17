@@ -1,9 +1,14 @@
 import React, { useState } from "react";
 import { IoMdClose } from "react-icons/io";
-
-const LectureForm = ({ setLectures, lectures, setLectureFormOpen }) => {
+import { useDispatch } from "react-redux";
+import { createLecture } from "../../redux/ApiCalls";
+const LectureForm = ({
+  
+  setLectureFormOpen,
+  sectionId,
+}) => {
   const [lectureTitle, setLectureTitle] = useState("");
-
+  const dispatch = useDispatch();
   const handleInputChange = (e) => {
     if (e.target.value.length <= 80) {
       setLectureTitle(e.target.value);
@@ -12,8 +17,7 @@ const LectureForm = ({ setLectures, lectures, setLectureFormOpen }) => {
 
   const handleAddLecture = () => {
     if (lectureTitle.trim()) {
-      setLectures([...lectures, lectureTitle]);
-      setLectureTitle("");
+      createLecture(dispatch, { title: lectureTitle }, sectionId);
     }
   };
   return (
