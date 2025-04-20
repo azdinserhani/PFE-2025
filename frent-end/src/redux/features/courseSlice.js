@@ -30,14 +30,51 @@ const courseSlice = createSlice({
       const { sectionIndex, title } = action.payload;
       state.sections[sectionIndex].lecture.push({
         id: nanoid(),
+        type: "lecture",
         title,
-        video: null, // Initialize video as null
+        video: null,
       });
     },
     addVideoToLecture: (state, action) => {
       const { sectionIndex, lectureIndex, video } = action.payload;
       if (state.sections[sectionIndex]?.lecture[lectureIndex]) {
         state.sections[sectionIndex].lecture[lectureIndex].video = video;
+      }
+    },
+    addQuizToSection: (state, action) => {
+      const { sectionIndex, title } = action.payload;
+      const quiz = {
+        id: nanoid(),
+        type: "quiz",
+        title,
+        question: {
+          text: "",
+          options: [],
+          correctAnswer: null, // Single index for the correct answer
+        },
+      };
+      state.sections[sectionIndex].lecture.splice(
+        state.sections[sectionIndex].lecture.length,
+        0,
+        quiz
+      );
+    },
+    addQuizQuestion: (state, action) => {
+      const {
+        sectionIndex,
+        lectureIndex,
+        questionText,
+        options,
+        correctAnswer,
+      } = action.payload;
+
+      const quiz = state.sections[sectionIndex].lecture[lectureIndex];
+      if (quiz.type === "quiz") {
+        quiz.question = {
+          text: questionText,
+          options: options,
+          correctAnswer,
+        };
       }
     },
     reorderSections: (state, action) => {
@@ -55,6 +92,8 @@ export const {
   addVideoToLecture,
   reorderLectures,
   reorderSections,
+  addQuizToSection,
+  addQuizQuestion,
 } = courseSlice.actions;
 
 export default courseSlice.reducer;

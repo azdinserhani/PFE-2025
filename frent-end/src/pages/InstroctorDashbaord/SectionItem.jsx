@@ -2,11 +2,12 @@ import { useState } from "react";
 import { CiEdit } from "react-icons/ci";
 import { FaPlus } from "react-icons/fa";
 import { MdOutlineDeleteOutline, MdDragIndicator } from "react-icons/md";
-import { Draggable } from "@hello-pangea/dnd";
+import { DragDropContext, Draggable, Droppable } from "@hello-pangea/dnd";
 import CurriculumItemForm from "./CurriculumItemForm";
 import LectureItem from "./LectureItem";
 import { useSelector } from "react-redux";
 import { MdKeyboardArrowUp } from "react-icons/md";
+import QuizItem from "./QuizItem";
 
 const SectionItem = ({ section, index }) => {
   const [curriculumItemFormOpen, setCurriculumItemFormOpen] = useState(false);
@@ -45,11 +46,20 @@ const SectionItem = ({ section, index }) => {
             </div>
           </div>
           {isExpanded && (
-            <>
+            <div className="flex flex-col gap-4 mt-2">
               {lectures.map((lecture, y) => {
-                return (
+                console.log(lecture.type);
+
+                return lecture.type === "lecture" ? (
                   <LectureItem
                     lecture={lecture.title}
+                    index={y}
+                    key={y}
+                    sectionId={index}
+                  />
+                ) : (
+                  <QuizItem
+                    quiz={lecture}
                     index={y}
                     key={y}
                     sectionId={index}
@@ -72,7 +82,7 @@ const SectionItem = ({ section, index }) => {
                   <FaPlus className="text-gray-400" /> Curriculum item{" "}
                 </button>
               )}
-            </>
+            </div>
           )}
         </div>
       )}

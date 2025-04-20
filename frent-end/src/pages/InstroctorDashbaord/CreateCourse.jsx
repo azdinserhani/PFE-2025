@@ -19,6 +19,7 @@ const CreateCourse = () => {
   const sec = useSelector((stat) => stat.course.sections);
   const [sectionFormOpen, setSectionFormOpen] = useState(false);
   const dispatch = useDispatch();
+  console.log(`sec`, sec);
 
   const handleFileChange = (event) => {
     const file = event.target.files[0];
