@@ -9,7 +9,7 @@ const Message = () => {
           alt="Person illustration"
           className="w-[643px] h-[643px]"
         />
-      </div>
+      </div>      
       <div className="flex flex-1/2 flex-col ">
         <form
           action=""

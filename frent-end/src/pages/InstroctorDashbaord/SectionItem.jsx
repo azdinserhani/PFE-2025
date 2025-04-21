@@ -22,7 +22,7 @@ const SectionItem = ({ section, index }) => {
           {...provided.draggableProps}
           className={`flex flex-col gap-4 bg-gray-100 px-4 py-2 rounded-md border border-gray-500  overflow-hidden ${
             isExpanded ? "max-h-[1000px]" : "max-h-20"
-          } ${snapshot.isDragging ? "shadow-lg" : ""}`}
+          } ${snapshot.isDragging ? "shadow-xl bg-purple-50 border-purple-300 scale-105 rotate-1 duration-300 ease-in-out" : ""}`}
         >
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-2">
