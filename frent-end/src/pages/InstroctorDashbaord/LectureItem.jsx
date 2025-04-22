@@ -8,7 +8,7 @@ import { useDispatch } from "react-redux";
 import { addVideoToLectureAction } from "../../redux/ApiCalls";
 import { motion } from "framer-motion";
 
-const LectureItem = ({ lecture, index, sectionId }) => {
+const LectureItem = ({ lecture, index, sectionId, theme }) => {
   const dispatch = useDispatch();
   const [contentFormOpen, setContentFormOpen] = useState(false);
   const [videoInfo, setVideoInfo] = useState(null);
@@ -29,41 +29,77 @@ const LectureItem = ({ lecture, index, sectionId }) => {
 
   return (
     <motion.div
-      className="flex flex-col  bg-white px-4 py-2 rounded-md border border-gray-500 duration-700  justify-center"
+      style={{
+        backgroundColor: theme.cardBg,
+        borderColor: theme.border,
+        borderWidth: '1px',
+        color: theme.text
+      }}
+      className="flex flex-col px-4 py-2 rounded-md duration-700 justify-center"
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5 }}
     >
       <div className="flex justify-between">
         <div className="flex items-center gap-2">
-          <MdDragIndicator className="text-gray-400 cursor-grab" />
+          <MdDragIndicator style={{ color: theme.secondary, cursor: 'grab' }} />
           <h2 className="text-md font-medium flex items-center gap-2">
-            <FaCheckCircle fontSize={12} />
+            <FaCheckCircle fontSize={12} style={{ color: theme.primary }} />
             <span className="font-semibold mr-2">
               Lecture {index + 1}:
-            </span>{" "}
-            <CgNotes fontSize={12} />
+            </span>
+            <CgNotes fontSize={12} style={{ color: theme.secondary }} />
             {lecture.substring(0, 20)}
             {lecture.length > 20 ? "..." : ""}
           </h2>
           <div className="flex items-center gap-2">
-            <CiEdit className="text-gray-500 cursor-pointer hover:bg-gray-300 rounded-md duration-300" />
-            <MdOutlineDeleteOutline className="text-gray-500 cursor-pointer hover:bg-gray-300 rounded-md duration-300" />
+            <CiEdit
+              style={{ color: theme.secondary, cursor: 'pointer' }}
+              className="hover:bg-opacity-20 rounded-md duration-300"
+              onMouseOver={(e) => {
+                e.currentTarget.style.backgroundColor = `${theme.secondary}20`;
+              }}
+              onMouseOut={(e) => {
+                e.currentTarget.style.backgroundColor = 'transparent';
+              }}
+            />
+            <MdOutlineDeleteOutline
+              style={{ color: theme.secondary, cursor: 'pointer' }}
+              className="hover:bg-opacity-20 rounded-md duration-300"
+              onMouseOver={(e) => {
+                e.currentTarget.style.backgroundColor = `${theme.secondary}20`;
+              }}
+              onMouseOut={(e) => {
+                e.currentTarget.style.backgroundColor = 'transparent';
+              }}
+            />
           </div>
         </div>
 
         <button
           onClick={() => setContentFormOpen(!contentFormOpen)}
-          className={`p-4 w-[150px] h-8 flex justify-center items-center rounded-md gap-2.5 text-purple-700 font-semibold cursor-pointer border border-purple-500 hover:bg-purple-200 transition duration-300 ease-in-out`}
+          className="p-4 w-[150px] h-8 flex justify-center items-center rounded-md gap-2.5 font-semibold cursor-pointer transition duration-300 ease-in-out"
+          style={{
+            backgroundColor: theme.background,
+            color: theme.primary,
+            borderColor: theme.primary,
+            borderWidth: '1px'
+          }}
+          onMouseOver={(e) => {
+            e.currentTarget.style.backgroundColor = `${theme.primary}20`;
+          }}
+          onMouseOut={(e) => {
+            e.currentTarget.style.backgroundColor = theme.background;
+          }}
         >
           {contentFormOpen ? (
             <>
-              <FaPlus className="text-gray-400 rotate-45 duration-300" />{" "}
+              <FaPlus style={{ color: theme.secondary }} className="rotate-45 duration-300" />
               Content
             </>
           ) : (
             <>
-              <FaPlus className="text-gray-400" /> Content
+              <FaPlus style={{ color: theme.secondary }} /> Content
             </>
           )}
         </button>
@@ -83,6 +119,7 @@ const LectureItem = ({ lecture, index, sectionId }) => {
             sectionIndex={sectionId}
             videoInfo={videoInfo}
             handleVideoUpload={handleVideoUpload}
+            theme={theme}
           />
         )}
       </motion.div>

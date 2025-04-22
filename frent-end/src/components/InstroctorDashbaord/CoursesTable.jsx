@@ -3,7 +3,12 @@ import { DataGrid } from "@mui/x-data-grid";
 import { Link } from "react-router";
 import { MdDelete } from "react-icons/md";
 import { IoIosMore } from "react-icons/io";
+import { useTheme } from "../../context/ThemeContext";
+
 const CoursesTable = () => {
+  const { currentTheme, themes } = useTheme();
+  const theme = themes[currentTheme];
+
   const handleDelete = (id) => {
     console.log(`Delete course with ID: ${id}`);
   };
@@ -25,13 +30,25 @@ const CoursesTable = () => {
       width: 350,
       renderCell: (params) => {
         return (
-          <div className=" flex items-center">
+          <div className="flex items-center">
             {params.row.status === "Active" ? (
-              <span className="px-2 py-1 text-white bg-green-500 rounded-full text-sm mt-[10px] w-[25%] text-center">
+              <span 
+                className="px-2 py-1 rounded-full text-sm mt-[10px] w-[25%] text-center"
+                style={{ 
+                  backgroundColor: `${theme.primary}`,
+                  color: theme.cardBg
+                }}
+              >
                 Active
               </span>
             ) : (
-              <span className="px-2 py-1 text-white bg-gray-300 rounded-full text-sm mt-[10px] w-[25%] text-center">
+              <span 
+                className="px-2 py-1 rounded-full text-sm mt-[10px] w-[25%] text-center"
+                style={{ 
+                  backgroundColor: theme.border,
+                  color: theme.text
+                }}
+              >
                 Inactive
               </span>
             )}
@@ -45,17 +62,40 @@ const CoursesTable = () => {
       width: 350,
       renderCell: (params) => {
         return (
-          <div className=" ">
+          <div className="flex gap-4">
             <Link to={"/course/" + params.row.id}>
-              <button className="px-2 py-1 text-white bg-blue-400 rounded-full text-sm mt-[10px] w-[25%] text-center cursor-pointer mr-5">
+              <button 
+                className="px-4 py-1 rounded-full text-sm mt-[10px] text-center cursor-pointer transition-colors duration-300"
+                style={{ 
+                  backgroundColor: theme.primary,
+                  color: theme.cardBg
+                }}
+                onMouseOver={(e) => {
+                  e.currentTarget.style.backgroundColor = `${theme.primary}80`;
+                }}
+                onMouseOut={(e) => {
+                  e.currentTarget.style.backgroundColor = theme.primary;
+                }}
+              >
                 Edit
               </button>
             </Link>
-            
-              <button className="px-2 py-1 text-white bg-red-400 rounded-full text-sm mt-[10px] w-[25%] text-center cursor-pointer">
-                Delete
-              </button>
-          
+            <button 
+              className="px-4 py-1 rounded-full text-sm mt-[10px] text-center cursor-pointer transition-colors duration-300"
+              style={{ 
+                backgroundColor: '#ef4444',
+                color: theme.cardBg
+              }}
+              onMouseOver={(e) => {
+                e.currentTarget.style.backgroundColor = '#ef444480';
+              }}
+              onMouseOut={(e) => {
+                e.currentTarget.style.backgroundColor = '#ef4444';
+              }}
+              onClick={() => handleDelete(params.row.id)}
+            >
+              Delete
+            </button>
           </div>
         );
       },
@@ -95,31 +135,31 @@ const CoursesTable = () => {
     },
     {
       id: "6",
-      title: "React Bascdsics",
+      title: "React Basics",
       price: "$50",
       status: "Active",
     },
     {
       id: "7",
-      title: "Advanced JavaSccsdcsdript",
+      title: "Advanced JavaScript",
       price: "$70",
       status: "Inactive",
     },
     {
       id: "8",
-      title: "UI/UX Dessdcdscign",
+      title: "UI/UX Design",
       price: "$60",
       status: "Active",
     },
     {
       id: "9",
-      title: "dcsadcsadPython for Data Science",
+      title: "Python for Data Science",
       price: "$80",
       status: "Active",
     },
     {
       id: "10",
-      title: "Learning",
+      title: "Machine Learning",
       price: "$110",
       status: "Inactive",
     },
@@ -132,8 +172,34 @@ const CoursesTable = () => {
           flex: 1,
           height: "650px",
           width: "100%",
-                  border: "none",
-          
+          border: "none",
+          color: theme.text,
+          backgroundColor: theme.cardBg,
+          '& .MuiDataGrid-cell': {
+            borderColor: `${theme.border}40`,
+          },
+          '& .MuiDataGrid-columnHeaders': {
+            backgroundColor: `${theme.primary}10`,
+            color: theme.text,
+            borderColor: theme.border,
+          },
+          '& .MuiDataGrid-footerContainer': {
+            backgroundColor: `${theme.primary}10`,
+            color: theme.text,
+            borderColor: theme.border,
+          },
+          '& .MuiCheckbox-root': {
+            color: theme.secondary,
+          },
+          '& .MuiCheckbox-root.Mui-checked': {
+            color: theme.primary,
+          },
+          '& .MuiDataGrid-row:hover': {
+            backgroundColor: `${theme.primary}10`,
+          },
+          '& .MuiDataGrid-columnSeparator': {
+            color: `${theme.border}40`,
+          },
         }}
         className="border-none"
         rows={rows}

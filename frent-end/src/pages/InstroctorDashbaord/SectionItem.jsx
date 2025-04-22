@@ -9,7 +9,7 @@ import { useSelector } from "react-redux";
 import { MdKeyboardArrowUp } from "react-icons/md";
 import QuizItem from "./QuizItem";
 
-const SectionItem = ({ section, index }) => {
+const SectionItem = ({ section, index, theme }) => {
   const [curriculumItemFormOpen, setCurriculumItemFormOpen] = useState(false);
   const lectures = useSelector((stat) => stat.course.sections[index].lecture);
   const [isExpanded, setIsExpanded] = useState(false);
@@ -20,27 +20,33 @@ const SectionItem = ({ section, index }) => {
         <div
           ref={provided.innerRef}
           {...provided.draggableProps}
-          className={`flex flex-col gap-4 bg-gray-100 px-4 py-2 rounded-md border border-gray-500  overflow-hidden ${
+          className={`flex flex-col gap-4 px-4 py-2 rounded-md overflow-hidden ${
             isExpanded ? "max-h-[1000px]" : "max-h-20"
-          } ${snapshot.isDragging ? "shadow-xl bg-purple-50 border-purple-300 scale-105 rotate-1 duration-300 ease-in-out" : ""}`}
+          }`}
+          style={{
+            backgroundColor: theme.cardBg,
+            borderColor: theme.border,
+            borderWidth: '1px',
+            boxShadow: snapshot.isDragging ? '0 4px 6px -1px rgba(0, 0, 0, 0.1)' : 'none',
+            transform: snapshot.isDragging ? 'scale(1.05) rotate(1deg)' : 'none',
+            transition: 'all 0.3s ease-in-out'
+          }}
         >
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-2">
               <div {...provided.dragHandleProps}>
-                <MdDragIndicator className="text-gray-400 cursor-grab" />
+                <MdDragIndicator style={{ color: theme.secondary, cursor: 'grab' }} />
               </div>
-              <h2 className="text-md font-medium text-purple-950">
+              <h2 className="text-md font-medium" style={{ color: theme.text }}>
                 <span className="font-semibold mr-2">Section {index + 1}:</span>
                 {section}
               </h2>
             </div>
             <div className="flex items-center gap-2">
-              <CiEdit className="text-gray-500 cursor-pointer" />
-              <MdOutlineDeleteOutline className="text-gray-500 cursor-pointer" />
+              <CiEdit style={{ color: theme.secondary, cursor: 'pointer' }} />
+              <MdOutlineDeleteOutline style={{ color: theme.secondary, cursor: 'pointer' }} />
               <MdKeyboardArrowUp
-                className={`text-gray-500 cursor-pointer transform transition-transform ${
-                  isExpanded ? "" : "rotate-180"
-                }`}
+                style={{ color: theme.secondary, cursor: 'pointer', transform: isExpanded ? 'none' : 'rotate(180deg)' }}
                 onClick={() => setIsExpanded(!isExpanded)}
               />
             </div>
@@ -48,14 +54,13 @@ const SectionItem = ({ section, index }) => {
           {isExpanded && (
             <div className="flex flex-col gap-4 mt-2">
               {lectures.map((lecture, y) => {
-                console.log(lecture.type);
-
                 return lecture.type === "lecture" ? (
                   <LectureItem
                     lecture={lecture.title}
                     index={y}
                     key={y}
                     sectionId={index}
+                    theme={theme}
                   />
                 ) : (
                   <QuizItem
@@ -63,6 +68,7 @@ const SectionItem = ({ section, index }) => {
                     index={y}
                     key={y}
                     sectionId={index}
+                    theme={theme}
                   />
                 );
               })}
@@ -70,6 +76,7 @@ const SectionItem = ({ section, index }) => {
                 <CurriculumItemForm
                   setCurriculumItemFormOpen={setCurriculumItemFormOpen}
                   sectionId={index}
+                  theme={theme}
                 />
               )}
               {!curriculumItemFormOpen && (
@@ -77,9 +84,21 @@ const SectionItem = ({ section, index }) => {
                   onClick={() =>
                     setCurriculumItemFormOpen(!curriculumItemFormOpen)
                   }
-                  className="p-4 w-[200px] h-12 flex justify-center items-center rounded-md gap-2.5 text-purple-700 font-semibold cursor-pointer border border-purple-500 hover:bg-purple-200 transition duration-300 ease-in-out"
+                  className="p-4 w-[200px] h-12 flex justify-center items-center rounded-md gap-2.5 font-semibold cursor-pointer transition duration-300 ease-in-out"
+                  style={{
+                    backgroundColor: theme.background,
+                    color: theme.primary,
+                    borderColor: theme.primary,
+                    borderWidth: '1px'
+                  }}
+                  onMouseOver={(e) => {
+                    e.currentTarget.style.backgroundColor = `${theme.primary}20`;
+                  }}
+                  onMouseOut={(e) => {
+                    e.currentTarget.style.backgroundColor = theme.background;
+                  }}
                 >
-                  <FaPlus className="text-gray-400" /> Curriculum item{" "}
+                  <FaPlus style={{ color: theme.secondary }} /> Curriculum item
                 </button>
               )}
             </div>

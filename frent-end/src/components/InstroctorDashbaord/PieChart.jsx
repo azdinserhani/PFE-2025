@@ -1,40 +1,43 @@
 import React from "react";
 import { Pie } from "react-chartjs-2";
-import { Chart as ChartJS, ArcElement, Tooltip, Legend } from "chart.js";
+import { Chart as ChartJS } from "chart.js/auto";
 
-ChartJS.register(ArcElement, Tooltip, Legend);
-
-const courseRevenueData = [
-  { course: "React Basics", revenue: 15000 },
-  { course: "Advanced JavaScript", revenue: 20000 },
-  { course: "CSS Mastery", revenue: 10000 },
-  { course: "Node.js Essentials", revenue: 5000 },
-];
-
-const PieChart = () => {
+const PieChart = ({ theme }) => {
   const data = {
-    labels: courseRevenueData.map((item) => item.course),
+    labels: ['React Course', 'Node.js Course', 'Python Course', 'JavaScript Course'],
     datasets: [
       {
-        label: "Course Revenue",
-        data: courseRevenueData.map((item) => item.revenue),
+        data: [30, 25, 20, 25],
         backgroundColor: [
-          "rgba(128, 0, 128, 0.8)", // Purple gradient start
-          "rgba(147, 112, 219, 0.8)", // Medium Purple
-          "rgba(186, 85, 211, 0.8)", // Orchid
-          "rgba(221, 160, 221, 0.8)", // Plum
+          `${theme.primary}`,
+          `${theme.primary}80`,
+          `${theme.primary}60`,
+          `${theme.primary}40`,
         ],
-        hoverBackgroundColor: [
-          "rgba(128, 0, 128, 1)", // Darker Purple
-          "rgba(147, 112, 219, 1)",
-          "rgba(186, 85, 211, 1)",
-          "rgba(221, 160, 221, 1)",
-        ],
+        borderColor: theme.cardBg,
+        borderWidth: 2,
       },
     ],
   };
 
-  return <Pie data={data} />;
+  const options = {
+    responsive: true,
+    plugins: {
+      legend: {
+        position: 'bottom',
+        labels: {
+          color: theme.text,
+          font: {
+            size: 12,
+            weight: 'bold'
+          },
+          padding: 20,
+        },
+      },
+    },
+  };
+
+  return <Pie data={data} options={options} />;
 };
 
 export default PieChart;

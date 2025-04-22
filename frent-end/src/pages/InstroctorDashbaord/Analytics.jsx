@@ -6,8 +6,12 @@ import LineChart from "../../components/InstroctorDashbaord/LineChart";
 import BarChart from "../../components/InstroctorDashbaord/BarChart";
 import DoughnutChart from "../../components/InstroctorDashbaord/DoughnutChart";
 import { LeaderboardTable } from "../../components/InstroctorDashbaord/LeaderboardTable";
+import { useTheme } from "../../context/ThemeContext";
 
 const Analytics = () => {
+  const { currentTheme, themes } = useTheme();
+  const theme = themes[currentTheme];
+
   const analyticsData = [
     { title: "Total Revenue", number: 50000 },
     { title: "Total Students", number: 1200 },
@@ -60,7 +64,12 @@ const Analytics = () => {
   return (
     <motion.div
       className="container mx-auto py-5 max-h-screen overflow-y-scroll"
-      style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
+      style={{ 
+        scrollbarWidth: "none", 
+        msOverflowStyle: "none",
+        backgroundColor: theme.background,
+        color: theme.text
+      }}
       initial="hidden"
       animate="visible"
     >
@@ -77,7 +86,7 @@ const Analytics = () => {
               initial="hidden"
               animate="visible"
             >
-              <StatCard item={item} />
+              <StatCard item={item} theme={theme} />
             </motion.div>
           );
         })}
@@ -87,49 +96,54 @@ const Analytics = () => {
         variants={containerVariants}
       >
         <motion.div
-          className="bg-white shadow-lg rounded-2xl p-6"
+          className="shadow-lg rounded-2xl p-6"
+          style={{ backgroundColor: theme.cardBg }}
           variants={containerVariants}
         >
-          <h2 className="text-center mb-5 font-semibold text-2xl">
+          <h2 className="text-center mb-5 font-semibold text-2xl" style={{ color: theme.text }}>
             Course Revenue
           </h2>
-          <PieChart />
+          <PieChart theme={theme} />
         </motion.div>
         <motion.div
-          className="bg-white shadow-lg rounded-2xl p-6 col-span-2"
+          className="shadow-lg rounded-2xl p-6 col-span-2"
+          style={{ backgroundColor: theme.cardBg }}
           variants={containerVariants}
         >
-          <h2 className="text-center mb-5 font-semibold text-2xl">
+          <h2 className="text-center mb-5 font-semibold text-2xl" style={{ color: theme.text }}>
             Student Enrollment
           </h2>
-          <LineChart />
+          <LineChart theme={theme} />
         </motion.div>
         <motion.div
-          className="bg-white shadow-lg rounded-2xl p-6 col-span-2"
+          className="shadow-lg rounded-2xl p-6 col-span-2"
+          style={{ backgroundColor: theme.cardBg }}
           variants={containerVariants}
         >
-          <h2 className="text-center mb-5 font-semibold text-2xl">
+          <h2 className="text-center mb-5 font-semibold text-2xl" style={{ color: theme.text }}>
             Course Completion Rate
           </h2>
-          <BarChart />
+          <BarChart theme={theme} />
         </motion.div>
         <motion.div
-          className="bg-white shadow-lg rounded-2xl p-6"
+          className="shadow-lg rounded-2xl p-6"
+          style={{ backgroundColor: theme.cardBg }}
           variants={containerVariants}
         >
-          <h2 className="text-center mb-5 font-semibold text-2xl">
+          <h2 className="text-center mb-5 font-semibold text-2xl" style={{ color: theme.text }}>
             Monthly Revenue Growth
           </h2>
-          <DoughnutChart />
+          <DoughnutChart theme={theme} />
         </motion.div>
         <motion.div
-          className="bg-white shadow-lg rounded-2xl p-6 col-span-3"
+          className="shadow-lg rounded-2xl p-6 col-span-3"
+          style={{ backgroundColor: theme.cardBg }}
           variants={containerVariants}
         >
-          <h2 className="text-center mb-5 font-semibold text-2xl">
+          <h2 className="text-center mb-5 font-semibold text-2xl" style={{ color: theme.text }}>
             Best-Selling Courses
           </h2>
-          <LeaderboardTable data={courses} />
+          <LeaderboardTable data={courses} theme={theme} />
         </motion.div>
       </motion.div>
     </motion.div>

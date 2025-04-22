@@ -1,53 +1,64 @@
-import { Line } from "react-chartjs-2";
-import {
-  Chart as ChartJS,
-  CategoryScale,
-  LinearScale,
-  PointElement,
-  LineElement,
-  Title,
-  Tooltip,
-  Legend,
-} from "chart.js";
+import React from 'react';
+import { Line } from 'react-chartjs-2';
+import { Chart as ChartJS } from 'chart.js/auto';
 
-ChartJS.register(
-  CategoryScale,
-  LinearScale,
-  PointElement,
-  LineElement,
-  Title,
-  Tooltip,
-  Legend
-);
-const LineChart = () => {
-  const studentEnrollmentTrend = [
-    { month: "January", students: 50 },
-    { month: "February", students: 75 },
-    { month: "March", students: 100 },
-    { month: "April", students: 125 },
-    { month: "May", students: 150 },
-    { month: "June", students: 175 },
-    { month: "July", students: 200 },
-    { month: "August", students: 225 },
-    { month: "September", students: 250 },
-    { month: "October", students: 275 },
-    { month: "November", students: 300 },
-    { month: "December", students: 325 },
-  ];
+const LineChart = ({ theme }) => {
   const data = {
-    labels: studentEnrollmentTrend.map((item) => item.month),
+    labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
     datasets: [
       {
-        label: "Student Enrollment",
-        data: studentEnrollmentTrend.map((item) => item.students),
-        fill: false,
-        borderColor: "#C27AFF",
-        tension: 0.1,
-        
+        label: 'Students Enrolled',
+        data: [65, 75, 86, 98, 110, 125, 140, 152, 168, 180, 195, 210],
+        borderColor: theme.primary,
+        backgroundColor: `${theme.primary}20`,
+        tension: 0.4,
+        fill: true,
+        pointBackgroundColor: theme.primary,
+        pointBorderColor: theme.cardBg,
+        pointBorderWidth: 2,
+        pointRadius: 4,
+        pointHoverRadius: 6,
       },
     ],
   };
-  return <Line data={data} options={{ responsive: true }} />;
+
+  const options = {
+    responsive: true,
+    plugins: {
+      legend: {
+        position: 'top',
+        labels: {
+          color: theme.text,
+          font: {
+            size: 12,
+            weight: 'bold',
+          },
+          padding: 20,
+        },
+      },
+    },
+    scales: {
+      y: {
+        beginAtZero: true,
+        grid: {
+          color: `${theme.border}40`,
+        },
+        ticks: {
+          color: theme.text,
+        },
+      },
+      x: {
+        grid: {
+          color: `${theme.border}40`,
+        },
+        ticks: {
+          color: theme.text,
+        },
+      },
+    },
+  };
+
+  return <Line data={data} options={options} />;
 };
 
 export default LineChart;

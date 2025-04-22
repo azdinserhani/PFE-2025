@@ -2,10 +2,14 @@ import React from "react";
 import Header from "../components/Coursespage/Header";
 import CourseCard from "../components/LandingPage/CourseCard";
 import SideBar from "../components/Coursespage/SideBar";
-
+import { useTheme } from "../context/ThemeContext";
 import Pagination from "@mui/material/Pagination";
 import Stack from "@mui/material/Stack";
+
 const CoursesPage = () => {
+  const { currentTheme, themes } = useTheme();
+  const theme = themes[currentTheme];
+  
   const courses = [
     {
       id: 1,
@@ -54,13 +58,13 @@ const CoursesPage = () => {
     },
   ];
   return (
-    <div className="">
+    <div className="" style={{ backgroundColor: theme.background }}>
       <Header />
       <div className="container mx-auto">
-        <div className=" flex gap-4 p-4">
+        <div className="flex gap-4 p-4">
           <div className="flex-2/3 grid grid-cols-2 gap-7">
             {courses.map((course) => {
-              return <CourseCard item={course} />;
+              return <CourseCard key={course.id} item={course} />;
             })}
           </div>
           <div className="flex-1/3">
@@ -73,7 +77,7 @@ const CoursesPage = () => {
               count={10}
               sx={{
                 "& .MuiPaginationItem-root": {
-                  color: "purple",
+                  color: theme.primary,
                 },
               }}
               onChange={(event, value) => {

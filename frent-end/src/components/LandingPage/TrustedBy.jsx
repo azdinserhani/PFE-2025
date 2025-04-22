@@ -1,13 +1,16 @@
 import React, { useRef } from "react";
 import { motion, useInView } from "framer-motion";
+import { useTheme } from "../../context/ThemeContext";
 
 const TrustedBy = () => {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true });
+  const { currentTheme, themes } = useTheme();
+  const theme = themes[currentTheme];
 
   return (
-    <div ref={ref} className="container mx-auto flex flex-col w-full my-7">
-      <h2 className="mt-10 text-center mb-7 text-2xl font-bold text-gray-500">
+    <div ref={ref} className="container mx-auto flex flex-col w-full my-7" style={{ backgroundColor: theme.background }}>
+      <h2 className="mt-10 text-center mb-7 text-2xl font-bold" style={{ color: theme.secondary }}>
         Trusted By:
       </h2>
       <div className="grid grid-cols-2 mt-5 sm:grid-cols-3 lg:grid-cols-6 gap-4 justify-items-center">
