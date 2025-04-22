@@ -6,10 +6,31 @@ import { FaBook } from "react-icons/fa";
 import { AiOutlineInbox } from "react-icons/ai";
 import { FaRegUser } from "react-icons/fa";
 import { PiShoppingCartLight } from "react-icons/pi";
+import { useDispatch } from "react-redux";
+import { addToCart } from "../../redux/features/cartSlice";
+
 const CourseDetails = () => {
+  const dispatch = useDispatch();
+  
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
+  
+  const handleAddToCart = () => {
+    // Create a course object with the current course details
+    const course = {
+      id: "1", // This would normally come from the course data
+      title: "Spoken English Popular Course",
+      lessons: 16,
+      students: 5,
+      price: "$29",
+      instructor: "Calvin Carlo",
+      description: "Learn spoken English with this popular course.",
+    };
+    
+    dispatch(addToCart(course));
+  };
+  
   return (
     <div className="flex flex-col justify-center items-center gap-7 mt-4">
       <h2 className="text-2xl font-semibold">Spoken English Popular Course</h2>
@@ -38,10 +59,14 @@ const CourseDetails = () => {
           <FaRegUser color="black" /> 5 Students
         </span>
 
-        <button className="flex  items-center justify-center w-fit py-2 px-4 bg-purple-300  text-purple-900 font-semibold gap-2 rounded-md cursor-pointer   hover:bg-purple-500 hover:text-white duration-300 hover:rotate-3">
-          <PiShoppingCartLight /> Buy now
+        <button 
+          onClick={handleAddToCart}
+          className="flex items-center justify-center w-fit py-2 px-4 bg-purple-300 text-purple-900 font-semibold gap-2 rounded-md cursor-pointer hover:bg-purple-500 hover:text-white duration-300 hover:rotate-3"
+        >
+          <PiShoppingCartLight /> Add to Cart
         </button>
       </div>
+      
       <img
         src="/Info2.jpg"
         alt=""
@@ -53,7 +78,7 @@ const CourseDetails = () => {
           Ooh, name it after me! Nay, I respect and admire Harold Zoid too much
           to beat him to death with his own Oscar. Why would I want to know
           that? What's with you kids? Every other day it's food, food, food.
-          Alright, I'll get you some stupid food. It's a T. It goes “tuh”. You
+          Alright, I'll get you some stupid food. It's a T. It goes "tuh". You
           seem malnourished. Are you suffering from intestinal parasites? I
           suppose I could part with 'one' and still be feared… And I'd do it
           again! And perhaps a third time! But that would be it. I'm just glad
@@ -65,8 +90,8 @@ const CourseDetails = () => {
           Claus! What are you hacking off? Is it my torso?! 'It is!' My precious
           torso! You, a bobsleder!? That I'd like to see! And I'd do it again!
           And perhaps a third time! But that would be it. My fellow Earthicans,
-          as I have explained in my book 'Earth in the Balance”, and the much
-          more popular ”Harry Potter and the Balance of Earth', we need to
+          as I have explained in my book 'Earth in the Balance", and the much
+          more popular "Harry Potter and the Balance of Earth', we need to
           defend our planet against pollution. Also dark wizards.
         </p>
       </div>

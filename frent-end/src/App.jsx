@@ -18,6 +18,7 @@ import CourseByInstructor from "./pages/InstroctorDashbaord/CourseByInstructor";
 import Analytics from "./pages/InstroctorDashbaord/Analytics";
 import CreateCourse from "./pages/InstroctorDashbaord/CreateCourse";
 import { useSelector } from "react-redux";
+import Cart from "./pages/Cart";
 function App() {
 
   
@@ -30,7 +31,8 @@ function App() {
           <Route path="/course/:id" element={<CoursePage />} />
           <Route path="/about" element={<AboutPage />} />
           <Route path="/contact" element={<ContactPage />} />
-          <Route path="/instructor/:id" element={<InstructorPageInfo />} />
+          <Route path="/instructor/:id" element={ <InstructorPageInfo /> } />
+          <Route path="/cart" element={ <Cart /> } />
         </Route>
         <Route path="/" element={<DashBoardLayout />}>
           <Route path="/myProfile" element={<MyProfile />} />

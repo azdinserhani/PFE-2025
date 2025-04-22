@@ -1,5 +1,6 @@
 import { combineReducers, configureStore } from "@reduxjs/toolkit";
 import courseSlice from "./features/courseSlice";
+import cartSlice from "./features/cartSlice";
 
 import {
   persistStore,
@@ -21,6 +22,7 @@ const persisterConfig = {
 
 const routeReducer = combineReducers({
   course: courseSlice,
+  cart: cartSlice,
 });
 const persistedReducer = persistReducer(persisterConfig, routeReducer);
 export const store = configureStore({

@@ -1,13 +1,23 @@
 import { VscSearch } from "react-icons/vsc";
 import { IoCartOutline } from "react-icons/io5";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import ProfileMenu from "../ProfileMenu";
 import { Link } from "react-router";
 import SearchForm from "../SideBar/SearchForm";
+import { useSelector } from "react-redux";
+
 const NavBar = () => {
   const [menuOpen, setMenuOpen] = useState(false);
   const [searchOpen, setSearchOpen] = useState(false);
   const [isMenuOpen, setisMenuOpen] = useState(false);
+  const { items } = useSelector((state) => state.cart);
+  const itemCount = items.length;
+  
+  // Force re-render when cart changes
+  useEffect(() => {
+    // This empty effect will cause the component to re-render when items changes
+  }, [items]);
+  
   return (
     <div className="container mx-auto flex justify-between  top-0 w-full z-10 transition-all duration-300  p-4  bg-opacity-90 ">
       <div className="">Logo</div>
@@ -42,9 +52,16 @@ const NavBar = () => {
             <div className="fixed z-[9998] left-0 top-0 bg-black/50 h-screen w-full"></div>
           </div>
         )}
-        <div className="h-8 w-8 bg-purple-500 flex items-center justify-center border rounded-2xl  text-white">
-          <IoCartOutline fontSize={22} />
-        </div>
+        <Link to="/cart" className="relative">
+          <div className="h-8 w-8 bg-purple-500 flex items-center justify-center border rounded-2xl text-white">
+            <IoCartOutline fontSize={22} />
+          </div>
+          {itemCount > 0 && (
+            <span className="absolute -top-2 -right-2 bg-red-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">
+              {itemCount}
+            </span>
+          )}
+        </Link>
         <div
           className="rounded-2xl bg-amber-700 h-8 w-8 relative cursor-pointer"
           onClick={() => setMenuOpen(true)}
