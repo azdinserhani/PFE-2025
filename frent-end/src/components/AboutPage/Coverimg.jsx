@@ -13,7 +13,7 @@ const CoverImg = () => {
       <div
         className="relative flex justify-center items-center gap-10 text-center my-10 h-50 bg-cover bg-center text-white"
         style={{
-          backgroundImage: "url(/auth.jpg)",
+          backgroundImage: "url(/auth-bg.jpg)",
           backgroundAttachment: "fixed",
         }}
       >

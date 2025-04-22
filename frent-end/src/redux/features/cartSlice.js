@@ -28,11 +28,19 @@ const cartSlice = createSlice({
       
       // Calculate total
       const calculatedTotal = state.items.reduce((sum, item) => {
-        const price = parseFloat(item.price.replace('$', ''));
+        // Handle different price formats safely
+        let price = 0;
+        if (typeof item.price === 'string') {
+          // If price is a string, try to parse it
+          price = parseFloat(item.price.replace(/[^0-9.-]+/g, ''));
+        } else if (typeof item.price === 'number') {
+          // If price is already a number, use it directly
+          price = item.price;
+        }
         return sum + price;
       }, 0);
       
-      state.total = `$${calculatedTotal.toFixed(2)}`;
+      state.total = calculatedTotal.toFixed(2);
     },
   },
 });

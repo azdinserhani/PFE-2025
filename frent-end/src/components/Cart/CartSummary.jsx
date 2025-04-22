@@ -1,29 +1,71 @@
 import React from 'react';
 import { Link } from 'react-router';
+import { useTheme } from '../../context/ThemeContext';
 
 const CartSummary = ({ total, itemCount }) => {
+  const { currentTheme, themes } = useTheme();
+  const theme = themes[currentTheme];
+  
   return (
-    <div className="bg-white p-6 rounded-lg shadow-md">
-      <h2 className="text-xl font-bold text-gray-800 mb-4">Order Summary</h2>
+    <div 
+      className="p-6 rounded-lg shadow-md transition-all duration-300"
+      style={{ 
+        backgroundColor: theme.cardBg,
+        borderColor: theme.border,
+        borderTop: `4px solid ${theme.primary}`
+      }}
+    >
+      <h2 
+        className="text-xl font-bold mb-4"
+        style={{ color: theme.text }}
+      >
+        Order Summary
+      </h2>
       
       <div className="space-y-3 mb-6">
         <div className="flex justify-between">
-          <span className="text-gray-600">Subtotal ({itemCount} {itemCount === 1 ? 'item' : 'items'})</span>
-          <span className="font-medium">{total}</span>
+          <span style={{ color: theme.secondary }}>
+            Subtotal ({itemCount} {itemCount === 1 ? 'item' : 'items'})
+          </span>
+          <span 
+            className="font-medium"
+            style={{ color: theme.text }}
+          >
+            {total}
+          </span>
         </div>
         <div className="flex justify-between">
-          <span className="text-gray-600">Taxes</span>
-          <span className="font-medium">Calculated at checkout</span>
+          <span style={{ color: theme.secondary }}>Taxes</span>
+          <span 
+            className="font-medium"
+            style={{ color: theme.text }}
+          >
+            Calculated at checkout
+          </span>
         </div>
-        <div className="border-t border-gray-200 pt-3 flex justify-between">
-          <span className="text-lg font-bold text-gray-800">Total</span>
-          <span className="text-lg font-bold text-purple-600">{total}</span>
+        <div 
+          className="border-t pt-3 flex justify-between"
+          style={{ borderColor: theme.border }}
+        >
+          <span 
+            className="text-lg font-bold"
+            style={{ color: theme.text }}
+          >
+            Total
+          </span>
+          <span 
+            className="text-lg font-bold"
+            style={{ color: theme.primary }}
+          >
+            {total}
+          </span>
         </div>
       </div>
       
       <div className="space-y-3">
         <button 
-          className="w-full bg-purple-600 text-white py-3 px-4 rounded-md font-medium hover:bg-purple-700 transition-colors"
+          className="w-full text-white py-3 px-4 rounded-md font-medium transition-all hover:shadow-md duration-300"
+          style={{ backgroundColor: theme.primary }}
           onClick={() => console.log('Proceed to checkout')}
         >
           Proceed to Checkout
@@ -31,13 +73,18 @@ const CartSummary = ({ total, itemCount }) => {
         
         <Link 
           to="/courses" 
-          className="block w-full text-center text-purple-600 py-3 px-4 rounded-md font-medium border border-purple-600 hover:bg-purple-50 transition-colors"
+          className="block w-full text-center py-3 px-4 rounded-md font-medium border transition-all hover:shadow-sm duration-300"
+          style={{ 
+            color: theme.primary, 
+            borderColor: theme.primary,
+            backgroundColor: `${theme.primary}10`
+          }}
         >
           Continue Shopping
         </Link>
       </div>
       
-      <div className="mt-4 text-sm text-gray-500">
+      <div className="mt-4 text-sm" style={{ color: theme.secondary }}>
         <p>By completing your purchase, you agree to our Terms of Service and Privacy Policy.</p>
       </div>
     </div>

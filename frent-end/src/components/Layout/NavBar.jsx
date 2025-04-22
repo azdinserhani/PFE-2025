@@ -1,105 +1,247 @@
 import { VscSearch } from "react-icons/vsc";
 import { IoCartOutline } from "react-icons/io5";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import ProfileMenu from "../ProfileMenu";
-import { Link } from "react-router";
+import { Link, useLocation } from "react-router";
 import SearchForm from "../SideBar/SearchForm";
 import { useSelector } from "react-redux";
+import { useTheme } from "../../context/ThemeContext";
+import { MdOutlineLightMode, MdOutlineDarkMode } from "react-icons/md";
+import { FaPalette } from "react-icons/fa";
 
 const NavBar = () => {
   const [menuOpen, setMenuOpen] = useState(false);
   const [searchOpen, setSearchOpen] = useState(false);
-  const [isMenuOpen, setisMenuOpen] = useState(false);
+  const [themeMenuOpen, setThemeMenuOpen] = useState(false);
   const { items } = useSelector((state) => state.cart);
+  const { currentTheme, changeTheme, themes } = useTheme();
+  const theme = themes[currentTheme];
   const itemCount = items.length;
+  const profileRef = useRef(null);
+  const themeRef = useRef(null);
+  const location = useLocation();
+  const currentPath = location.pathname;
   
   // Force re-render when cart changes
   useEffect(() => {
     // This empty effect will cause the component to re-render when items changes
   }, [items]);
+
+  // Modified click handler that properly manages menu state
+  const toggleProfileMenu = (e) => {
+    e.stopPropagation(); // Prevent event bubbling
+    setMenuOpen(!menuOpen);
+    
+    // Close theme menu when opening profile menu
+    if (!menuOpen) {
+      setThemeMenuOpen(false);
+    }
+  };
+
+  const toggleThemeMenu = (e) => {
+    e.stopPropagation(); // Prevent event bubbling
+    setThemeMenuOpen(!themeMenuOpen);
+    
+    // Close profile menu when opening theme menu
+    if (!themeMenuOpen) {
+      setMenuOpen(false);
+    }
+  };
+
+  // Close menus on outside click
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (profileRef.current && !profileRef.current.contains(event.target)) {
+        setMenuOpen(false);
+      }
+      if (themeRef.current && !themeRef.current.contains(event.target)) {
+        setThemeMenuOpen(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
+
+  const handleThemeChange = (themeName) => {
+    changeTheme(themeName);
+    setThemeMenuOpen(false);
+  };
+  
+  // Helper function to determine if a link is active
+  const isActiveLink = (path) => {
+    if (path === '/' && currentPath === '/') return true;
+    if (path !== '/' && currentPath.startsWith(path)) return true;
+    return false;
+  };
   
   return (
-    <div className="container mx-auto flex justify-between  top-0 w-full z-10 transition-all duration-300  p-4  bg-opacity-90 ">
-      <div className="">Logo</div>
-      <ul className=" hidden xl:flex list-none gap-6 text-[15px]">
-        <li className="cursor-pointer hover:text-purple-400 duration-300">
-          <Link to={"/"}>Home</Link>
-        </li>
-        <li className="cursor-pointer hover:text-purple-400 duration-300">
-          <Link to={"/courses"}>Courses</Link>
-        </li>
-        <li className="cursor-pointer hover:text-purple-400 duration-300">
-          <Link to={"/about"}>About Us</Link>
-        </li>
-        <li className="cursor-pointer hover:text-purple-400 duration-300">
-          <Link to={"/contact"}>Contact Us</Link>
-        </li>
-      </ul>
-      <div className="flex items-center gap-3">
-        {" "}
-        <a className="cursor-pointer text-white duration-300 bg-purple-500 py-1 px-2 rounded-lg hover:text-purple-500 hover:bg-white border-purple-500 border">
-          <Link to={"/signin"}>Sign In</Link>
-        </a>
-        <div className="cursor-pointer" onClick={() => setSearchOpen(true)}>
-          <VscSearch fontSize={20} />
+    <div 
+      className="sticky top-0 w-full z-20 backdrop-blur-sm transition-all duration-300"
+      style={{ 
+        backgroundColor: `${theme.background}99`, 
+        borderBottom: `1px solid ${theme.border}` 
+      }}
+    >
+      <div className="container mx-auto flex justify-between items-center py-3 px-4">
+        <div className="flex items-center">
+          <div className="text-xl font-bold" style={{ color: theme.primary }}>EduPath</div>
         </div>
-        {searchOpen && (
-          <div className="absolute">
-            <SearchForm
-              setSearchOpen={() => setSearchOpen()}
-              searchOpen={searchOpen}
-            />
-            <div className="fixed z-[9998] left-0 top-0 bg-black/50 h-screen w-full"></div>
-          </div>
-        )}
-        <Link to="/cart" className="relative">
-          <div className="h-8 w-8 bg-purple-500 flex items-center justify-center border rounded-2xl text-white">
-            <IoCartOutline fontSize={22} />
-          </div>
-          {itemCount > 0 && (
-            <span className="absolute -top-2 -right-2 bg-red-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">
-              {itemCount}
-            </span>
+
+        <ul className="hidden xl:flex list-none gap-5 text-[14px] items-center font-medium">
+          <li className="cursor-pointer transition-colors duration-300">
+            <Link to={"/"} style={{ 
+              color: isActiveLink('/') ? theme.primary : theme.text,
+              fontWeight: isActiveLink('/') ? 'bold' : 'medium',
+              borderBottom: isActiveLink('/') ? `2px solid ${theme.primary}` : 'none',
+              paddingBottom: '2px'
+            }}>Home</Link>
+          </li>
+          <li className="cursor-pointer transition-colors duration-300">
+            <Link to={"/courses"} style={{ 
+              color: isActiveLink('/courses') ? theme.primary : theme.text,
+              fontWeight: isActiveLink('/courses') ? 'bold' : 'medium',
+              borderBottom: isActiveLink('/courses') ? `2px solid ${theme.primary}` : 'none',
+              paddingBottom: '2px'
+            }}>Courses</Link>
+          </li>
+          <li className="cursor-pointer transition-colors duration-300">
+            <Link to={"/about"} style={{ 
+              color: isActiveLink('/about') ? theme.primary : theme.text,
+              fontWeight: isActiveLink('/about') ? 'bold' : 'medium',
+              borderBottom: isActiveLink('/about') ? `2px solid ${theme.primary}` : 'none',
+              paddingBottom: '2px'
+            }}>About</Link>
+          </li>
+          <li className="cursor-pointer transition-colors duration-300">
+            <Link to={"/contact"} style={{ 
+              color: isActiveLink('/contact') ? theme.primary : theme.text,
+              fontWeight: isActiveLink('/contact') ? 'bold' : 'medium',
+              borderBottom: isActiveLink('/contact') ? `2px solid ${theme.primary}` : 'none',
+              paddingBottom: '2px'
+            }}>Contact</Link>
+          </li>
+        </ul>
+
+        <div className="flex items-center gap-3">
+          <a 
+            className="cursor-pointer duration-300 py-1.5 px-3 rounded-md text-sm font-medium" 
+            style={{ 
+              backgroundColor: theme.primary,
+              color: '#ffffff',
+            }}
+          >
+            <Link to={"/signin"}>Sign In</Link>
+          </a>
+
+          <button 
+            className="flex items-center justify-center w-8 h-8 rounded-full transition-colors" 
+            onClick={() => setSearchOpen(true)}
+            style={{ color: theme.text }}
+          >
+            <VscSearch size={18} />
+          </button>
+
+          {searchOpen && (
+            <div className="absolute">
+              <SearchForm
+                setSearchOpen={() => setSearchOpen(false)}
+                searchOpen={searchOpen}
+              />
+              <div className="fixed z-[9998] left-0 top-0 bg-black/50 h-screen w-full"></div>
+            </div>
           )}
-        </Link>
-        <div
-          className="rounded-2xl bg-amber-700 h-8 w-8 relative cursor-pointer"
-          onClick={() => setMenuOpen(true)}
-        >
-          {menuOpen && <ProfileMenu />}
+
+          <div className="relative" ref={themeRef}>
+            <button 
+              className="flex items-center cursor-pointer justify-center w-8 h-8 rounded-full transition-colors"
+              style={{ color: theme.text }}
+              onClick={toggleThemeMenu}
+              aria-label="Change theme"
+            >
+              {currentTheme === 'dark' ? 
+                <MdOutlineDarkMode size={18} /> : 
+                currentTheme === 'light' ? 
+                  <MdOutlineLightMode size={18} /> : 
+                  <FaPalette size={18} />
+              }
+            </button>
+            
+            {themeMenuOpen && (
+              <div 
+                className="absolute right-0 mt-2 py-1 rounded-md shadow-lg z-[9999] min-w-[140px]"
+                style={{ 
+                  backgroundColor: theme.cardBg, 
+                  border: `1px solid ${theme.border}` 
+                }}
+              >
+                {Object.entries(themes).map(([themeKey, themeValue]) => (
+                  <button
+                    key={themeKey}
+                    className="block w-full text-left px-3 py-1.5 text-sm transition-colors cursor-pointer"
+                    style={{ 
+                      color: themeKey === currentTheme ? theme.primary : theme.text,
+                      backgroundColor: themeKey === currentTheme ? `${theme.primary}10` : 'transparent'
+                    }}
+                    onClick={() => handleThemeChange(themeKey)}
+                  >
+                    {themeValue.name}
+                  </button>
+                ))}
+              </div>
+            )}
+          </div>
+
+          <Link to="/cart" className="relative flex items-center justify-center w-8 h-8">
+            <div 
+              className="flex items-center justify-center"
+              style={{ color: theme.text }}
+            >
+              <IoCartOutline size={18} />
+            </div>
+            {itemCount > 0 && (
+              <span 
+                className="absolute -top-1 -right-1 text-white text-[10px] rounded-full h-4 w-4 flex items-center justify-center"
+                style={{ backgroundColor: theme.primary }}
+              >
+                {itemCount}
+              </span>
+            )}
+          </Link>
+
+          <div
+            ref={profileRef}
+            className="relative z-20"
+          >
+            <button
+              className="rounded-full h-8 w-8 overflow-hidden cursor-pointer focus:outline-none"
+              onClick={toggleProfileMenu}
+              style={{ border: `1px solid ${theme.border}` }}
+              aria-label="Profile menu"
+            >
+              <img 
+                src="https://ui-avatars.com/api/?background=random&name=User" 
+                alt="Profile" 
+                className="h-full w-full object-cover"
+              />
+            </button>
+            
+            {menuOpen && (
+              <div 
+                className="absolute top-full right-0 mt-2 shadow-lg rounded-md overflow-hidden z-[9999] w-48"
+                style={{ 
+                  backgroundColor: theme.cardBg, 
+                  border: `1px solid ${theme.border}` 
+                }}
+              >
+                <ProfileMenu />
+              </div>
+            )}
+          </div>
         </div>
       </div>
-      {menuOpen && (
-        <div
-          className=" h-screen w-screen absolute top-0 right-0"
-          onClick={() => setMenuOpen(!menuOpen)}
-        ></div>
-      )}
-      {/* <div>
-        <i
-          className=" hidden md: bx bx-menu  black cursor-pointer text-4xl"
-          onClick={() => setisMenuOpen(!isMenuOpen)}
-        ></i>
-        <div
-          className={`absolute xl:hidden top-18 z-[9999]   left-0 w-full  bg-white flex flex-col items-center gap-6 font-semibold text-lg transform transition-transform ${
-            isMenuOpen ? "opacity-100" : "opacity-0"
-          }`}
-          style={{ transition: "transform 0.3s ease,opcity 0.3s ease" }}
-        >
-          <li className="list-none w-full text-center p-4 transition-all cursor-pointer hover:text-purple-400 duration-300">
-            <Link to={"/"}>Home</Link>
-          </li>
-          <li className="list-none w-full text-center p-4 transition-all cursor-pointer hover:text-purple-400 duration</li>-300">
-            <Link to={"/courses"}>Courses</Link>
-          </li>
-          <li className="list-none w-full text-center p-4 transition-all cursor-pointer hover:text-purple-400 duration-300">
-            <Link to={"/about"}>About Us</Link>
-          </li>
-          <li className="list-none w-full text-center p-4 transition-all cursor-pointer hover:text-purple-400 duration-300">
-            <Link to={"/contact"}>Contact Us</Link>
-          </li>
-        </div>
-      </div> */}
     </div>
   );
 };

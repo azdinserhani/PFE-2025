@@ -60,26 +60,28 @@ const CourseCard = ({ item }) => {
       <div className="flex justify-between items-center mt-4">
         <div className="font-bold" style={{ color: theme.primary }}>${item.price}</div>
         <div className="flex gap-2 items-center">
-          <Link to={`/course/${item.id}`}>
+          <Link to={item.isEnrolled ? `/course/learn/${item.id}` : `/course/${item.id}`}>
             <button 
               className="flex items-center gap-1 transition-colors cursor-pointer"
               style={{ color: theme.primary }}
             >
-              <span>View Details</span>
+              <span>{item.isEnrolled ? "Continue Learning" : "View Details"}</span>
               <FaLongArrowAltRight />
             </button>
           </Link>
-          <button 
-            onClick={handleAddToCart}
-            className="flex items-center gap-1 py-1 px-3 rounded-md transition-colors cursor-pointer"
-            style={{ 
-              backgroundColor: theme.primary,
-              color: '#ffffff'
-            }}
-          >
-            <PiShoppingCartLight />
-            <span>Add to Cart</span>
-          </button>
+          {!item.isEnrolled && (
+            <button 
+              onClick={handleAddToCart}
+              className="flex items-center gap-1 py-1 px-3 rounded-md transition-colors cursor-pointer"
+              style={{ 
+                backgroundColor: theme.primary,
+                color: '#ffffff'
+              }}
+            >
+              <PiShoppingCartLight />
+              <span>Add to Cart</span>
+            </button>
+          )}
         </div>
       </div>
     </motion.div>

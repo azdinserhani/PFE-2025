@@ -32,13 +32,34 @@ const Features = () => {
     },
   ];
   return (
-    <div className="container mx-auto h-auto flex flex-col items-center justify-center px-4" style={{ backgroundColor: theme.background }}>
-      <h2 className="text-4xl font-bold text-center" style={{ color: theme.text }}>Discover Powerful Features</h2>
-      <p className="font-bold mt-4 text-center" style={{ color: theme.secondary }}>
+    <div 
+      className="container mx-auto h-auto flex flex-col items-center justify-center px-4 py-16" 
+      style={{ 
+        backgroundColor: theme.background,
+        borderTop: `1px solid ${theme.border}`,
+        borderBottom: `1px solid ${theme.border}`
+      }}
+    >
+      <h2 
+        className="text-4xl font-bold text-center mb-2" 
+        style={{ color: theme.text }}
+      >
+        Discover Powerful Features
+      </h2>
+      <p 
+        className="font-medium mt-4 text-center max-w-3xl mb-12" 
+        style={{ color: theme.secondary }}
+      >
         Discover a world of knowledge and opportunities with our online
         education platform pursue a new career.
       </p>
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mt-12 p-4">
+      <div 
+        className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mt-4 p-4 w-full"
+        style={{ 
+          backgroundColor: theme.background,
+          boxShadow: `0 0 20px ${theme.shadow}`
+        }}
+      >
         {featureContent.map((feature, index) => {
           return <FeatureCard key={index} item={feature} icon={feature.icon} />;
         })}

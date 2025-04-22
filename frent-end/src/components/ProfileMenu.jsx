@@ -1,65 +1,66 @@
-import { BiBookAlt } from "react-icons/bi";
-import { IoMdSettings } from "react-icons/io";
-import { FaUser } from "react-icons/fa";
-import { IoLogOut } from "react-icons/io5";
+import { FaUser, FaSignOutAlt } from "react-icons/fa";
 import { BiSolidDashboard } from "react-icons/bi";
+import { IoMdSettings } from "react-icons/io";
 import { Link } from "react-router";
-import { MdDarkMode } from "react-icons/md";
-import { MdLightMode } from "react-icons/md";
-import { useState } from "react";
 import { RiTranslate2 } from "react-icons/ri";
-import { CgDarkMode } from "react-icons/cg";
-const ProfileMenu = () => {
-  const [isDark, setIsDark] = useState(false);
-  const menuItems = [
-    { icon: <FaUser />, label: "My Profile", link: "/myProfile" },
-    {
-      icon: <BiSolidDashboard />,
-      label: "Instructor Dashboard",
-      link: "/myDashboard",
-    },
+import { useTheme } from "../context/ThemeContext";
 
-    { icon: <IoLogOut />, label: "Logout" },
+const ProfileMenu = () => {
+  const { currentTheme, themes } = useTheme();
+  const theme = themes[currentTheme];
+  
+  const menuItems = [
+    { icon: <FaUser size={14} />, label: "Profile", link: "/myProfile" },
+    { icon: <BiSolidDashboard size={14} />, label: "Dashboard", link: "/dashboard" },
+    { icon: <IoMdSettings size={14} />, label: "Settings", link: "/settings" },
+    { icon: <FaSignOutAlt size={14} />, label: "Logout", link: "/logout" },
   ];
-  console.log(isDark);
 
   return (
-    <div className="absolute top-10 right-0 w-[210px] p-3 rounded-lg shadow-2xl shadow-gray-200 bg-white z-100">
-      <ul className="flex flex-col gap-3">
+    <div className="py-1">
+      <div className="p-3 border-b mb-1" style={{ borderColor: theme.border }}>
+        <p className="text-sm font-medium" style={{ color: theme.primary }}>user@example.com</p>
+        <p className="text-xs opacity-70" style={{ color: theme.text }}>Free Account</p>
+      </div>
+      
+      <ul>
         {menuItems.map((item, index) => (
-          <li
-            key={index}
-            className="flex items-center gap-2 text-gray-400 hover:text-purple-500 duration-300 hover:pl-2"
-          >
-            <Link to={item.link} className="flex gap-2">
-              {item.icon}
+          <li key={index}>
+            <Link 
+              to={item.link} 
+              className="flex items-center gap-2 px-3 py-2 text-sm transition-colors hover:bg-opacity-5"
+              style={{ 
+                color: theme.text,
+                ":hover": { backgroundColor: `${theme.primary}10` }
+              }}
+            >
+              <span style={{ color: theme.primary }}>{item.icon}</span>
               {item.label}
             </Link>
           </li>
         ))}
-        <li className="flex items-center gap-2 text-gray-400 hover:text-purple-500 duration-300 hover:pl-2 z-50">
-          <CgDarkMode />
-          <span onClick={() => setIsDark(!isDark)}>theme</span>
-          {isDark ? (
-            <MdDarkMode color="black" onClick={() => setIsDark(!isDark)} />
-          ) : (
-            <MdLightMode color="black" onClick={() => setIsDark(!isDark)} />
-          )}
-        </li>
-        <li className="flex items-center gap-2 text-gray-400 hover:text-purple-500 duration-300 hover:pl-2 z-50">
-          <RiTranslate2 />
-          <span>language</span>
-          <select
-            name=""
-            id=""
-            className="p-1 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500"
-          >
-            <option value="">FR</option>
-            <option value="">EN</option>
-            <option value="">AR</option>
-          </select>
-        </li>
       </ul>
+      
+      <div className="border-t mt-1 pt-2 px-3" style={{ borderColor: theme.border }}>
+        <div className="flex items-center justify-between text-xs">
+          <div className="flex items-center gap-1.5">
+            <RiTranslate2 size={14} style={{ color: theme.primary }} />
+            <span style={{ color: theme.text }}>Language</span>
+          </div>
+          <select
+            className="rounded text-xs py-0.5 px-1.5 outline-none"
+            style={{ 
+              backgroundColor: theme.cardBg, 
+              color: theme.text,
+              border: `1px solid ${theme.border}`
+            }}
+          >
+            <option value="en">English</option>
+            <option value="fr">French</option>
+            <option value="ar">Arabic</option>
+          </select>
+        </div>
+      </div>
     </div>
   );
 };
