@@ -1,15 +1,36 @@
 import React from "react";
+import { useTheme } from "../../context/ThemeContext";
+
 const Concrd = ({ item, icon: Icon }) => {
+  const { themes, currentTheme } = useTheme();
+  const theme = themes[currentTheme];
+
   return (
-    <div className="flex my-10 justify-around gap-10">
-      <div className="flex flex-col items-center">
-        <div className="flex-1/2 fle-col mb-7">
-          <Icon className="size-10" color="#8f15f5" />
-        </div>
-        <span className="font-bold mb-4">{item.title}</span>
-        <p className="text-center mb-4 text-gray-400">C/54 Northwest <br/> Suite 558, Houston, USA 485</p>
-        <a href="" className="text-purple-600">View on Google map</a>
+    <div className="flex flex-col items-center py-6 transition-all duration-300 hover:transform hover:translate-y-[-5px]">
+      <div 
+        className="mb-6 rounded-full p-5 flex items-center justify-center"
+        style={{ backgroundColor: `${theme.primary}20` }}
+      >
+        <Icon className="size-7" color={theme.primary} />
       </div>
+      <h3 
+        className="font-semibold text-lg mb-3"
+        style={{ color: theme.text }}
+      >{item.title}</h3>
+      <p 
+        className="text-center text-sm mb-4 px-4"
+        style={{ color: `${theme.text}99` }}
+      >{item.desc}</p>
+      <a 
+        href={item.link} 
+        className="text-sm font-medium transition-all duration-300 hover:underline flex items-center gap-1"
+        style={{ color: theme.primary }}
+      >
+        {item.title === "Our Location" ? "View on map" : item.title === "Call Us" ? "Call now" : "Send email"}
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M6 12L10 8L6 4" stroke={theme.primary} strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+        </svg>
+      </a>
     </div>
   );
 };

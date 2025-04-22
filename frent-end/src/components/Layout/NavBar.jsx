@@ -87,7 +87,9 @@ const NavBar = () => {
     >
       <div className="container mx-auto flex justify-between items-center py-3 px-4">
         <div className="flex items-center">
-          <div className="text-xl font-bold" style={{ color: theme.primary }}>EduPath</div>
+          <Link to={ "/" } className="flex items-center">
+            <div className="text-xl font-bold" style={{ color: theme.primary }}>EduPath</div>
+          </Link>
         </div>
 
         <ul className="hidden xl:flex list-none gap-5 text-[14px] items-center font-medium">
