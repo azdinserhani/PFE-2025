@@ -1,14 +1,15 @@
 import { CgNotes } from "react-icons/cg";
 import { FaCheckCircle, FaPlus } from "react-icons/fa";
 import { CiEdit } from "react-icons/ci";
-import { MdDragIndicator, MdOutlineDeleteOutline } from "react-icons/md";
+import { MdOutlineDeleteOutline } from "react-icons/md";
 import { useState } from "react";
 import ContentForm from "./ContentForm";
 import { useDispatch } from "react-redux";
 import { addVideoToLectureAction } from "../../redux/ApiCalls";
 import { motion } from "framer-motion";
+import React from "react";
 
-const LectureItem = ({ lecture, index, sectionId, theme }) => {
+const LectureItem = React.memo(({ lecture, index, sectionId, theme }) => {
   const dispatch = useDispatch();
   const [contentFormOpen, setContentFormOpen] = useState(false);
   const [videoInfo, setVideoInfo] = useState(null);
@@ -25,7 +26,6 @@ const LectureItem = ({ lecture, index, sectionId, theme }) => {
       addVideoToLectureAction(dispatch, sectionId, index, newVideoInfo);
     }
   };
-  console.log(lecture);
 
   return (
     <motion.div
@@ -33,16 +33,17 @@ const LectureItem = ({ lecture, index, sectionId, theme }) => {
         backgroundColor: theme.cardBg,
         borderColor: theme.border,
         borderWidth: '1px',
-        color: theme.text
+        color: theme.text,
+        boxShadow: 'none',
+        transition: 'transform 0.2s ease-in-out',
       }}
-      className="flex flex-col px-4 py-2 rounded-md duration-700 justify-center"
+      className="flex flex-col px-4 py-2 rounded-md justify-center"
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.5 }}
+      transition={{ duration: 0.3 }}
     >
       <div className="flex justify-between">
         <div className="flex items-center gap-2">
-          <MdDragIndicator style={{ color: theme.secondary, cursor: 'grab' }} />
           <h2 className="text-md font-medium flex items-center gap-2">
             <FaCheckCircle fontSize={12} style={{ color: theme.primary }} />
             <span className="font-semibold mr-2">
@@ -54,8 +55,12 @@ const LectureItem = ({ lecture, index, sectionId, theme }) => {
           </h2>
           <div className="flex items-center gap-2">
             <CiEdit
-              style={{ color: theme.secondary, cursor: 'pointer' }}
-              className="hover:bg-opacity-20 rounded-md duration-300"
+              className="p-1 rounded-md transition-all duration-200 hover:bg-opacity-20"
+              style={{ 
+                color: theme.secondary, 
+                cursor: 'pointer',
+                transform: 'scale(1.2)'
+              }}
               onMouseOver={(e) => {
                 e.currentTarget.style.backgroundColor = `${theme.secondary}20`;
               }}
@@ -64,8 +69,12 @@ const LectureItem = ({ lecture, index, sectionId, theme }) => {
               }}
             />
             <MdOutlineDeleteOutline
-              style={{ color: theme.secondary, cursor: 'pointer' }}
-              className="hover:bg-opacity-20 rounded-md duration-300"
+              className="p-1 rounded-md transition-all duration-200 hover:bg-opacity-20"
+              style={{ 
+                color: theme.secondary, 
+                cursor: 'pointer',
+                transform: 'scale(1.2)'
+              }}
               onMouseOver={(e) => {
                 e.currentTarget.style.backgroundColor = `${theme.secondary}20`;
               }}
@@ -78,7 +87,7 @@ const LectureItem = ({ lecture, index, sectionId, theme }) => {
 
         <button
           onClick={() => setContentFormOpen(!contentFormOpen)}
-          className="p-4 w-[150px] h-8 flex justify-center items-center rounded-md gap-2.5 font-semibold cursor-pointer transition duration-300 ease-in-out"
+          className="p-4 w-[150px] h-8 flex justify-center items-center rounded-md gap-2.5 font-semibold cursor-pointer transition-all duration-300"
           style={{
             backgroundColor: theme.background,
             color: theme.primary,
@@ -87,14 +96,21 @@ const LectureItem = ({ lecture, index, sectionId, theme }) => {
           }}
           onMouseOver={(e) => {
             e.currentTarget.style.backgroundColor = `${theme.primary}20`;
+            e.currentTarget.style.transform = 'translateY(-2px)';
+            e.currentTarget.style.boxShadow = `0 4px 8px -2px ${theme.primary}30`;
           }}
           onMouseOut={(e) => {
             e.currentTarget.style.backgroundColor = theme.background;
+            e.currentTarget.style.transform = 'translateY(0)';
+            e.currentTarget.style.boxShadow = 'none';
           }}
         >
           {contentFormOpen ? (
             <>
-              <FaPlus style={{ color: theme.secondary }} className="rotate-45 duration-300" />
+              <FaPlus 
+                style={{ color: theme.secondary }}
+                className="rotate-45 duration-300"
+              /> 
               Content
             </>
           ) : (
@@ -110,7 +126,7 @@ const LectureItem = ({ lecture, index, sectionId, theme }) => {
           height: contentFormOpen ? "auto" : 0,
           opacity: contentFormOpen ? 1 : 0,
         }}
-        transition={{ duration: 0.5, ease: "easeInOut" }}
+        transition={{ duration: 0.4, ease: [0.04, 0.62, 0.23, 0.98] }}
         className="overflow-hidden"
       >
         {contentFormOpen && (
@@ -125,6 +141,6 @@ const LectureItem = ({ lecture, index, sectionId, theme }) => {
       </motion.div>
     </motion.div>
   );
-};
+});
 
 export default LectureItem;

@@ -78,9 +78,13 @@ const courseSlice = createSlice({
       }
     },
     reorderSections: (state, action) => {
-      const { sourceIndex, destinationIndex } = action.payload;
-      const [removed] = state.sections.splice(sourceIndex, 1);
-      state.sections.splice(destinationIndex, 0, removed);
+      const { activeIndex, overIndex } = action.payload;
+      if (activeIndex !== overIndex) {
+        const sections = [...state.sections];
+        const [movedSection] = sections.splice(activeIndex, 1);
+        sections.splice(overIndex, 0, movedSection);
+        state.sections = sections;
+      }
     },
   },
 });
@@ -90,10 +94,9 @@ export const {
   addSection,
   addLectureToSection,
   addVideoToLecture,
-  reorderLectures,
-  reorderSections,
   addQuizToSection,
   addQuizQuestion,
+  reorderSections,
 } = courseSlice.actions;
 
 export default courseSlice.reducer;

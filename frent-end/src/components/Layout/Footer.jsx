@@ -7,133 +7,127 @@ import { FaInstagram } from "react-icons/fa";
 import { CiTwitter } from "react-icons/ci";
 import { MdOutlineEmail } from "react-icons/md";
 import { FaLocationDot } from "react-icons/fa6";
+
 const Footer = () => {
   return (
-    <div className=" bg-gray-900 text-white p-10">
-      <div className="container mx-auto md:flex gap-10">
-        <div>
-          <span className="font-bold">Logo</span>
-          <p className="text-gray-400 mt-5">
-            Discover a world of knowledge and opportunities with our online
-            education platform pursue a new career.
-          </p>
-          <div className="flex">
-            <span className="flex gap-5 mt-5 items-center font-bold">
-              <FaLocationDot className="size-6" color="#8f15f5" /> Ksar el Kebir
-            </span>
+    <footer className="bg-gradient-to-b from-gray-900 to-black text-white">
+      <div className="container mx-auto px-4 pt-16 pb-8">
+        {/* Main Footer Content */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10">
+          {/* Company Info */}
+          <div className="space-y-6">
+            <h3 className="font-bold text-2xl text-white relative inline-block after:content-[''] after:absolute after:w-1/2 after:h-1 after:bg-purple-600 after:left-0 after:-bottom-2">
+              Logo
+            </h3>
+            <p className="text-gray-400 mt-5 leading-relaxed">
+              Discover a world of knowledge and opportunities with our online
+              education platform pursue a new career.
+            </p>
+            <div className="space-y-4">
+              <div className="flex items-center gap-4 group">
+                <div className="bg-gray-800 p-3 rounded-full group-hover:bg-purple-600 transition-colors duration-300">
+                  <FaLocationDot className="size-5" color="#fff" />
+                </div>
+                <span className="font-medium">Ksar el Kebir</span>
+              </div>
+              <div className="flex items-center gap-4 group">
+                <div className="bg-gray-800 p-3 rounded-full group-hover:bg-purple-600 transition-colors duration-300">
+                  <FaPhoneVolume className="size-5" color="#fff" />
+                </div>
+                <span className="font-medium">+212636241246</span>
+              </div>
+            </div>
           </div>
-          <div>
-            <span className="flex gap-5 mt-5 items-center font-bold">
-              <FaPhoneVolume className="size-5.5" color="#8f15f5" />
-              +212636241246
-            </span>
+
+          {/* Useful Links */}
+          <div className="space-y-6">
+            <h3 className="font-bold text-xl text-white relative inline-block after:content-[''] after:absolute after:w-1/2 after:h-1 after:bg-purple-600 after:left-0 after:-bottom-2">
+              Useful Links
+            </h3>
+            <ul className="flex flex-col gap-3 text-gray-400">
+              {["Course", "Mission & Vision", "Join a Career", "Zoom Meeting", "Pricing Plan"].map((item, index) => (
+                <li key={index}>
+                  <a 
+                    href="#" 
+                    className="hover:text-purple-600 transition-colors duration-300 flex items-center gap-2 group"
+                  >
+                    <span className="inline-block w-0 group-hover:w-2 h-0.5 bg-purple-600 transition-all duration-300"></span>
+                    {item}
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          {/* Our Institute */}
+          <div className="space-y-6">
+            <h3 className="font-bold text-xl text-white relative inline-block after:content-[''] after:absolute after:w-1/2 after:h-1 after:bg-purple-600 after:left-0 after:-bottom-2">
+              Our Institute
+            </h3>
+            <ul className="flex flex-col gap-3 text-gray-400">
+              {["Contact Us", "Mission & Vision", "Technology", "Instructors", "Pricing", "Services"].map((item, index) => (
+                <li key={index}>
+                  <a 
+                    href="#" 
+                    className="hover:text-purple-600 transition-colors duration-300 flex items-center gap-2 group"
+                  >
+                    <span className="inline-block w-0 group-hover:w-2 h-0.5 bg-purple-600 transition-all duration-300"></span>
+                    {item}
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          {/* Get In Touch */}
+          <div className="space-y-6">
+            <h3 className="font-bold text-xl text-white relative inline-block after:content-[''] after:absolute after:w-1/2 after:h-1 after:bg-purple-600 after:left-0 after:-bottom-2">
+              Get In Touch
+            </h3>
+            <div className="flex flex-col gap-5 mb-5">
+              <a 
+                href="#" 
+                className="transform hover:scale-105 transition-transform duration-300 inline-block"
+              >
+                <img src="/AppStore.png" alt="App Store" className="rounded-lg shadow-md" />
+              </a>
+              <a 
+                href="#" 
+                className="transform hover:scale-105 transition-transform duration-300 inline-block"
+              >
+                <img src="/PlayStore.png" alt="Play Store" className="rounded-lg shadow-md" />
+              </a>
+            </div>
+            <div className="flex flex-wrap gap-3">
+              {[
+                { icon: <CiLinkedin />, label: "LinkedIn" },
+                { icon: <LuFacebook />, label: "Facebook" },
+                { icon: <FaInstagram />, label: "Instagram" },
+                { icon: <CiTwitter />, label: "Twitter" },
+                { icon: <MdOutlineEmail />, label: "Email" }
+              ].map((social, index) => (
+                <a 
+                  key={index}
+                  href="#"
+                  aria-label={social.label}
+                  className="bg-gray-800 p-3 rounded-full hover:bg-purple-600 hover:text-white transition-all duration-300 text-xl"
+                >
+                  {social.icon}
+                </a>
+              ))}
+            </div>
           </div>
         </div>
-        <div className="flex-1/2">
-          <span className="font-bold">Useful Links</span>
-          <ul className="flex flex-col gap-3  text-gray-400">
-            <li>
-              <a href="" className="hover:text-purple-600 duration-300 ">
-                Course
-              </a>
-            </li>
-            <li>
-              <a href="" className="hover:text-purple-600 duration-300  ">
-                Mission & Vision
-              </a>
-            </li>
-            <li>
-              <a href="" className="hover:text-purple-600 duration-300  ">
-                Join a Career
-              </a>
-            </li>
-            <li>
-              <a href="" className="hover:text-purple-600 duration-300 ">
-                Zoom Meeting
-              </a>
-            </li>
-            <li>
-              <a href="" className="hover:text-purple-600 duration-300 ">
-                Pricing Plan
-              </a>
-            </li>
-          </ul>
-        </div>
-        <div className="flex-1/2">
-          <span className="font-bold">Our Institute</span>
-          <ul className="flex flex-col gap-3  text-gray-400">
-            <li>
-              <a href="" className="hover:text-purple-600 duration-300 ">
-                Contact Us
-              </a>
-            </li>
-            <li>
-              <a href="" className="hover:text-purple-600 duration-300  ">
-                Mission & Vision
-              </a>
-            </li>
-            <li>
-              <a href="" className="hover:text-purple-600 duration-300">
-                Technology
-              </a>
-            </li>
-            <li>
-              <a href="" className="hover:text-purple-600 duration-300">
-                Instructors
-              </a>
-            </li>
-            <li>
-              <a href="" className="hover:text-purple-600 duration-300">
-                Pricing
-              </a>
-            </li>
-            <li>
-              <a href="" className="hover:text-purple-600 duration-300">
-                Services
-              </a>
-            </li>
-          </ul>
-        </div>
-        <div className="flex flex-col items-center">
-          <span className="font-bold">Get In Touch</span>
-          <div className="flex flex-col gap-5 mb-5">
-            <a href="">
-              <img src="/AppStore.png" alt="" />
-            </a>
-            <a href="">
-              <img src="/PlayStore.png" alt="" />
-            </a>
-          </div>
-          <ul className="flex justify-center items-center gap-3 text-2xl">
-            <li>
-              <a href="" className="hover:text-purple-600 duration-300">
-                <CiLinkedin />
-              </a>
-            </li>
-            <li>
-              <a href="" className="hover:text-purple-600 duration-300">
-                <LuFacebook />
-              </a>
-            </li>
-            <li>
-              <a href="" className="hover:text-purple-600 duration-300">
-                <FaInstagram />
-              </a>
-            </li>
-            <li>
-              <a href="" className="hover:text-purple-600 duration-300">
-                <CiTwitter />
-              </a>
-            </li>
-            <li>
-              <a href="" className="hover:text-purple-600 duration-300">
-                <MdOutlineEmail />
-              </a>
-            </li>
-          </ul>
+        
+        {/* Divider */}
+        <div className="border-t border-gray-800 my-8"></div>
+        
+        {/* Copyright */}
+        <div className="text-center text-gray-500 text-sm">
+          <p>© {new Date().getFullYear()} Your Company. All rights reserved.</p>
         </div>
       </div>
-    </div>
+    </footer>
   );
 };
 

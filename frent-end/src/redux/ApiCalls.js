@@ -10,17 +10,30 @@ export const createSection = async (dispatch, section) => {
   dispatch(addSection(section));
 };
 
-export const createLecture = async (dispatch, lecture, sectionIndex) => {
-  dispatch(addLectureToSection({ sectionIndex, ...lecture }));
+export const createLecture = async (dispatch, lecture, sectionId) => {
+  dispatch(
+    addLectureToSection({
+      sectionIndex: sectionId,
+      title: lecture.title,
+    })
+  );
 };
+
 export const addVideoToLectureAction = async (
   dispatch,
-  sectionIndex,
-  lectureIndex,
+  sectionId,
+  lectureId,
   video
 ) => {
-  dispatch(addVideoToLecture({ sectionIndex, lectureIndex, video: video }));
+  dispatch(
+    addVideoToLecture({
+      sectionIndex: sectionId,
+      lectureIndex: lectureId,
+      video,
+    })
+  );
 };
+
 export const createQuiz = async (
   dispatch,
   quizData,

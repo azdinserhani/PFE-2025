@@ -5,9 +5,11 @@ import { LuListTodo } from "react-icons/lu";
 import AddSectionForm from "./AddSectionForm";
 import SectionItem from "./SectionItem";
 import { useSelector, useDispatch } from "react-redux";
-import { DragDropContext, Droppable } from "@hello-pangea/dnd";
-import { reorderSections } from "../../redux/features/courseSlice";
 import { useTheme } from "../../context/ThemeContext";
+import { DndContext, closestCenter, KeyboardSensor, PointerSensor, useSensor, useSensors, DragOverlay } from '@dnd-kit/core';
+import { SortableContext, verticalListSortingStrategy, arrayMove } from '@dnd-kit/sortable';
+import { reorderSections } from "../../redux/features/courseSlice";
+import { MdDragIndicator } from "react-icons/md";
 
 const CreateCourse = () => {
   const [img, setImg] = useState(null);
@@ -19,9 +21,20 @@ const CreateCourse = () => {
   const [progress, setProgress] = useState(0);
   const sec = useSelector((stat) => stat.course.sections);
   const [sectionFormOpen, setSectionFormOpen] = useState(false);
+  const [activeId, setActiveId] = useState(null);
   const dispatch = useDispatch();
   const { currentTheme, themes } = useTheme();
   const theme = themes[currentTheme];
+
+  // DnD sensors configuration
+  const sensors = useSensors(
+    useSensor(PointerSensor, {
+      activationConstraint: {
+        distance: 8,
+      },
+    }),
+    useSensor(KeyboardSensor)
+  );
 
   const handleFileChange = (event) => {
     const file = event.target.files[0];
@@ -29,17 +42,6 @@ const CreateCourse = () => {
       setFileName(file.name);
       setImg(URL.createObjectURL(file));
     }
-  };
-
-  const handleDragEnd = (result) => {
-    if (!result.destination) return;
-
-    const sourceIndex = result.source.index;
-    const destinationIndex = result.destination.index;
-
-    if (sourceIndex === destinationIndex) return;
-
-    dispatch(reorderSections({ sourceIndex, destinationIndex }));
   };
 
   // Calculate progress
@@ -52,6 +54,28 @@ const CreateCourse = () => {
     if (category) completed++;
     setProgress((completed / 5) * 100);
   }, [title, description, img, price, category]);
+  
+  // Handle drag start event to track the active item
+  const handleDragStart = (event) => {
+    setActiveId(event.active.id);
+  };
+  
+  // Handle drag end event for reordering sections
+  const handleDragEnd = (event) => {
+    const { active, over } = event;
+    setActiveId(null);
+    
+    if (active.id !== over.id) {
+      const activeIndex = sec.findIndex(section => section.id === active.id);
+      const overIndex = sec.findIndex(section => section.id === over.id);
+      
+      dispatch(reorderSections({ activeIndex, overIndex }));
+    }
+  };
+
+  // Find active section for DragOverlay
+  const activeSection = sec.find(section => section.id === activeId);
+  const activeSectionIndex = sec.findIndex(section => section.id === activeId);
 
   return (
     <div className="container mx-auto p-6 h-screen flex flex-col gap-6 " style={{ backgroundColor: theme.background }}>
@@ -195,27 +219,79 @@ const CreateCourse = () => {
             </h2>
           </div>
           <div className="shadow-md p-6 rounded-lg flex flex-col gap-4" style={{ backgroundColor: theme.cardBg }}>
-            <DragDropContext onDragEnd={handleDragEnd}>
-              <Droppable droppableId="sections" type="section">
-                {(provided) => (
-                  <div
-                    {...provided.droppableProps}
-                    ref={provided.innerRef}
-                    className="flex flex-col gap-4"
-                  >
+            <div className="flex flex-col gap-4 p-2" style={{ minHeight: '100px' }}>
+              {sec && sec.length > 0 ? (
+                <DndContext 
+                  sensors={sensors} 
+                  collisionDetection={closestCenter}
+                  onDragStart={handleDragStart}
+                  onDragEnd={handleDragEnd}
+                >
+                  <SortableContext items={sec.map(section => section.id)} strategy={verticalListSortingStrategy}>
                     {sec.map((section, index) => (
                       <SectionItem
                         section={section.title}
                         index={index}
-                        key={section.id || index}
+                        key={section.id || `section-${index}`}
+                        id={section.id}
                         theme={theme}
                       />
                     ))}
-                    {provided.placeholder}
-                  </div>
-                )}
-              </Droppable>
-            </DragDropContext>
+                  </SortableContext>
+                  <DragOverlay adjustScale={true}>
+                    {activeId ? (
+                      <div 
+                        className="rounded-md px-4 py-3 opacity-90 w-full"
+                        style={{
+                          backgroundColor: `${theme.primary}05`,
+                          borderColor: theme.primary,
+                          borderWidth: '2px',
+                          borderStyle: 'dashed',
+                          boxShadow: `0 10px 15px -3px ${theme.primary}30, 0 4px 6px -4px ${theme.primary}20`,
+                        }}
+                      >
+                        <div className="flex items-center gap-3">
+                          <div className="flex items-center justify-center p-1.5 rounded-md">
+                            <div
+                              className="p-1.5 rounded-md flex items-center justify-center"
+                              style={{ 
+                                backgroundColor: `${theme.primary}20`,
+                                border: `1px solid ${theme.primary}40`,
+                              }}
+                            >
+                              <MdDragIndicator size={20} style={{ color: theme.primary }} />
+                            </div>
+                          </div>
+                          <div className="flex flex-col">
+                            <div className="flex items-center">
+                              <span 
+                                className="font-semibold mr-2 px-2 py-0.5 text-sm rounded-md" 
+                                style={{ 
+                                  backgroundColor: `${theme.primary}15`,
+                                  color: theme.primary
+                                }}
+                              >
+                                Section {activeSectionIndex + 1}
+                              </span>
+                              <h2 
+                                className="text-md font-medium" 
+                                style={{ color: theme.primary }}
+                              >
+                                {activeSection?.title}
+                              </h2>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    ) : null}
+                  </DragOverlay>
+                </DndContext>
+              ) : (
+                <div className="text-center p-4" style={{ color: theme.secondary }}>
+                  No sections added yet. Add a section to get started.
+                </div>
+              )}
+            </div>
             {!sectionFormOpen && (
               <button
                 onClick={() => setSectionFormOpen(!sectionFormOpen)}

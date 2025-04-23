@@ -79,7 +79,7 @@ const NavBar = () => {
   
   return (
     <div 
-      className="sticky top-0 w-full z-20 backdrop-blur-sm transition-all duration-300"
+      className="sticky top-0 w-full z-20 backdrop-blur-sm transition-all duration-300 z-[9999]"
       style={{ 
         backgroundColor: `${theme.background}99`, 
         borderBottom: `1px solid ${theme.border}` 
