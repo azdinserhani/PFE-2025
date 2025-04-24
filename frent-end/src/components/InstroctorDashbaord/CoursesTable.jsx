@@ -37,7 +37,7 @@ const CoursesTable = () => {
       minWidth: 250,
       headerAlign: 'left',
       renderHeader: (params) => (
-        <div className="flex items-center font-semibold">
+        <div className="flex items-center font-semibold" style={{ color: theme.text }}>
           {params.colDef.headerName}
           <FaSort className="ml-2 text-xs opacity-70" />
         </div>
@@ -55,7 +55,7 @@ const CoursesTable = () => {
       minWidth: 120,
       headerAlign: 'left',
       renderHeader: (params) => (
-        <div className="flex items-center font-semibold">
+        <div className="flex items-center font-semibold" style={{ color: theme.text }}>
           {params.colDef.headerName}
           <FaSort className="ml-2 text-xs opacity-70" />
         </div>
@@ -73,7 +73,7 @@ const CoursesTable = () => {
       minWidth: 150,
       headerAlign: 'left',
       renderHeader: (params) => (
-        <div className="flex items-center font-semibold">
+        <div className="flex items-center font-semibold" style={{ color: theme.text }}>
           {params.colDef.headerName}
           <FaSort className="ml-2 text-xs opacity-70" />
         </div>
@@ -114,6 +114,11 @@ const CoursesTable = () => {
       flex: 0.8,
       minWidth: 200,
       headerAlign: 'center',
+      renderHeader: (params) => (
+        <div className="flex items-center font-semibold justify-center" style={{ color: theme.text }}>
+          {params.colDef.headerName}
+        </div>
+      ),
       renderCell: (params) => {
         return (
           <div className="flex gap-3 mx-auto">
@@ -374,10 +379,17 @@ const CoursesTable = () => {
             },
             '& .MuiDataGrid-columnHeaders': {
               backgroundColor: `${theme.primary}08`,
-              color: theme.text,
+              color: `${theme.text} !important`,
               borderColor: `${theme.border}40`,
               minHeight: '60px !important',
               maxHeight: '60px !important',
+            },
+            '& .MuiDataGrid-columnHeaderTitle': {
+              color: `${theme.text} !important`,
+              fontWeight: 'bold',
+            },
+            '& .MuiDataGrid-columnHeader': {
+              color: `${theme.text} !important`,
             },
             '& .MuiDataGrid-footerContainer': {
               backgroundColor: `${theme.primary}08`,
@@ -415,6 +427,9 @@ const CoursesTable = () => {
             },
             '& .MuiIconButton-root.Mui-disabled .MuiSvgIcon-root': {
               color: `${theme.text}40`,
+            },
+            '& .MuiDataGrid-row--borderBottom': {
+              backgroundColor: 'transparent !important',
             },
           }}
           className="border-none"
