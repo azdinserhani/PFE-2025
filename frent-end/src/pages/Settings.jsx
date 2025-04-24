@@ -55,7 +55,7 @@ const Settings = () => {
                       }}
                     />
                   </div>
-                  <h5 className="text-lg font-medium text-center mb-4">{theme.name}</h5>
+                  <h5 className="text-lg font-medium text-center mb-4 text-gray-300">{theme.name}</h5>
                   <button
                     className={`w-full py-2 px-4 rounded-md transition-colors ${
                       currentTheme === themeKey 
