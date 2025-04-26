@@ -21,7 +21,7 @@ const NavBar = () => {
   const themeRef = useRef(null);
   const location = useLocation();
   const currentPath = location.pathname;
-  
+
   // Force re-render when cart changes
   useEffect(() => {
     // This empty effect will cause the component to re-render when items changes
@@ -31,7 +31,7 @@ const NavBar = () => {
   const toggleProfileMenu = (e) => {
     e.stopPropagation(); // Prevent event bubbling
     setMenuOpen(!menuOpen);
-    
+
     // Close theme menu when opening profile menu
     if (!menuOpen) {
       setThemeMenuOpen(false);
@@ -41,7 +41,7 @@ const NavBar = () => {
   const toggleThemeMenu = (e) => {
     e.stopPropagation(); // Prevent event bubbling
     setThemeMenuOpen(!themeMenuOpen);
-    
+
     // Close profile menu when opening theme menu
     if (!themeMenuOpen) {
       setMenuOpen(false);
@@ -69,77 +69,107 @@ const NavBar = () => {
     changeTheme(themeName);
     setThemeMenuOpen(false);
   };
-  
+
   // Helper function to determine if a link is active
   const isActiveLink = (path) => {
-    if (path === '/' && currentPath === '/') return true;
-    if (path !== '/' && currentPath.startsWith(path)) return true;
+    if (path === "/" && currentPath === "/") return true;
+    if (path !== "/" && currentPath.startsWith(path)) return true;
     return false;
   };
-  
+
   return (
-    <div 
-      className="sticky top-0 w-full z-20 backdrop-blur-sm transition-all duration-300 z-[9999]"
-      style={{ 
-        backgroundColor: `${theme.background}99`, 
-        borderBottom: `1px solid ${theme.border}` 
+    <div
+      className="sticky top-0 w-full  backdrop-blur-sm transition-all duration-300 z-[9999]"
+      style={{
+        backgroundColor: `${theme.background}99`,
+        borderBottom: `1px solid ${theme.border}`,
       }}
     >
       <div className="container mx-auto flex justify-between items-center py-3 px-4">
         <div className="flex items-center">
-          <Link to={ "/" } className="flex items-center">
-            <div className="text-xl font-bold" style={{ color: theme.primary }}>EduPath</div>
+          <Link to={"/"} className="flex items-center">
+            <div className="text-xl font-bold" style={{ color: theme.primary }}>
+              EduPath
+            </div>
           </Link>
         </div>
 
         <ul className="hidden xl:flex list-none gap-5 text-[14px] items-center font-medium">
           <li className="cursor-pointer transition-colors duration-300">
-            <Link to={"/"} style={{ 
-              color: isActiveLink('/') ? theme.primary : theme.text,
-              fontWeight: isActiveLink('/') ? 'bold' : 'medium',
-              borderBottom: isActiveLink('/') ? `2px solid ${theme.primary}` : 'none',
-              paddingBottom: '2px'
-            }}>Home</Link>
+            <Link
+              to={"/"}
+              style={{
+                color: isActiveLink("/") ? theme.primary : theme.text,
+                fontWeight: isActiveLink("/") ? "bold" : "medium",
+                borderBottom: isActiveLink("/")
+                  ? `2px solid ${theme.primary}`
+                  : "none",
+                paddingBottom: "2px",
+              }}
+            >
+              Home
+            </Link>
           </li>
           <li className="cursor-pointer transition-colors duration-300">
-            <Link to={"/courses"} style={{ 
-              color: isActiveLink('/courses') ? theme.primary : theme.text,
-              fontWeight: isActiveLink('/courses') ? 'bold' : 'medium',
-              borderBottom: isActiveLink('/courses') ? `2px solid ${theme.primary}` : 'none',
-              paddingBottom: '2px'
-            }}>Courses</Link>
+            <Link
+              to={"/courses"}
+              style={{
+                color: isActiveLink("/courses") ? theme.primary : theme.text,
+                fontWeight: isActiveLink("/courses") ? "bold" : "medium",
+                borderBottom: isActiveLink("/courses")
+                  ? `2px solid ${theme.primary}`
+                  : "none",
+                paddingBottom: "2px",
+              }}
+            >
+              Courses
+            </Link>
           </li>
           <li className="cursor-pointer transition-colors duration-300">
-            <Link to={"/about"} style={{ 
-              color: isActiveLink('/about') ? theme.primary : theme.text,
-              fontWeight: isActiveLink('/about') ? 'bold' : 'medium',
-              borderBottom: isActiveLink('/about') ? `2px solid ${theme.primary}` : 'none',
-              paddingBottom: '2px'
-            }}>About</Link>
+            <Link
+              to={"/about"}
+              style={{
+                color: isActiveLink("/about") ? theme.primary : theme.text,
+                fontWeight: isActiveLink("/about") ? "bold" : "medium",
+                borderBottom: isActiveLink("/about")
+                  ? `2px solid ${theme.primary}`
+                  : "none",
+                paddingBottom: "2px",
+              }}
+            >
+              About
+            </Link>
           </li>
           <li className="cursor-pointer transition-colors duration-300">
-            <Link to={"/contact"} style={{ 
-              color: isActiveLink('/contact') ? theme.primary : theme.text,
-              fontWeight: isActiveLink('/contact') ? 'bold' : 'medium',
-              borderBottom: isActiveLink('/contact') ? `2px solid ${theme.primary}` : 'none',
-              paddingBottom: '2px'
-            }}>Contact</Link>
+            <Link
+              to={"/contact"}
+              style={{
+                color: isActiveLink("/contact") ? theme.primary : theme.text,
+                fontWeight: isActiveLink("/contact") ? "bold" : "medium",
+                borderBottom: isActiveLink("/contact")
+                  ? `2px solid ${theme.primary}`
+                  : "none",
+                paddingBottom: "2px",
+              }}
+            >
+              Contact
+            </Link>
           </li>
         </ul>
 
         <div className="flex items-center gap-3">
-          <a 
-            className="cursor-pointer duration-300 py-1.5 px-3 rounded-md text-sm font-medium" 
-            style={{ 
+          <a
+            className="cursor-pointer duration-300 py-1.5 px-3 rounded-md text-sm font-medium"
+            style={{
               backgroundColor: theme.primary,
-              color: '#ffffff',
+              color: "#ffffff",
             }}
           >
             <Link to={"/signin"}>Sign In</Link>
           </a>
 
-          <button 
-            className="flex items-center justify-center w-8 h-8 rounded-full transition-colors" 
+          <button
+            className="flex items-center justify-center w-8 h-8 rounded-full transition-colors"
             onClick={() => setSearchOpen(true)}
             style={{ color: theme.text }}
           >
@@ -157,35 +187,40 @@ const NavBar = () => {
           )}
 
           <div className="relative" ref={themeRef}>
-            <button 
+            <button
               className="flex items-center cursor-pointer justify-center w-8 h-8 rounded-full transition-colors"
               style={{ color: theme.text }}
               onClick={toggleThemeMenu}
               aria-label="Change theme"
             >
-              {currentTheme === 'dark' ? 
-                <MdOutlineDarkMode size={18} /> : 
-                currentTheme === 'light' ? 
-                  <MdOutlineLightMode size={18} /> : 
-                  <FaPalette size={18} />
-              }
+              {currentTheme === "dark" ? (
+                <MdOutlineDarkMode size={18} />
+              ) : currentTheme === "light" ? (
+                <MdOutlineLightMode size={18} />
+              ) : (
+                <FaPalette size={18} />
+              )}
             </button>
-            
+
             {themeMenuOpen && (
-              <div 
+              <div
                 className="absolute right-0 mt-2 py-1 rounded-md shadow-lg z-[9999] min-w-[140px]"
-                style={{ 
-                  backgroundColor: theme.cardBg, 
-                  border: `1px solid ${theme.border}` 
+                style={{
+                  backgroundColor: theme.cardBg,
+                  border: `1px solid ${theme.border}`,
                 }}
               >
                 {Object.entries(themes).map(([themeKey, themeValue]) => (
                   <button
                     key={themeKey}
                     className="block w-full text-left px-3 py-1.5 text-sm transition-colors cursor-pointer"
-                    style={{ 
-                      color: themeKey === currentTheme ? theme.primary : theme.text,
-                      backgroundColor: themeKey === currentTheme ? `${theme.primary}10` : 'transparent'
+                    style={{
+                      color:
+                        themeKey === currentTheme ? theme.primary : theme.text,
+                      backgroundColor:
+                        themeKey === currentTheme
+                          ? `${theme.primary}10`
+                          : "transparent",
                     }}
                     onClick={() => handleThemeChange(themeKey)}
                   >
@@ -196,15 +231,18 @@ const NavBar = () => {
             )}
           </div>
 
-          <Link to="/cart" className="relative flex items-center justify-center w-8 h-8">
-            <div 
+          <Link
+            to="/cart"
+            className="relative flex items-center justify-center w-8 h-8"
+          >
+            <div
               className="flex items-center justify-center"
               style={{ color: theme.text }}
             >
               <IoCartOutline size={18} />
             </div>
             {itemCount > 0 && (
-              <span 
+              <span
                 className="absolute -top-1 -right-1 text-white text-[10px] rounded-full h-4 w-4 flex items-center justify-center"
                 style={{ backgroundColor: theme.primary }}
               >
@@ -213,29 +251,26 @@ const NavBar = () => {
             )}
           </Link>
 
-          <div
-            ref={profileRef}
-            className="relative z-20"
-          >
+          <div ref={profileRef} className="relative z-20">
             <button
               className="rounded-full h-8 w-8 overflow-hidden cursor-pointer focus:outline-none"
               onClick={toggleProfileMenu}
               style={{ border: `1px solid ${theme.border}` }}
               aria-label="Profile menu"
             >
-              <img 
-                src="https://ui-avatars.com/api/?background=random&name=User" 
-                alt="Profile" 
+              <img
+                src="https://ui-avatars.com/api/?background=random&name=User"
+                alt="Profile"
                 className="h-full w-full object-cover"
               />
             </button>
-            
+
             {menuOpen && (
-              <div 
+              <div
                 className="absolute top-full right-0 mt-2 shadow-lg rounded-md overflow-hidden z-[9999] w-48"
-                style={{ 
-                  backgroundColor: theme.cardBg, 
-                  border: `1px solid ${theme.border}` 
+                style={{
+                  backgroundColor: theme.cardBg,
+                  border: `1px solid ${theme.border}`,
                 }}
               >
                 <ProfileMenu />

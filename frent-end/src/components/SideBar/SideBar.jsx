@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { PiProjectorScreenChartLight } from "react-icons/pi";
 import { GrHomeRounded } from "react-icons/gr";
 import { IoIosArrowForward } from "react-icons/io";
-import { FaUser } from "react-icons/fa";
+import { FaBookOpen, FaUser } from "react-icons/fa";
 import { FaTasks } from "react-icons/fa";
 import { RiTeamFill } from "react-icons/ri";
 import { IoSettingsOutline } from "react-icons/io5";
@@ -86,19 +86,20 @@ const SideBar = () => {
     >
       <div className="flex gap-1 items-center">
         <img src alt="" className="h-16 mt-2 ml-2 cursor-pointer" />
-        <Link to={"/"}>
+        <Link to={ "/" }  className="flex items-center gap-2 p-3">
+          <FaBookOpen size={40} color={theme.primary}/>
           <h1 className={`${!open && "hidden"} font-bold text-2xl`} style={{ color: theme.text }}>
-            3almni
+            EdClub
           </h1>
         </Link>
       </div>
       <IoIosArrowForward
-        style={{ color: theme.text, backgroundColor: theme.primary }}
+        style={{  backgroundColor: theme.primary }}
         onClick={() => {
           setOpen(!open);
           setMenuOpen(open);
         }}
-        className={`absolute top-9 -right-3 rounded-full p-1 text-2xl cursor-pointer ${
+        className={`absolute top-9 text-white -right-3 rounded-full p-1 text-2xl cursor-pointer ${
           open && "rotate-180"
         }`}
       />
