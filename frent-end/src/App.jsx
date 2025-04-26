@@ -21,11 +21,13 @@ import { useSelector } from "react-redux";
 import Cart from "./pages/Cart";
 import Settings from "./pages/Settings";
 import { ThemeProvider } from "./context/ThemeContext";
+import ScrollToTop from "./components/Layout/ScrollToTop";
 
 function App() {
   return (
     <ThemeProvider>
       <div className="">
+        <ScrollToTop />
         <Routes>
           <Route path="/" element={<HomeLayout />}>
             <Route path="/" element={<LandingPage />} />
@@ -33,8 +35,8 @@ function App() {
             <Route path="/course/:id" element={<CoursePage />} />
             <Route path="/about" element={<AboutPage />} />
             <Route path="/contact" element={<ContactPage />} />
-            <Route path="/instructor/:id" element={ <InstructorPageInfo /> } />
-            <Route path="/cart" element={ <Cart /> } />
+            <Route path="/instructor/:id" element={<InstructorPageInfo />} />
+            <Route path="/cart" element={<Cart />} />
           </Route>
           <Route path="/" element={<DashBoardLayout />}>
             <Route path="/myProfile" element={<MyProfile />} />
@@ -42,7 +44,10 @@ function App() {
             <Route path="/course/learn/:id" element={<PlayCourse />} />
             <Route path="/instructorCourse" element={<CourseByInstructor />} />
             <Route path="/analytics" element={<Analytics />} />
-            <Route path="/instructor/create-course" element={<CreateCourse/>} />
+            <Route
+              path="/instructor/create-course"
+              element={<CreateCourse />}
+            />
             <Route path="/settings" element={<Settings />} />
           </Route>
 
