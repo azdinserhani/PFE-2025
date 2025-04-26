@@ -1,69 +1,125 @@
 import React from "react";
 import { TbClockHour2 } from "react-icons/tb";
-import { FaBook, FaRegUser, FaWifi } from "react-icons/fa";
+import { FaBook, FaRegUser, FaWifi, FaStar } from "react-icons/fa";
 import { AiOutlineInbox } from "react-icons/ai";
-import { PiShoppingCartLight } from "react-icons/pi";
+import { useTheme } from "../../context/ThemeContext";
+import { motion } from "framer-motion";
+
 const CourseOverview = () => {
+  const { currentTheme, themes } = useTheme();
+  const theme = themes[currentTheme];
+
+  const stats = [
+    { icon: <TbClockHour2 size={18} />, text: "10 hours" },
+    { icon: <FaWifi size={16} />, text: "All Levels" },
+    { icon: <FaBook size={16} />, text: "16 Lessons" },
+    { icon: <AiOutlineInbox size={18} />, text: "0 Quiz" },
+    { icon: <FaRegUser size={16} />, text: "5 Students" },
+  ];
+
   return (
-    <div>
-      <div className="w-full ">
-        <div className="flex items-center justify-between w-full gap-7 mt-4">
-          <h2 className="text-2xl font-semibold">
-            Spoken English Popular Course
-          </h2>
-          <div className="flex items-center gap-1 w-full justify-center">
+    <motion.div
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.5 }}
+      className="p-6 rounded-lg mt-3"
+      style={{ backgroundColor: theme.cardBg }}
+    >
+      <div className="w-full">
+        {/* Header Section */}
+        <div className="flex flex-col md:flex-row md:items-center justify-between w-full gap-4 md:gap-7 mb-8">
+          <div className="flex-1">
+            <h2
+              className="text-2xl font-bold mb-2"
+              style={{ color: theme.text }}
+            >
+              Spoken English Popular Course
+            </h2>
+            <div
+              className="flex items-center gap-2"
+              style={{ color: theme.primary }}
+            >
+              <div className="flex items-center">
+                <FaStar />
+                <FaStar />
+                <FaStar />
+                <FaStar />
+                <FaStar className="opacity-40" />
+              </div>
+              <span className="text-sm" style={{ color: theme.secondary }}>
+                (4.0)
+              </span>
+            </div>
+          </div>
+
+          <div
+            className="flex items-center gap-3 px-4 py-2 rounded-lg"
+            style={{ backgroundColor: `${theme.primary}10` }}
+          >
             <img
               src="/instu1.jpg"
-              alt=""
-              className="h-10 w-10 rounded-full object-cover"
+              alt="Instructor"
+              className="h-12 w-12 rounded-full object-cover border-2"
+              style={{ borderColor: theme.primary }}
             />
-            <span>Calvin Carlo</span>
+            <div className="flex flex-col">
+              <span className="font-medium" style={{ color: theme.text }}>
+                Calvin Carlo
+              </span>
+              <span className="text-sm" style={{ color: theme.secondary }}>
+                Course Instructor
+              </span>
+            </div>
           </div>
         </div>
-        <div className="flex w-full justify-center gap-7 text-gray-500 mt-7">
-          <span className="flex items-center gap-1">
-            <TbClockHour2 color="black" /> 10 hours
-          </span>
-          <span className="flex items-center gap-1">
-            <FaWifi color="black" /> All Levels
-          </span>
-          <span className="flex items-center gap-1">
-            <FaBook color="black" /> 16 Lessons
-          </span>
-          <span className="flex items-center gap-1">
-            <AiOutlineInbox color="black" /> 0 Quiz
-          </span>
-          <span className="flex items-center gap-1">
-            <FaRegUser color="black" /> 5 Students
-          </span>
+
+        {/* Stats Section */}
+        <div
+          className="grid grid-cols-2 md:grid-cols-5 gap-4 p-4 rounded-lg mb-8"
+          style={{ backgroundColor: `${theme.secondary}10` }}
+        >
+          {stats.map((stat, index) => (
+            <div key={index} className="flex items-center gap-2">
+              <div
+                className="p-2 rounded-full"
+                style={{ backgroundColor: `${theme.primary}20` }}
+              >
+                {React.cloneElement(stat.icon, { color: theme.primary })}
+              </div>
+              <span style={{ color: theme.text }}>{stat.text}</span>
+            </div>
+          ))}
         </div>
 
-        <div className="flex flex-col gap-3">
-          <span className="text-2xl font-semibold">Overview</span>
-          <p className="text-gray-400">
-            Ooh, name it after me! Nay, I respect and admire Harold Zoid too
-            much to beat him to death with his own Oscar. Why would I want to
-            know that? What's with you kids? Every other day it's food, food,
-            food. Alright, I'll get you some stupid food. It's a T. It goes
-            “tuh”. You seem malnourished. Are you suffering from intestinal
-            parasites? I suppose I could part with 'one' and still be feared…
-            And I'd do it again! And perhaps a third time! But that would be it.
-            I'm just glad my fat, ugly mama isn't alive to see this day. I can
-            explain. It's very valuable. I barely knew Philip, but as a
-            clergyman I have no problem telling his most intimate friends all
-            about him. Bender, we're trying our best. Kif might! You can crush
-            me but you can't crush my spirit! Kif, I have mated with a woman.
-            Inform the men. I'm Santa Claus! What are you hacking off? Is it my
-            torso?! 'It is!' My precious torso! You, a bobsleder!? That I'd like
-            to see! And I'd do it again! And perhaps a third time! But that
-            would be it. My fellow Earthicans, as I have explained in my book
-            'Earth in the Balance”, and the much more popular ”Harry Potter and
-            the Balance of Earth', we need to defend our planet against
-            pollution. Also dark wizards.
-          </p>
+        {/* Overview Section */}
+        <div className="flex flex-col gap-4">
+          <h3 className="text-2xl font-bold" style={{ color: theme.text }}>
+            Overview
+          </h3>
+          <div
+            className="p-4 rounded-lg text-base leading-relaxed"
+            style={{
+              backgroundColor: theme.background,
+              color: theme.secondary,
+              border: `1px solid ${theme.border}`,
+            }}
+          >
+            <p>
+              Ooh, name it after me! Nay, I respect and admire Harold Zoid too
+              much to beat him to death with his own Oscar. Why would I want to
+              know that? What's with you kids? Every other day it's food, food,
+              food. Alright, I'll get you some stupid food.
+            </p>
+            <p className="mt-4">
+              It's a T. It goes "tuh". You seem malnourished. Are you suffering
+              from intestinal parasites? I suppose I could part with 'one' and
+              still be feared… And I'd do it again! And perhaps a third time!
+              But that would be it.
+            </p>
+          </div>
         </div>
       </div>
-    </div>
+    </motion.div>
   );
 };
 

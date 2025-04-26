@@ -2,15 +2,19 @@ import React from "react";
 import StatCard from "../components/MyLearning/StatCard";
 import CourseCard from "../components/LandingPage/CourseCard";
 import { motion } from "framer-motion";
+import { useTheme } from "../context/ThemeContext";
 
 const MyLearning = () => {
+  const { currentTheme, themes } = useTheme();
+  const theme = themes[currentTheme];
+
   const cards = [
     {
       title: "Enrolled Courses",
       number: 25,
     },
     {
-      title: "Completed Courses ",
+      title: "Completed Courses",
       number: 43,
     },
     {
@@ -18,6 +22,7 @@ const MyLearning = () => {
       number: 25,
     },
   ];
+
   const courses = [
     {
       title: "The Ultimate Course Course",
@@ -203,30 +208,77 @@ const MyLearning = () => {
 
   return (
     <motion.div
-      className="w-full max-h-screen pt-10 overflow-y-scroll p-10"
-      initial={{ opacity: 0, y: 20 }}
-      animate={{ opacity: 1, y: 0 }}
+      className="w-full min-h-screen p-6 md:p-10 space-y-8"
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
       transition={{ duration: 0.5 }}
+      style={{ backgroundColor: theme.background }}
     >
-      <div className="flex gap-4">
-        {cards.map((item, index) => {
-          return (
+      {/* Header Section */}
+      <div className="max-w-7xl mx-auto">
+        <motion.h1
+          className="text-3xl md:text-4xl font-bold mb-6"
+          initial={{ opacity: 0, y: -20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5, delay: 0.2 }}
+          style={{ color: theme.text }}
+        >
+          My Learning Dashboard
+        </motion.h1>
+
+        {/* Stats Cards */}
+        <motion.div
+          className="grid grid-cols-1 md:grid-cols-3 gap-6"
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5, delay: 0.3 }}
+        >
+          {cards.map((item, index) => (
             <motion.div
               key={index}
               initial={{ opacity: 0, scale: 0.9 }}
               animate={{ opacity: 1, scale: 1 }}
               transition={{ duration: 0.3, delay: index * 0.1 }}
-              className="w-full"
             >
               <StatCard item={item} />
             </motion.div>
-          );
-        })}
+          ))}
+        </motion.div>
       </div>
-      <h2 className="mt-10 mb-5 text-3xl">My courses</h2>
-      <div className="grid grid-cols-3 gap-4 overflow-x-hidden">
-        {courses.map((item, index) => {
-          return (
+
+      {/* My Courses Section */}
+      <div className="max-w-7xl mx-auto">
+        <motion.div
+          className="flex items-center justify-between mb-6"
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5, delay: 0.4 }}
+        >
+          <h2
+            className="text-2xl md:text-3xl font-bold"
+            style={{ color: theme.text }}
+          >
+            My Courses
+          </h2>
+          <div
+            className="px-4 py-2 rounded-lg text-sm"
+            style={{
+              backgroundColor: `${theme.primary}15`,
+              color: theme.primary,
+            }}
+          >
+            {courses.length} Total Courses
+          </div>
+        </motion.div>
+
+        {/* Courses Grid */}
+        <motion.div
+          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 overflow-x-hidden"
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5, delay: 0.5 }}
+        >
+          {courses.map((item, index) => (
             <motion.div
               key={index}
               initial={{ opacity: 0, y: 20 }}
@@ -235,8 +287,8 @@ const MyLearning = () => {
             >
               <CourseCard item={item} />
             </motion.div>
-          );
-        })}
+          ))}
+        </motion.div>
       </div>
     </motion.div>
   );

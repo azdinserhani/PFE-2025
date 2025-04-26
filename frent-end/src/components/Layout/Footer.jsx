@@ -10,49 +10,69 @@ import { FaLocationDot } from "react-icons/fa6";
 
 const Footer = () => {
   return (
-    <footer className="bg-gradient-to-b from-gray-900 to-black text-white">
-      <div className="container mx-auto px-4 pt-16 pb-8">
+    <footer className="relative bg-gradient-to-b from-gray-900 to-black text-white overflow-hidden">
+      {/* Decorative background elements */}
+      <div className="absolute inset-0">
+        <div className="absolute top-0 left-1/4 w-96 h-96 bg-purple-600/10 rounded-full filter blur-3xl"></div>
+        <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-purple-800/10 rounded-full filter blur-3xl"></div>
+      </div>
+
+      <div className="container relative mx-auto px-4 pt-20 pb-12">
         {/* Main Footer Content */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12">
           {/* Company Info */}
-          <div className="space-y-6">
-            <h3 className="font-bold text-2xl text-white relative inline-block after:content-[''] after:absolute after:w-1/2 after:h-1 after:bg-purple-600 after:left-0 after:-bottom-2">
+          <div className="space-y-8">
+            <h3 className="font-bold text-2xl text-white relative inline-block">
               Logo
+              <span className="absolute left-0 bottom-0 w-12 h-1 bg-gradient-to-r from-purple-600 to-purple-400 transform origin-left transition-all duration-300 ease-out"></span>
             </h3>
-            <p className="text-gray-400 mt-5 leading-relaxed">
+            <p className="text-gray-300 leading-relaxed text-sm">
               Discover a world of knowledge and opportunities with our online
               education platform pursue a new career.
             </p>
             <div className="space-y-4">
-              <div className="flex items-center gap-4 group">
-                <div className="bg-gray-800 p-3 rounded-full group-hover:bg-purple-600 transition-colors duration-300">
-                  <FaLocationDot className="size-5" color="#fff" />
+              <div className="flex items-center gap-4 group cursor-pointer">
+                <div className="bg-gray-800/50 backdrop-blur-sm p-3 rounded-lg group-hover:bg-purple-600/90 transition-all duration-300 shadow-lg">
+                  <FaLocationDot className="size-5" />
                 </div>
-                <span className="font-medium">Ksar el Kebir</span>
+                <span className="font-medium text-gray-300 group-hover:text-white transition-colors">
+                  Ksar el Kebir
+                </span>
               </div>
-              <div className="flex items-center gap-4 group">
-                <div className="bg-gray-800 p-3 rounded-full group-hover:bg-purple-600 transition-colors duration-300">
-                  <FaPhoneVolume className="size-5" color="#fff" />
+              <div className="flex items-center gap-4 group cursor-pointer">
+                <div className="bg-gray-800/50 backdrop-blur-sm p-3 rounded-lg group-hover:bg-purple-600/90 transition-all duration-300 shadow-lg">
+                  <FaPhoneVolume className="size-5" />
                 </div>
-                <span className="font-medium">+212636241246</span>
+                <span className="font-medium text-gray-300 group-hover:text-white transition-colors">
+                  +212636241246
+                </span>
               </div>
             </div>
           </div>
 
           {/* Useful Links */}
-          <div className="space-y-6">
-            <h3 className="font-bold text-xl text-white relative inline-block after:content-[''] after:absolute after:w-1/2 after:h-1 after:bg-purple-600 after:left-0 after:-bottom-2">
+          <div className="space-y-8">
+            <h3 className="font-bold text-xl text-white relative inline-block">
               Useful Links
+              <span className="absolute left-0 bottom-0 w-12 h-1 bg-gradient-to-r from-purple-600 to-purple-400 transform origin-left transition-all duration-300 ease-out"></span>
             </h3>
-            <ul className="flex flex-col gap-3 text-gray-400">
-              {["Course", "Mission & Vision", "Join a Career", "Zoom Meeting", "Pricing Plan"].map((item, index) => (
+            <ul className="flex flex-col gap-3 text-gray-300">
+              {[
+                "Course",
+                "Mission & Vision",
+                "Join a Career",
+                "Zoom Meeting",
+                "Pricing Plan",
+              ].map((item, index) => (
                 <li key={index}>
-                  <a 
-                    href="#" 
-                    className="hover:text-purple-600 transition-colors duration-300 flex items-center gap-2 group"
+                  <a
+                    href="#"
+                    className="hover:text-white transition-all duration-300 flex items-center gap-3 group"
                   >
-                    <span className="inline-block w-0 group-hover:w-2 h-0.5 bg-purple-600 transition-all duration-300"></span>
-                    {item}
+                    <span className="h-[2px] w-0 group-hover:w-4 bg-purple-500 transition-all duration-300"></span>
+                    <span className="group-hover:translate-x-2 transition-transform duration-300">
+                      {item}
+                    </span>
                   </a>
                 </li>
               ))}
@@ -60,19 +80,29 @@ const Footer = () => {
           </div>
 
           {/* Our Institute */}
-          <div className="space-y-6">
-            <h3 className="font-bold text-xl text-white relative inline-block after:content-[''] after:absolute after:w-1/2 after:h-1 after:bg-purple-600 after:left-0 after:-bottom-2">
+          <div className="space-y-8">
+            <h3 className="font-bold text-xl text-white relative inline-block">
               Our Institute
+              <span className="absolute left-0 bottom-0 w-12 h-1 bg-gradient-to-r from-purple-600 to-purple-400 transform origin-left transition-all duration-300 ease-out"></span>
             </h3>
-            <ul className="flex flex-col gap-3 text-gray-400">
-              {["Contact Us", "Mission & Vision", "Technology", "Instructors", "Pricing", "Services"].map((item, index) => (
+            <ul className="flex flex-col gap-3 text-gray-300">
+              {[
+                "Contact Us",
+                "Mission & Vision",
+                "Technology",
+                "Instructors",
+                "Pricing",
+                "Services",
+              ].map((item, index) => (
                 <li key={index}>
-                  <a 
-                    href="#" 
-                    className="hover:text-purple-600 transition-colors duration-300 flex items-center gap-2 group"
+                  <a
+                    href="#"
+                    className="hover:text-white transition-all duration-300 flex items-center gap-3 group"
                   >
-                    <span className="inline-block w-0 group-hover:w-2 h-0.5 bg-purple-600 transition-all duration-300"></span>
-                    {item}
+                    <span className="h-[2px] w-0 group-hover:w-4 bg-purple-500 transition-all duration-300"></span>
+                    <span className="group-hover:translate-x-2 transition-transform duration-300">
+                      {item}
+                    </span>
                   </a>
                 </li>
               ))}
@@ -80,37 +110,52 @@ const Footer = () => {
           </div>
 
           {/* Get In Touch */}
-          <div className="space-y-6">
-            <h3 className="font-bold text-xl text-white relative inline-block after:content-[''] after:absolute after:w-1/2 after:h-1 after:bg-purple-600 after:left-0 after:-bottom-2">
+          <div className="space-y-8">
+            <h3 className="font-bold text-xl text-white relative inline-block">
               Get In Touch
+              <span className="absolute left-0 bottom-0 w-12 h-1 bg-gradient-to-r from-purple-600 to-purple-400 transform origin-left transition-all duration-300 ease-out"></span>
             </h3>
-            <div className="flex flex-col gap-5 mb-5">
-              <a 
-                href="#" 
-                className="transform hover:scale-105 transition-transform duration-300 inline-block"
+            <div className="flex flex-col gap-5 mb-8">
+              <a
+                href="#"
+                className="transform hover:scale-105 transition-all duration-300 hover:shadow-purple-500/20 hover:shadow-lg"
               >
-                <img src="/AppStore.png" alt="App Store" className="rounded-lg shadow-md" />
+                <img
+                  src="/AppStore.png"
+                  alt="App Store"
+                  className="rounded-xl shadow-md"
+                />
               </a>
-              <a 
-                href="#" 
-                className="transform hover:scale-105 transition-transform duration-300 inline-block"
+              <a
+                href="#"
+                className="transform hover:scale-105 transition-all duration-300 hover:shadow-purple-500/20 hover:shadow-lg"
               >
-                <img src="/PlayStore.png" alt="Play Store" className="rounded-lg shadow-md" />
+                <img
+                  src="/PlayStore.png"
+                  alt="Play Store"
+                  className="rounded-xl shadow-md"
+                />
               </a>
             </div>
-            <div className="flex flex-wrap gap-3">
+            <div className="flex flex-wrap gap-4">
               {[
-                { icon: <CiLinkedin />, label: "LinkedIn" },
-                { icon: <LuFacebook />, label: "Facebook" },
-                { icon: <FaInstagram />, label: "Instagram" },
-                { icon: <CiTwitter />, label: "Twitter" },
-                { icon: <MdOutlineEmail />, label: "Email" }
+                { icon: <CiLinkedin className="text-xl" />, label: "LinkedIn" },
+                { icon: <LuFacebook className="text-xl" />, label: "Facebook" },
+                {
+                  icon: <FaInstagram className="text-xl" />,
+                  label: "Instagram",
+                },
+                { icon: <CiTwitter className="text-xl" />, label: "Twitter" },
+                {
+                  icon: <MdOutlineEmail className="text-xl" />,
+                  label: "Email",
+                },
               ].map((social, index) => (
-                <a 
+                <a
                   key={index}
                   href="#"
                   aria-label={social.label}
-                  className="bg-gray-800 p-3 rounded-full hover:bg-purple-600 hover:text-white transition-all duration-300 text-xl"
+                  className="bg-gray-800/50 backdrop-blur-sm p-3 rounded-lg hover:bg-purple-600/90 hover:text-white transition-all duration-300 hover:shadow-lg hover:shadow-purple-500/20"
                 >
                   {social.icon}
                 </a>
@@ -118,12 +163,12 @@ const Footer = () => {
             </div>
           </div>
         </div>
-        
+
         {/* Divider */}
-        <div className="border-t border-gray-800 my-8"></div>
-        
+        <div className="border-t border-gray-800/60 my-12"></div>
+
         {/* Copyright */}
-        <div className="text-center text-gray-500 text-sm">
+        <div className="text-center text-gray-400 text-sm">
           <p>© {new Date().getFullYear()} Your Company. All rights reserved.</p>
         </div>
       </div>

@@ -11,76 +11,128 @@ const CourseCard = ({ item }) => {
   const dispatch = useDispatch();
   const { currentTheme, themes } = useTheme();
   const theme = themes[currentTheme];
-  
+
   const handleAddToCart = (e) => {
     e.preventDefault();
     e.stopPropagation();
     dispatch(addToCart(item));
   };
 
-  console.log(item);
-  
   return (
     <motion.div
       whileHover={{ scale: 1.02 }}
       whileTap={{ scale: 0.98 }}
-      className="p-6 rounded-xl shadow-lg hover:shadow-xl transition-shadow duration-300 cursor-pointer group overflow-hidden min-w-[400px]"
-      style={{ 
-        backgroundColor: theme.cardBg,
-        border: `1px solid ${theme.border}`
+      className="relative p-6 rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 cursor-pointer group overflow-hidden min-w-[400px] backdrop-blur-sm"
+      style={{
+        backgroundColor: `${theme.cardBg}ee`,
+        border: `1px solid ${theme.border}`,
+        boxShadow: `0 8px 32px -4px ${theme.primary}15`,
       }}
     >
-      <motion.img
-        src={item.image || "/Info1.jpg"}
-        alt={item.title}
-        className="h-[151px] object-cover w-full rounded-lg transition-transform duration-300 ease-in-out group-hover:scale-105"
-      />
-      <div className="flex gap-4 py-4 font-medium text-sm" style={{ color: theme.secondary }}>
-        <span>{item.students || 0} Students</span>
-        <span>{item.lessons || 0} Lessons</span>
+      <div className="relative overflow-hidden rounded-xl mb-4">
+        <motion.img
+          src={item.image || "/Info1.jpg"}
+          alt={item.title}
+          className="h-[200px] w-full object-cover rounded-xl transition-transform duration-500 ease-out group-hover:scale-110"
+        />
+        <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
       </div>
 
-      <h3 className="font-bold text-xl" style={{ color: theme.text }}>{item.title}</h3>
-      <p className="text-sm mt-2" style={{ color: theme.secondary }}>{item.description}</p>
+      <div
+        className="flex gap-4 py-2 font-medium text-sm items-center"
+        style={{ color: theme.secondary }}
+      >
+        <span
+          className="flex items-center gap-1 px-3 py-1 rounded-full text-xs"
+          style={{
+            backgroundColor: `${theme.primary}15`,
+            color: theme.primary,
+          }}
+        >
+          {item.students || 0} Students
+        </span>
+        <span
+          className="flex items-center gap-1 px-3 py-1 rounded-full text-xs"
+          style={{
+            backgroundColor: `${theme.primary}15`,
+            color: theme.primary,
+          }}
+        >
+          {item.lessons || 0} Lessons
+        </span>
+      </div>
+
+      <h3
+        className="font-bold text-xl mt-2 transition-colors duration-300 group-hover:text-primary-600"
+        style={{ color: theme.text }}
+      >
+        {item.title}
+      </h3>
+
+      <p
+        className="text-sm mt-2 line-clamp-2"
+        style={{ color: theme.secondary }}
+      >
+        {item.description}
+      </p>
+
       {item.isEnrolled && (
-        <div className="w-full h-2 rounded-full mt-4" style={{ backgroundColor: theme.border }}>
+        <div
+          className="w-full h-2 rounded-full mt-4 overflow-hidden"
+          style={{ backgroundColor: `${theme.border}50` }}
+        >
           <motion.div
-            className="h-2 rounded-full"
-            style={{ 
-              width: `${item.progress}%`,
-              backgroundColor: theme.primary
+            className="h-full rounded-full"
+            style={{
+              backgroundColor: theme.primary,
             }}
             initial={{ width: 0 }}
             animate={{ width: `${item.progress}%` }}
-            transition={{ duration: 0.5 }}
-          ></motion.div>
+            transition={{ duration: 0.5, ease: "easeOut" }}
+          />
         </div>
       )}
-      
-      <div className="flex justify-between items-center mt-4">
-        <div className="font-bold" style={{ color: theme.primary }}>${item.price}</div>
-        <div className="flex gap-2 items-center">
-          <Link to={item.isEnrolled ? `/course/learn/${item.id}` : `/course/${item.id}`}>
-            <button 
-              className="flex items-center gap-1 transition-colors cursor-pointer"
+
+      <div
+        className="flex justify-between items-center mt-6 pt-4"
+        style={{ borderTop: `1px solid ${theme.border}30` }}
+      >
+        <div className="font-bold text-xl" style={{ color: theme.primary }}>
+          ${item.price}
+        </div>
+        <div className="flex gap-3 items-center">
+          <Link
+            to={
+              item.isEnrolled
+                ? `/course/learn/${item.id}`
+                : `/course/${item.id}`
+            }
+          >
+            <motion.button
+              whileHover={{ x: 5 }}
+              className="flex items-center gap-2 transition-colors px-3 py-1 rounded-lg"
               style={{ color: theme.primary }}
             >
-              <span>{item.isEnrolled ? "Continue Learning" : "View Details"}</span>
+              <span className="text-sm font-medium">
+                {item.isEnrolled ? "Continue Learning" : "View Details"}
+              </span>
               <FaLongArrowAltRight />
-            </button>
+            </motion.button>
           </Link>
           {!item.isEnrolled && (
-            <button 
+            <motion.button
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
               onClick={handleAddToCart}
-              className="flex items-center gap-1 py-1 px-3 rounded-md transition-colors cursor-pointer"
-              style={{ 
+              className="flex items-center gap-2 py-2 px-4 rounded-lg transition-all duration-300 hover:shadow-lg"
+              style={{
                 backgroundColor: theme.primary,
-                color: '#ffffff'
+                color: "#ffffff",
               }}
             >
               <PiShoppingCartLight />
-              <span>Add to Cart</span>
-            </button>
+              <span className="text-sm font-medium">Add to Cart</span>
+            </motion.button>
           )}
         </div>
       </div>
