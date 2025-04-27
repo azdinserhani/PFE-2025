@@ -1,136 +1,172 @@
 import React, { useState } from "react";
-import { MdDelete } from "react-icons/md";
-import { addQuizQuestion } from "../../redux/features/courseSlice";
-import { useDispatch } from "react-redux";
-const QuestionForm = () => {
-  const dispatch = useDispatch();
-  const [options, setOptions] = useState([]);
-  const [correctAnswerIndex, setCorrectAnswer] = useState(null);
-  const [questionTitle, setQuestionTitle] = useState("");
-  const handleOptionChange = (id, value) => {
-    setOptions((prevOptions) =>
-      prevOptions.map((option) =>
-        option.id === id ? { ...option, text: value } : option
-      )
-    );
+import { motion, AnimatePresence } from "framer-motion";
+import { FaPlus, FaTrash } from "react-icons/fa";
+
+const QuestionForm = ({ theme }) => {
+  const [question, setQuestion] = useState("");
+  const [options, setOptions] = useState(["", "", "", ""]);
+  const [correctAnswer, setCorrectAnswer] = useState(null);
+
+  const handleOptionChange = (index, value) => {
+    const newOptions = [...options];
+    newOptions[index] = value;
+    setOptions(newOptions);
   };
 
-  const addOption = () => {
-    setOptions((prevOptions) => [
-      ...prevOptions,
-      { id: prevOptions.length + 1, text: "" },
-    ]);
-  };
-
-  const removeOption = (id) => {
-    setOptions((prevOptions) =>
-      prevOptions.filter((option) => option.id !== id)
-    );
-  };
-
-  const removeAllOptions = () => {
-    setOptions([]);
-  };
-
-  const handleAddQuestion = () => {
-    dispatch(
-      addQuizQuestion({
-        sectionIndex,
-        lectureIndex,
-        questionText: "",
-        options: options,
-      })
-    );
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    // Handle form submission
   };
 
   return (
-    <div className="max-w-2xl mx-auto p-6 bg-white shadow-md rounded-lg space-y-4">
-      <h2 className="text-2xl font-bold mb-6 text-gray-800">
-        Create a Question
-      </h2>
-
-      <div>
-        <label
-          htmlFor="question"
-          className="block text-sm font-medium text-gray-700"
+    <motion.form
+      onSubmit={handleSubmit}
+      className="w-full flex flex-col gap-4 p-4 rounded-lg"
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      transition={{ duration: 0.3 }}
+      style={{
+        backgroundColor: `${theme.primary}08`,
+        border: `1px dashed ${theme.primary}40`,
+      }}
+    >
+      <div className="flex flex-col gap-2">
+        <motion.label
+          className="text-sm font-medium"
+          style={{ color: theme.text }}
+          initial={{ opacity: 0, x: -10 }}
+          animate={{ opacity: 1, x: 0 }}
         >
-          Question:
-        </label>
-        <input
-          type="text"
-          id="question"
-          name="question"
-          placeholder="Enter your question"
-          required
-          onChange={(e) => setQuestionTitle(e.target.value)}
-          className="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-purple-500 focus:border-purple-500"
+          Question Text
+        </motion.label>
+        <motion.textarea
+          value={question}
+          onChange={(e) => setQuestion(e.target.value)}
+          className="w-full p-3 rounded-lg resize-none transition-all duration-200 focus:outline-none focus:ring-2"
+          placeholder="Enter your question here..."
+          rows={3}
+          style={{
+            backgroundColor: theme.background,
+            color: theme.text,
+            borderColor: `${theme.primary}40`,
+            border: `1px solid ${theme.primary}40`,
+            caretColor: theme.primary,
+          }}
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 0.1 }}
         />
       </div>
 
-      {options.map((option, index) => (
-        <div key={option.id} className="flex items-center space-x-2">
-          <input
-            type="text"
-            placeholder={`Enter answer ${index + 1}`}
-            value={option.text}
-            onChange={(e) => handleOptionChange(option.id, e.target.value)}
-            required
-            className="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-purple-500 focus:border-purple-500"
-          />
-          <button
-            type="button"
-            onClick={() => removeOption(option.id)}
-            className="text-red-500 hover:text-red-700 cursor-pointer"
-          >
-            <MdDelete fontSize={30} />
-          </button>
-        </div>
-      ))}
-
-      <div className="flex space-x-2">
-        <button
-          type="button"
-          onClick={addOption}
-          className="mt-2 py-1 px-3 bg-purple-500 text-white font-semibold rounded-md shadow-sm hover:bg-purple-400 transition duration-300 ease-in-out cursor-pointer"
-        >
-          Add Option
-        </button>
-        <button
-          type="button"
-          onClick={removeAllOptions}
-          className="mt-2 py-1 px-3 bg-red-500 text-white font-semibold rounded-md shadow-sm hover:bg-red-400 transition duration-300 ease-in-out cursor-pointer"
-        >
-          Delete All
-        </button>
-      </div>
-
-      <div>
-        <label
-          htmlFor="correctAnswer"
-          className="block text-sm font-medium text-gray-700"
-        >
-          Correct Answer:
+      <motion.div
+        className="flex flex-col gap-4"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ delay: 0.2 }}
+      >
+        <label className="text-sm font-medium" style={{ color: theme.text }}>
+          Answer Options
         </label>
-        <select
-          id="correctAnswer"
-          name="correctAnswer"
-          required
-          className="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-purple-500 focus:border-purple-500"
-          onChange={(e) => setCorrectAnswer(parseInt(e.target.value))}
-        >
-          <option value="">Select correct answer</option>
-          {options.map((option, index) => (
-            <option key={option.id} value={index}>
-              Answer {index + 1}
-            </option>
-          ))}
-        </select>
-      </div>
+        {options.map((option, index) => (
+          <motion.div
+            key={index}
+            className="flex items-center gap-3"
+            initial={{ opacity: 0, x: -20 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ delay: 0.1 * index }}
+          >
+            <motion.input
+              type="radio"
+              name="correctAnswer"
+              checked={correctAnswer === index}
+              onChange={() => setCorrectAnswer(index)}
+              className="w-4 h-4 cursor-pointer"
+              style={{
+                accentColor: theme.primary,
+              }}
+            />
+            <motion.input
+              type="text"
+              value={option}
+              onChange={(e) => handleOptionChange(index, e.target.value)}
+              placeholder={`Option ${index + 1}`}
+              className="flex-1 p-2 rounded-md transition-all duration-200 focus:outline-none focus:ring-2"
+              style={{
+                backgroundColor: theme.background,
+                color: theme.text,
+                borderColor: `${theme.primary}40`,
+                border: `1px solid ${theme.primary}40`,
+                caretColor: theme.primary,
+              }}
+            />
+            <motion.button
+              type="button"
+              className="p-2 rounded-md"
+              whileHover={{
+                scale: 1.1,
+                backgroundColor: `${theme.secondary}20`,
+              }}
+              whileTap={{ scale: 0.9 }}
+              style={{ color: theme.secondary }}
+            >
+              <FaTrash size={14} />
+            </motion.button>
+          </motion.div>
+        ))}
+      </motion.div>
 
-      <button className="w-full py-2 px-4 bg-purple-700 text-white font-semibold rounded-md shadow-sm hover:bg-purple-500 transition duration-300 ease-in-out">
-        Save
-      </button>
-    </div>
+      <motion.div
+        className="flex justify-between mt-4"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ delay: 0.4 }}
+      >
+        <motion.button
+          type="button"
+          className="flex items-center gap-2 px-4 py-2 rounded-md font-medium"
+          whileHover={{
+            backgroundColor: `${theme.primary}20`,
+            transform: "translateY(-2px)",
+          }}
+          whileTap={{ transform: "translateY(0)" }}
+          style={{ color: theme.primary }}
+        >
+          <FaPlus size={12} />
+          Add Option
+        </motion.button>
+
+        <div className="flex gap-3">
+          <motion.button
+            type="button"
+            className="px-4 py-2 rounded-md transition-colors duration-200"
+            whileHover={{ scale: 1.02 }}
+            whileTap={{ scale: 0.98 }}
+            style={{
+              color: theme.primary,
+              backgroundColor: "transparent",
+              border: `1px solid ${theme.primary}`,
+            }}
+          >
+            Cancel
+          </motion.button>
+          <motion.button
+            type="submit"
+            className="px-4 py-2 rounded-md font-medium shadow-md"
+            whileHover={{
+              scale: 1.02,
+              backgroundColor: `${theme.primary}e0`,
+            }}
+            whileTap={{ scale: 0.98 }}
+            style={{
+              backgroundColor: theme.primary,
+              color: "#ffffff",
+            }}
+          >
+            Save Question
+          </motion.button>
+        </div>
+      </motion.div>
+    </motion.form>
   );
 };
 

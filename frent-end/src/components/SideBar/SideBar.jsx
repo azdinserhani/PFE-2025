@@ -18,9 +18,7 @@ import { motion, AnimatePresence } from "framer-motion";
 
 const SideBar = () => {
   const [open, setOpen] = useState(true);
-  const [menuOpen, setMenuOpen] = useState(false);
   const [selectedItem, setSelectedItem] = useState(null);
-  const [isHovered, setIsHovered] = useState(false);
   const { currentTheme, themes } = useTheme();
   const theme = themes[currentTheme];
 
@@ -79,6 +77,7 @@ const SideBar = () => {
   const sidebarVariants = {
     open: {
       width: "240px",
+      opacity: 1,
       transition: {
         type: "spring",
         stiffness: 300,
@@ -87,7 +86,8 @@ const SideBar = () => {
       },
     },
     closed: {
-      width: "80px",
+      width: "40px",
+      opacity: 1,
       transition: {
         type: "spring",
         stiffness: 300,
@@ -119,29 +119,39 @@ const SideBar = () => {
   };
 
   return (
-    <>
-      {/* Hover-sensitive area when sidebar is closed */}
-      {!open && (
-        <div
-          className="fixed left-0 top-0 w-20 h-screen z-10"
-          onMouseEnter={() => setOpen(true)}
-          style={{ backgroundColor: "transparent" }}
-        />
-      )}
-      <motion.div
-        initial={open ? "open" : "closed"}
-        animate={open ? "open" : "closed"}
-        variants={sidebarVariants}
-        className="flex-col border-r h-screen relative duration-300"
-        style={{
-          backgroundColor: theme.cardBg,
-          borderColor: theme.border,
-        }}
-        onMouseLeave={() => !isHovered && setOpen(false)}
+    <motion.div
+      initial={open ? "open" : "closed"}
+      animate={open ? "open" : "closed"}
+      variants={sidebarVariants}
+      className="flex-col border-r h-screen relative"
+      style={{
+        backgroundColor: theme.cardBg,
+        borderColor: theme.border,
+      }}
+    >
+      {/* Toggle Button */}
+      <button
+        onClick={() => setOpen(!open)}
+        className={`fixed z-50 ${
+          open ? "left-[237px]" : "left-[37px]"
+        } top-9 rounded-full p-1 text-2xl cursor-pointer`}
+        style={{ backgroundColor: theme.primary, color: "#fff" }}
       >
         <motion.div
-          className="flex gap-1 items-center p-4"
+          animate={{ rotate: open ? 180 : 0 }}
+          transition={{ duration: 0.3 }}
+        >
+          <IoIosArrowForward />
+        </motion.div>
+      </button>
+
+      <AnimatePresence>
+        {/* Logo and Navigation */}
+        <motion.div
+          initial="closed"
+          animate={open ? "open" : "closed"}
           variants={itemVariants}
+          className="flex gap-1 items-center p-4"
         >
           <Link to="/" className="flex items-center gap-2">
             <motion.div
@@ -150,44 +160,19 @@ const SideBar = () => {
             >
               <FaBookOpen size={40} color={theme.primary} />
             </motion.div>
-            <AnimatePresence>
-              {open && (
-                <motion.h1
-                  initial={{ opacity: 0, x: -20 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  exit={{ opacity: 0, x: -20 }}
-                  className="font-bold text-2xl"
-                  style={{ color: theme.text }}
-                >
-                  EdClub
-                </motion.h1>
-              )}
-            </AnimatePresence>
+            {open && (
+              <motion.h1
+                className="font-bold text-2xl"
+                style={{ color: theme.text }}
+              >
+                EdClub
+              </motion.h1>
+            )}
           </Link>
         </motion.div>
 
-        <motion.button
-          whileHover={{ scale: 1.1 }}
-          whileTap={{ scale: 0.9 }}
-          onClick={() => {
-            setOpen(!open);
-            setMenuOpen(open);
-          }}
-          onMouseEnter={() => setIsHovered(true)}
-          onMouseLeave={() => setIsHovered(false)}
-          className="absolute top-9 -right-3 rounded-full p-1 text-2xl cursor-pointer"
-          style={{ backgroundColor: theme.primary, color: "#fff" }}
-        >
-          <motion.div
-            animate={{ rotate: open ? 180 : 0 }}
-            transition={{ duration: 0.3 }}
-          >
-            <IoIosArrowForward />
-          </motion.div>
-        </motion.button>
-
         {/* Main Navigation */}
-        <motion.nav className="mt-10 ml-6">
+        <motion.nav className={`mt-10 ${open ? "ml-6" : "ml-1"}`}>
           <motion.ul className="space-y-4" style={{ color: theme.secondary }}>
             {mainNavItems.map((item, index) => (
               <motion.div
@@ -214,7 +199,7 @@ const SideBar = () => {
         </motion.nav>
 
         {/* Bottom Navigation */}
-        <motion.nav className="absolute bottom-2 ml-6 flex-col">
+        <motion.nav className={`absolute bottom-2 ${open ? "ml-6" : "ml-1"}`}>
           <motion.ul className="space-y-3" style={{ color: theme.secondary }}>
             {bottomNavItems.map((item, index) => (
               <motion.div
@@ -239,8 +224,8 @@ const SideBar = () => {
             ))}
           </motion.ul>
         </motion.nav>
-      </motion.div>
-    </>
+      </AnimatePresence>
+    </motion.div>
   );
 };
 

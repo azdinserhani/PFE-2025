@@ -22,7 +22,7 @@ const MyProfile = () => {
 
   return (
     <div 
-      className="flex flex-col min-h-screen p-6 w-full mx-auto"
+      className="flex flex-col min-h-screen p-10 w-full mx-auto"
       style={{ backgroundColor: theme.background }}
     >
       {/* Header */}

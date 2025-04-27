@@ -1,18 +1,8 @@
 import { useState } from "react";
-import { FaCircleMinus, FaCirclePlus } from "react-icons/fa6";
 import { motion } from "framer-motion";
 
-const NavItem = ({
-  icon: Icon,
-  label,
-  open,
-  menuItems = [],
-  onClick,
-  theme,
-}) => {
-  const [menuOpen, setMenuOpen] = useState(false);
+const NavItem = ({ icon: Icon, label, open, onClick, theme }) => {
   const [isHovered, setIsHovered] = useState(false);
-  const hasMenu = menuItems.length > 0;
 
   return (
     <motion.li
@@ -22,9 +12,9 @@ const NavItem = ({
       whileTap={{ scale: 0.98 }}
     >
       <motion.div
-        className={`flex items-center gap-4 cursor-pointer ${
-          open && "w-50"
-        } relative peer px-3.5 py-2 rounded-md`}
+        className={`flex items-center gap-4 cursor-pointer relative peer px-3.5 py-2 rounded-md ${
+          !open && "justify-center"
+        }`}
         onMouseEnter={() => setIsHovered(true)}
         onMouseLeave={() => setIsHovered(false)}
         whileHover={{
@@ -61,6 +51,23 @@ const NavItem = ({
           )}
         </motion.div>
       </motion.div>
+
+      {!open && isHovered && (
+        <motion.div
+          className="fixed left-14 px-2 py-1 rounded-md text-sm font-medium z-50"
+          initial={{ opacity: 0, x: -10 }}
+          animate={{ opacity: 1, x: 0 }}
+          exit={{ opacity: 0, x: -10 }}
+          style={{
+            backgroundColor: theme.cardBg,
+            color: theme.text,
+            boxShadow: `0 2px 8px ${theme.primary}20`,
+            border: `1px solid ${theme.border}`,
+          }}
+        >
+          {label}
+        </motion.div>
+      )}
     </motion.li>
   );
 };
