@@ -1,51 +1,104 @@
 import React from "react";
 import InstructorsCard from "./InstructorsCard";
 import { useTheme } from "../../context/ThemeContext";
+import { motion } from "framer-motion";
 
 const Instructors = () => {
   const { currentTheme, themes } = useTheme();
   const theme = themes[currentTheme];
-  
+
   const instructorsContent = [
     {
       Img: "/instu1.jpg",
-      name: "Relaxing & Learning",
-      desc: "The phrasal sequence ",
+      name: "Dr. Sarah Mitchell",
+      desc: "Web Development Expert",
+      stats: {
+        courses: 12,
+        students: "2.5K",
+        rating: 4.8,
+      },
     },
     {
       Img: "/instu1.jpg",
-      name: "Certificate",
-      desc: "Receive a cet.",
+      name: "Prof. Michael Chen",
+      desc: "Data Science Specialist",
+      stats: {
+        courses: 8,
+        students: "1.8K",
+        rating: 4.9,
+      },
     },
     {
       Img: "/instu1.jpg",
-      name: "Private Mentoring",
-      desc: "Get one-on-one mentoring.",
+      name: "Emma Rodriguez",
+      desc: "UI/UX Design Master",
+      stats: {
+        courses: 15,
+        students: "3.2K",
+        rating: 4.7,
+      },
     },
     {
       Img: "/instu1.jpg",
-      name: "Creative Thinking",
-      desc: "Enhance your creat.",
+      name: "James Anderson",
+      desc: "Mobile Development Pro",
+      stats: {
+        courses: 10,
+        students: "2.1K",
+        rating: 4.8,
+      },
     },
   ];
+
   return (
-    <div className="container mx-auto flex flex-col items-center justify-center" style={{ backgroundColor: theme.background }}>
-      <div
-        className="text-center h-[20vh] flex flex-col items-center justify-center"
-        style={{ display: "flex" }}
+    <motion.div
+      className="container mx-auto flex flex-col items-center justify-center py-16"
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.5 }}
+      style={{ backgroundColor: theme.background }}
+    >
+      <motion.div
+        className="text-center max-w-3xl mx-auto mb-16"
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5, delay: 0.2 }}
       >
-        <h2 className="text-4xl font-bold text-center" style={{ color: theme.text }}>Expert Instructors</h2>
-        <p className="font-bold mt-4 text-center" style={{ color: theme.secondary }}>
-          Discover a world of knowledge and opportunities with our online
-          education <br /> platform pursue a new career.
-        </p>
-      </div>
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mt-12 p-4">
-        {instructorsContent.map((instructor, index) => {
-          return <InstructorsCard key={index} item={instructor} />;
-        })}
-      </div>
-    </div>
+        <motion.h2
+          className="text-4xl font-bold mb-6"
+          style={{ color: theme.text }}
+        >
+          Learn from the Best Instructors
+        </motion.h2>
+        <motion.div
+          className="w-20 h-1 mx-auto mb-6"
+          style={{ backgroundColor: theme.primary }}
+        />
+        <motion.p className="text-lg mb-8" style={{ color: theme.secondary }}>
+          Our expert instructors bring real-world experience and cutting-edge
+          knowledge to help you achieve your learning goals and advance your
+          career.
+        </motion.p>
+      </motion.div>
+
+      <motion.div
+        className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 px-4"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 0.5, delay: 0.4 }}
+      >
+        {instructorsContent.map((instructor, index) => (
+          <motion.div
+            key={index}
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 0.1 * (index + 1) }}
+          >
+            <InstructorsCard item={instructor} />
+          </motion.div>
+        ))}
+      </motion.div>
+    </motion.div>
   );
 };
 

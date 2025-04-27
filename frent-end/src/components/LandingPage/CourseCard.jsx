@@ -1,13 +1,14 @@
 import React from "react";
 import { FaLongArrowAltRight } from "react-icons/fa";
 import { Link } from "react-router";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import { PiShoppingCartLight } from "react-icons/pi";
 import { useDispatch } from "react-redux";
 import { addToCart } from "../../redux/features/cartSlice";
 import { useTheme } from "../../context/ThemeContext";
+import { fadeIn } from "../../utils/animations";
 
-const CourseCard = ({ item }) => {
+const CourseCard = ({ item, index }) => {
   const dispatch = useDispatch();
   const { currentTheme, themes } = useTheme();
   const theme = themes[currentTheme];
@@ -18,123 +19,197 @@ const CourseCard = ({ item }) => {
     dispatch(addToCart(item));
   };
 
+  const cardVariants = {
+    hidden: {
+      opacity: 0,
+      y: 20,
+      scale: 0.95,
+    },
+    visible: {
+      opacity: 1,
+      y: 0,
+      scale: 1,
+      transition: {
+        type: "spring",
+        stiffness: 100,
+        damping: 15,
+        mass: 0.8,
+        delay: index * 0.1,
+      },
+    },
+    hover: {
+      y: -8,
+      scale: 1.02,
+      transition: {
+        type: "spring",
+        stiffness: 400,
+        damping: 25,
+      },
+    },
+  };
+
+  const imageVariants = {
+    hover: {
+      scale: 1.1,
+      transition: {
+        duration: 0.4,
+        ease: [0.25, 0.1, 0.25, 1],
+      },
+    },
+  };
+
   return (
     <motion.div
-      whileHover={{ scale: 1.02 }}
-      whileTap={{ scale: 0.98 }}
-      className="relative p-6 rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 cursor-pointer group overflow-hidden min-w-[400px] backdrop-blur-sm"
+      variants={cardVariants}
+      initial="hidden"
+      whileInView="visible"
+      whileHover="hover"
+      viewport={{ once: true, amount: 0.25 }}
+      className="relative p-6 rounded-2xl shadow-lg transition-all duration-300 cursor-pointer group overflow-hidden min-w-[400px] backdrop-blur-sm"
       style={{
-        backgroundColor: `${theme.cardBg}ee`,
-        border: `1px solid ${theme.border}`,
-        boxShadow: `0 8px 32px -4px ${theme.primary}15`,
+        backgroundColor: theme.cardBg,
+        borderColor: theme.border,
+        borderWidth: "1px",
       }}
     >
       <div className="relative overflow-hidden rounded-xl mb-4">
         <motion.img
           src={item.image || "/Info1.jpg"}
           alt={item.title}
-          className="h-[200px] w-full object-cover rounded-xl transition-transform duration-500 ease-out group-hover:scale-110"
+          className="w-full h-48 object-cover"
+          variants={imageVariants}
+          loading="lazy"
         />
-        <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+        <AnimatePresence>
+          {item.isEnrolled && (
+            <motion.div
+              className="absolute bottom-0 left-0 h-1 bg-gradient-to-r from-primary to-primary/80"
+              style={{
+                backgroundColor: theme.primary,
+                width: `${item.progress || 0}%`,
+              }}
+              initial={{ width: 0, opacity: 0 }}
+              animate={{ width: `${item.progress || 0}%`, opacity: 1 }}
+              transition={{ duration: 0.8, ease: "easeOut" }}
+            />
+          )}
+        </AnimatePresence>
       </div>
 
-      <div
-        className="flex gap-4 py-2 font-medium text-sm items-center"
-        style={{ color: theme.secondary }}
-      >
-        <span
-          className="flex items-center gap-1 px-3 py-1 rounded-full text-xs"
-          style={{
-            backgroundColor: `${theme.primary}15`,
-            color: theme.primary,
-          }}
+      <div className="space-y-4">
+        <motion.h3
+          className="text-xl font-semibold line-clamp-2"
+          style={{ color: theme.text }}
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 0.2 }}
         >
-          {item.students || 0} Students
-        </span>
-        <span
-          className="flex items-center gap-1 px-3 py-1 rounded-full text-xs"
-          style={{
-            backgroundColor: `${theme.primary}15`,
-            color: theme.primary,
-          }}
+          {item.title}
+        </motion.h3>
+        <motion.p
+          className="text-sm line-clamp-2"
+          style={{ color: theme.secondary }}
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 0.3 }}
         >
-          {item.lessons || 0} Lessons
-        </span>
-      </div>
+          {item.description}
+        </motion.p>
 
-      <h3
-        className="font-bold text-xl mt-2 transition-colors duration-300 group-hover:text-primary-600"
-        style={{ color: theme.text }}
-      >
-        {item.title}
-      </h3>
-
-      <p
-        className="text-sm mt-2 line-clamp-2"
-        style={{ color: theme.secondary }}
-      >
-        {item.description}
-      </p>
-
-      {item.isEnrolled && (
-        <div
-          className="w-full h-2 rounded-full mt-4 overflow-hidden"
-          style={{ backgroundColor: `${theme.border}50` }}
-        >
+        <div className="flex items-center justify-between">
           <motion.div
-            className="h-full rounded-full"
-            style={{
-              backgroundColor: theme.primary,
-            }}
-            initial={{ width: 0 }}
-            animate={{ width: `${item.progress}%` }}
-            transition={{ duration: 0.5, ease: "easeOut" }}
-          />
+            className="flex items-center gap-2"
+            initial={{ opacity: 0, x: -20 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ delay: 0.4 }}
+          >
+            <span style={{ color: theme.text }}>{item.lessons} lessons</span>
+            <span style={{ color: theme.secondary }}>•</span>
+            <span style={{ color: theme.text }}>{item.students} students</span>
+          </motion.div>
+          <motion.span
+            className="text-lg font-semibold"
+            style={{ color: theme.primary }}
+            initial={{ opacity: 0, x: 20 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ delay: 0.4 }}
+          >
+            ${item.price}
+          </motion.span>
         </div>
-      )}
 
-      <div
-        className="flex justify-between items-center mt-6 pt-4"
-        style={{ borderTop: `1px solid ${theme.border}30` }}
-      >
-        <div className="font-bold text-xl" style={{ color: theme.primary }}>
-          ${item.price}
-        </div>
-        <div className="flex gap-3 items-center">
+        <motion.div
+          className="flex items-center justify-between gap-4 pt-4 border-t"
+          style={{ borderColor: theme.border }}
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.5 }}
+        >
           <Link
             to={
               item.isEnrolled
                 ? `/course/learn/${item.id}`
                 : `/course/${item.id}`
             }
+            className="flex-1"
           >
             <motion.button
-              whileHover={{ x: 5 }}
-              className="flex items-center gap-2 transition-colors px-3 py-1 rounded-lg"
-              style={{ color: theme.primary }}
+              className="w-full flex items-center justify-center gap-2 py-2 px-4 rounded-lg transition-all duration-300"
+              style={{
+                backgroundColor: `${theme.primary}15`,
+                color: theme.primary,
+              }}
+              whileHover={{
+                backgroundColor: `${theme.primary}25`,
+                gap: "12px",
+              }}
+              whileTap={{ scale: 0.98 }}
             >
               <span className="text-sm font-medium">
                 {item.isEnrolled ? "Continue Learning" : "View Details"}
               </span>
-              <FaLongArrowAltRight />
+              <motion.div
+                animate={{ x: item.isEnrolled ? 0 : [0, 4, 0] }}
+                transition={{
+                  duration: 1,
+                  repeat: Infinity,
+                  repeatType: "reverse",
+                  ease: "easeInOut",
+                }}
+              >
+                <FaLongArrowAltRight />
+              </motion.div>
             </motion.button>
           </Link>
+
           {!item.isEnrolled && (
             <motion.button
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
               onClick={handleAddToCart}
-              className="flex items-center gap-2 py-2 px-4 rounded-lg transition-all duration-300 hover:shadow-lg"
+              className="flex items-center gap-2 py-2 px-4 rounded-lg transition-all duration-300"
               style={{
                 backgroundColor: theme.primary,
                 color: "#ffffff",
               }}
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
             >
-              <PiShoppingCartLight />
+              <motion.div
+                animate={{
+                  rotate: [0, 15, -15, 0],
+                  scale: [1, 1.2, 1.2, 1],
+                }}
+                transition={{
+                  duration: 1,
+                  repeat: Infinity,
+                  repeatDelay: 1,
+                }}
+              >
+                <PiShoppingCartLight />
+              </motion.div>
               <span className="text-sm font-medium">Add to Cart</span>
             </motion.button>
           )}
-        </div>
+        </motion.div>
       </div>
     </motion.div>
   );

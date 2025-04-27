@@ -29,7 +29,7 @@ const Hero = () => {
             transition={{ duration: 0.8, delay: 0.2 }}
             style={{ color: theme.text }}
           >
-            Best Online <br /> Courses <br /> From 3almni
+            Best Online <br /> Courses <br /> From EdClub
           </motion.h2>
           <motion.p
             className="text-sm lg:text-base"

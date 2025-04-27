@@ -7,7 +7,9 @@ import SearchForm from "../SideBar/SearchForm";
 import { useSelector } from "react-redux";
 import { useTheme } from "../../context/ThemeContext";
 import { MdOutlineLightMode, MdOutlineDarkMode } from "react-icons/md";
-import { FaPalette } from "react-icons/fa";
+import { FaBookOpen, FaPalette } from "react-icons/fa";
+import { motion, AnimatePresence } from "framer-motion";
+import { fadeIn, slideIn } from "../../utils/animations";
 
 const NavBar = () => {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -77,24 +79,75 @@ const NavBar = () => {
     return false;
   };
 
+  const navVariants = {
+    hidden: { y: -20, opacity: 0 },
+    visible: {
+      y: 0,
+      opacity: 1,
+      transition: {
+        type: "spring",
+        stiffness: 100,
+        damping: 20,
+        mass: 0.5,
+      },
+    },
+  };
+
+  const menuVariants = {
+    hidden: { opacity: 0, scale: 0.95 },
+    visible: {
+      opacity: 1,
+      scale: 1,
+      transition: {
+        type: "spring",
+        stiffness: 300,
+        damping: 20,
+      },
+    },
+    exit: {
+      opacity: 0,
+      scale: 0.95,
+      transition: {
+        duration: 0.2,
+      },
+    },
+  };
+
   return (
-    <div
-      className="sticky top-0 w-full  backdrop-blur-sm transition-all duration-300 z-[9999]"
+    <motion.div
+      variants={navVariants}
+      initial="hidden"
+      animate="visible"
+      className="sticky top-0 w-full backdrop-blur-sm transition-all duration-300 z-[9999]"
       style={{
         backgroundColor: `${theme.background}99`,
         borderBottom: `1px solid ${theme.border}`,
       }}
     >
       <div className="container mx-auto flex justify-between items-center py-3 px-4">
-        <div className="flex items-center">
+        <motion.div
+          className="flex items-center"
+          variants={fadeIn("right", 0.2)}
+          initial="hidden"
+          animate="show"
+        >
           <Link to={"/"} className="flex items-center">
-            <div className="text-xl font-bold" style={{ color: theme.primary }}>
-              EduPath
+            <div
+              className="flex items-center gap-1 text-xl font-bold"
+              style={{ color: theme.primary }}
+            >
+              <FaBookOpen size={40} color={theme.primary} />
+              EdClub
             </div>
           </Link>
-        </div>
+        </motion.div>
 
-        <ul className="hidden xl:flex list-none gap-5 text-[14px] items-center font-medium">
+        <motion.ul
+          className="hidden xl:flex list-none gap-5 text-[14px] items-center font-medium"
+          variants={fadeIn("down", 0.3)}
+          initial="hidden"
+          animate="show"
+        >
           <li className="cursor-pointer transition-colors duration-300">
             <Link
               to={"/"}
@@ -155,10 +208,17 @@ const NavBar = () => {
               Contact
             </Link>
           </li>
-        </ul>
+        </motion.ul>
 
-        <div className="flex items-center gap-3">
-          <a
+        <motion.div
+          className="flex items-center gap-3"
+          variants={fadeIn("left", 0.4)}
+          initial="hidden"
+          animate="show"
+        >
+          <motion.a
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
             className="cursor-pointer duration-300 py-1.5 px-3 rounded-md text-sm font-medium"
             style={{
               backgroundColor: theme.primary,
@@ -166,28 +226,28 @@ const NavBar = () => {
             }}
           >
             <Link to={"/signin"}>Sign In</Link>
-          </a>
+          </motion.a>
 
-          <button
+          <motion.button
+            whileHover={{ scale: 1.1 }}
+            whileTap={{ scale: 0.9 }}
             className="flex items-center justify-center w-8 h-8 rounded-full transition-colors"
             onClick={() => setSearchOpen(true)}
             style={{ color: theme.text }}
           >
             <VscSearch size={18} />
-          </button>
+          </motion.button>
 
-          {searchOpen && (
-            <div className="absolute">
-              <SearchForm
-                setSearchOpen={() => setSearchOpen(false)}
-                searchOpen={searchOpen}
-              />
-              <div className="fixed z-[9998] left-0 top-0 bg-black/50 h-screen w-full"></div>
-            </div>
-          )}
+          <AnimatePresence>
+            {searchOpen && (
+              <SearchForm setSearchOpen={() => setSearchOpen(false)} />
+            )}
+          </AnimatePresence>
 
           <div className="relative" ref={themeRef}>
-            <button
+            <motion.button
+              whileHover={{ scale: 1.1 }}
+              whileTap={{ scale: 0.9 }}
               className="flex items-center cursor-pointer justify-center w-8 h-8 rounded-full transition-colors"
               style={{ color: theme.text }}
               onClick={toggleThemeMenu}
@@ -200,59 +260,77 @@ const NavBar = () => {
               ) : (
                 <FaPalette size={18} />
               )}
-            </button>
+            </motion.button>
 
-            {themeMenuOpen && (
-              <div
-                className="absolute right-0 mt-2 py-1 rounded-md shadow-lg z-[9999] min-w-[140px]"
-                style={{
-                  backgroundColor: theme.cardBg,
-                  border: `1px solid ${theme.border}`,
-                }}
-              >
-                {Object.entries(themes).map(([themeKey, themeValue]) => (
-                  <button
-                    key={themeKey}
-                    className="block w-full text-left px-3 py-1.5 text-sm transition-colors cursor-pointer"
-                    style={{
-                      color:
-                        themeKey === currentTheme ? theme.primary : theme.text,
-                      backgroundColor:
-                        themeKey === currentTheme
-                          ? `${theme.primary}10`
-                          : "transparent",
-                    }}
-                    onClick={() => handleThemeChange(themeKey)}
-                  >
-                    {themeValue.name}
-                  </button>
-                ))}
-              </div>
-            )}
+            <AnimatePresence>
+              {themeMenuOpen && (
+                <motion.div
+                  variants={menuVariants}
+                  initial="hidden"
+                  animate="visible"
+                  exit="exit"
+                  className="absolute right-0 mt-2 py-1 rounded-md shadow-lg z-[9999] min-w-[140px]"
+                  style={{
+                    backgroundColor: theme.cardBg,
+                    border: `1px solid ${theme.border}`,
+                  }}
+                >
+                  {Object.entries(themes).map(([themeKey, themeValue]) => (
+                    <motion.button
+                      key={themeKey}
+                      whileHover={{ x: 5 }}
+                      className="block w-full text-left px-3 py-1.5 text-sm transition-colors cursor-pointer"
+                      style={{
+                        color:
+                          themeKey === currentTheme
+                            ? theme.primary
+                            : theme.text,
+                        backgroundColor:
+                          themeKey === currentTheme
+                            ? `${theme.primary}10`
+                            : "transparent",
+                      }}
+                      onClick={() => handleThemeChange(themeKey)}
+                    >
+                      {themeValue.name}
+                    </motion.button>
+                  ))}
+                </motion.div>
+              )}
+            </AnimatePresence>
           </div>
 
-          <Link
-            to="/cart"
-            className="relative flex items-center justify-center w-8 h-8"
-          >
-            <div
-              className="flex items-center justify-center"
-              style={{ color: theme.text }}
+          <motion.div whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.9 }}>
+            <Link
+              to="/cart"
+              className="relative flex items-center justify-center w-8 h-8"
             >
-              <IoCartOutline size={18} />
-            </div>
-            {itemCount > 0 && (
-              <span
-                className="absolute -top-1 -right-1 text-white text-[10px] rounded-full h-4 w-4 flex items-center justify-center"
-                style={{ backgroundColor: theme.primary }}
+              <div
+                className="flex items-center justify-center"
+                style={{ color: theme.text }}
               >
-                {itemCount}
-              </span>
-            )}
-          </Link>
+                <IoCartOutline size={18} />
+              </div>
+              <AnimatePresence>
+                {itemCount > 0 && (
+                  <motion.span
+                    initial={{ scale: 0 }}
+                    animate={{ scale: 1 }}
+                    exit={{ scale: 0 }}
+                    className="absolute -top-1 -right-1 text-white text-[10px] rounded-full h-4 w-4 flex items-center justify-center"
+                    style={{ backgroundColor: theme.primary }}
+                  >
+                    {itemCount}
+                  </motion.span>
+                )}
+              </AnimatePresence>
+            </Link>
+          </motion.div>
 
           <div ref={profileRef} className="relative z-20">
-            <button
+            <motion.button
+              whileHover={{ scale: 1.1 }}
+              whileTap={{ scale: 0.9 }}
               className="rounded-full h-8 w-8 overflow-hidden cursor-pointer focus:outline-none"
               onClick={toggleProfileMenu}
               style={{ border: `1px solid ${theme.border}` }}
@@ -263,23 +341,29 @@ const NavBar = () => {
                 alt="Profile"
                 className="h-full w-full object-cover"
               />
-            </button>
+            </motion.button>
 
-            {menuOpen && (
-              <div
-                className="absolute top-full right-0 mt-2 shadow-lg rounded-md overflow-hidden z-[9999] w-48"
-                style={{
-                  backgroundColor: theme.cardBg,
-                  border: `1px solid ${theme.border}`,
-                }}
-              >
-                <ProfileMenu />
-              </div>
-            )}
+            <AnimatePresence>
+              {menuOpen && (
+                <motion.div
+                  variants={menuVariants}
+                  initial="hidden"
+                  animate="visible"
+                  exit="exit"
+                  className="absolute top-full right-0 mt-2 shadow-lg rounded-md overflow-hidden z-[9999] w-48"
+                  style={{
+                    backgroundColor: theme.cardBg,
+                    border: `1px solid ${theme.border}`,
+                  }}
+                >
+                  <ProfileMenu />
+                </motion.div>
+              )}
+            </AnimatePresence>
           </div>
-        </div>
+        </motion.div>
       </div>
-    </div>
+    </motion.div>
   );
 };
 

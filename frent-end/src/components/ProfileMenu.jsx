@@ -1,67 +1,92 @@
-import { FaUser, FaSignOutAlt } from "react-icons/fa";
-import { BiSolidDashboard } from "react-icons/bi";
-import { IoMdSettings } from "react-icons/io";
 import { Link } from "react-router";
-import { RiTranslate2 } from "react-icons/ri";
+import { IoSettingsOutline } from "react-icons/io5";
+import { CiLogout } from "react-icons/ci";
+import { FaUserAlt } from "react-icons/fa";
+import { BiBookAlt } from "react-icons/bi";
 import { useTheme } from "../context/ThemeContext";
+import { motion } from "framer-motion";
 
 const ProfileMenu = () => {
   const { currentTheme, themes } = useTheme();
   const theme = themes[currentTheme];
-  
+
   const menuItems = [
-    { icon: <FaUser size={14} />, label: "Profile", link: "/myProfile" },
-    { icon: <BiSolidDashboard size={14} />, label: "Dashboard", link: "/dashboard" },
-    { icon: <IoMdSettings size={14} />, label: "Settings", link: "/settings" },
-    { icon: <FaSignOutAlt size={14} />, label: "Logout", link: "/logout" },
+    { icon: <FaUserAlt />, label: "My Profile", link: "/myProfile" },
+    { icon: <BiBookAlt />, label: "My Learning", link: "/myLearning" },
+    { icon: <IoSettingsOutline />, label: "Settings", link: "/settings" },
+    { icon: <CiLogout />, label: "Sign Out", link: "/signout" },
   ];
 
+  const itemVariants = {
+    hidden: { x: -20, opacity: 0 },
+    visible: (i) => ({
+      x: 0,
+      opacity: 1,
+      transition: {
+        delay: i * 0.1,
+        type: "spring",
+        stiffness: 100,
+        damping: 10,
+      },
+    }),
+  };
+
   return (
-    <div className="py-1">
-      <div className="p-3 border-b mb-1" style={{ borderColor: theme.border }}>
-        <p className="text-sm font-medium" style={{ color: theme.primary }}>user@example.com</p>
-        <p className="text-xs opacity-70" style={{ color: theme.text }}>Free Account</p>
-      </div>
-      
-      <ul>
+    <motion.div initial="hidden" animate="visible" className="py-2">
+      <motion.div
+        className="p-3 border-b mb-1"
+        style={{ borderColor: theme.border }}
+        variants={itemVariants}
+        custom={0}
+      >
+        <motion.p
+          className="text-sm font-medium"
+          style={{ color: theme.primary }}
+          whileHover={{ x: 3 }}
+        >
+          user@example.com
+        </motion.p>
+        <motion.p className="text-xs opacity-70" style={{ color: theme.text }}>
+          Free Account
+        </motion.p>
+      </motion.div>
+
+      <motion.ul>
         {menuItems.map((item, index) => (
-          <li key={index}>
-            <Link 
-              to={item.link} 
-              className="flex items-center gap-2 px-3 py-2 text-sm transition-colors hover:bg-opacity-5"
-              style={{ 
-                color: theme.text,
-                ":hover": { backgroundColor: `${theme.primary}10` }
-              }}
+          <motion.li key={index} variants={itemVariants} custom={index + 1}>
+            <Link
+              to={item.link}
+              className="flex items-center gap-2 px-3 py-2 text-sm transition-all"
             >
-              <span style={{ color: theme.primary }}>{item.icon}</span>
-              {item.label}
+              <motion.div
+                whileHover={{ scale: 1.1, rotate: 5 }}
+                style={{ color: theme.primary }}
+              >
+                {item.icon}
+              </motion.div>
+              <motion.span style={{ color: theme.text }} whileHover={{ x: 2 }}>
+                {item.label}
+              </motion.span>
             </Link>
-          </li>
+          </motion.li>
         ))}
-      </ul>
-      
-      <div className="border-t mt-1 pt-2 px-3" style={{ borderColor: theme.border }}>
-        <div className="flex items-center justify-between text-xs">
-          <div className="flex items-center gap-1.5">
-            <RiTranslate2 size={14} style={{ color: theme.primary }} />
-            <span style={{ color: theme.text }}>Language</span>
-          </div>
-          <select
-            className="rounded text-xs py-0.5 px-1.5 outline-none"
-            style={{ 
-              backgroundColor: theme.cardBg, 
-              color: theme.text,
-              border: `1px solid ${theme.border}`
-            }}
-          >
-            <option value="en">English</option>
-            <option value="fr">French</option>
-            <option value="ar">Arabic</option>
-          </select>
-        </div>
-      </div>
-    </div>
+      </motion.ul>
+
+      <motion.div
+        className="border-t mt-1 pt-2 px-3"
+        style={{ borderColor: theme.border }}
+        variants={itemVariants}
+        custom={menuItems.length + 1}
+      >
+        <motion.div
+          className="flex items-center justify-between text-xs"
+          whileHover={{ x: 3 }}
+        >
+          <span style={{ color: theme.text }}>Version</span>
+          <span style={{ color: theme.secondary }}>2.0.0</span>
+        </motion.div>
+      </motion.div>
+    </motion.div>
   );
 };
 
