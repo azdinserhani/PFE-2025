@@ -75,6 +75,42 @@ export const themes = {
     cardBg: "#ffffff",
     border: "#d1f2ea",
   },
+  sunset: {
+    name: "Sunset",
+    primary: "#ff4500",
+    secondary: "#ff6347",
+    background: "#ffe4e1",
+    text: "#4b2e2e",
+    cardBg: "#ffffff",
+    border: "#ffcccb",
+  },
+  forest: {
+    name: "Forest",
+    primary: "#228b22",
+    secondary: "#556b2f",
+    background: "#f5fff5",
+    text: "#2e4e2e",
+    cardBg: "#ffffff",
+    border: "#d0f0c0",
+  },
+  twilight: {
+    name: "Twilight",
+    primary: "#8a2be2",
+    secondary: "#9370db",
+    background: "#f8f0ff",
+    text: "#3e2c4d",
+    cardBg: "#ffffff",
+    border: "#e6d5f7",
+  },
+  sand: {
+    name: "Sand",
+    primary: "#c2b280",
+    secondary: "#d2b48c",
+    background: "#fffaf0",
+    text: "#5a4a3b",
+    cardBg: "#ffffff",
+    border: "#f5deb3",
+  },
 };
 
 export const ThemeProvider = ({ children }) => {
