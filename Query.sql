@@ -89,3 +89,82 @@ CREATE TABLE student_lesson(
     CONSTRAINT fk_student FOREIGN KEY (student_id) REFERENCES user_acount(id),
     CONSTRAINT fk_lesson FOREIGN KEY (lesson_id) REFERENCES lesson(id)
 )
+
+ALTER TABLE course
+ADD COLUMN thumbnail VARCHAR(255);
+-- ******************************************************Application query********************************//
+
+SELECT * FROM course 
+WHERE id = 4
+
+UPDATE course SET title = 'test', description = 'test'
+WHERE id = 4 RETURNING *
+
+SELECT * FROM course WHERE title LIKE '%t%' 
+
+SELECT * FROM course
+INNER JOIN module 
+ON module.course_id = course.id
+INNER JOIN lesson
+ON lesson.module_id = module.id
+SELECT 
+        json_build_object(
+          'id', course.id,
+          'title', course.title,
+          'description', course.description,
+          'thumbnail', course.thumbnail,
+          'modules', (
+            SELECT json_agg(
+              json_build_object(
+                'id', module.id,
+                'title', module.name,
+                'order_index', module.number,
+                'lessons', (
+                  SELECT json_agg(
+                    json_build_object(
+                      'id', lesson.id,
+                      'title', lesson.name,
+                      'content', lesson.video_url,
+                      
+                      'order_index', lesson.number
+                    ) ORDER BY lesson.number
+                  )
+                  FROM lesson 
+                  WHERE lesson.module_id = module.id
+                )
+              ) ORDER BY module.number
+            )
+            FROM module 
+            WHERE module.course_id = course.id
+          )
+        ) as course_content
+      FROM course 
+
+SELECT 
+        json_build_object(
+          'id', user_acount.id,
+          'username', user_acount.username,
+          'email', user_acount.email,
+          'enrollment_date', enrolment.enrolled_date
+        ) as student
+      FROM enrolment
+      JOIN user_acount ON enrolment.user_id = user_acount.id
+      WHERE enrollment.course_id = 
+
+SELECT 
+                     c.id, 
+                     c.name, 
+                     COUNT(co.id) AS course_count, 
+                     AVG(co.rating) AS average_rating, 
+                     MAX(co.rating) AS max_rating, 
+                     MIN(co.rating) AS min_rating, 
+                     COUNT(DISTINCT co.instructor_id) AS unique_instructors
+                   FROM category c
+                   LEFT JOIN course co ON c.id = co.category_id
+                   GROUP BY c.id
+
+
+
+
+
+
