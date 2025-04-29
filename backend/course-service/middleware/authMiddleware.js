@@ -1,4 +1,4 @@
-import jwt from 'jsonwebtoken';
+import jwt from "jsonwebtoken";
 
 /**
  * Middleware to verify JWT token and set user in request
@@ -6,25 +6,28 @@ import jwt from 'jsonwebtoken';
 const authenticate = (req, res, next) => {
   // Get token from authorization header
   const authHeader = req.headers.authorization;
-  
-  if (!authHeader || !authHeader.startsWith('Bearer ')) {
+
+  if (!authHeader || !authHeader.startsWith("Bearer ")) {
     return res.status(401).json({
       success: false,
-      message: 'Access denied. No token provided or invalid format.'
+      message: "Access denied. No token provided or invalid format.",
     });
   }
-  
-  const token = authHeader.split(' ')[1];
-  
+
+  const token = authHeader.split(" ")[1];
+
   try {
     // Verify token
-    const decoded = jwt.verify(token, process.env.JWT_SECRET || 'your_jwt_secret_key');
+    const decoded = jwt.verify(
+      token,
+      process.env.JWT_SECRET || "your_jwt_secret_key"
+    );
     req.user = decoded;
     next();
   } catch (error) {
     return res.status(401).json({
       success: false,
-      message: 'Invalid token'
+      message: "Invalid token",
     });
   }
 };
@@ -38,19 +41,19 @@ const authorize = (roles) => {
     if (!req.user) {
       return res.status(401).json({
         success: false,
-        message: 'User not authenticated'
+        message: "User not authenticated",
       });
     }
-    
+
     if (!roles.includes(req.user.role)) {
       return res.status(403).json({
         success: false,
-        message: 'Access denied. Insufficient permissions.'
+        message: "Access denied. Insufficient permissions.",
       });
     }
-    
+
     next();
   };
 };
 
-export { authenticate, authorize }; 
+export { authenticate, authorize };

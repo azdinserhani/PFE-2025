@@ -10,7 +10,12 @@ const SignUp = () => {
   const [acceptTerms, setAcceptTerms] = useState(false);
   const { currentTheme, themes } = useTheme();
   const theme = themes[currentTheme];
-
+  const [user, setUser] = useState({
+    firstName: "",
+    lastName: "",
+    email: "",
+    password: "",
+  }); 
   const handleSubmit = (e) => {
     e.preventDefault();
     if (!acceptTerms) {

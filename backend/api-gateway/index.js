@@ -1,7 +1,7 @@
 import express from "express";
 import { createProxyMiddleware } from "http-proxy-middleware";
 import "dotenv/config";
-
+import cors from "cors";
 import { services } from "./services.js";
 import { limiter } from "./middleware/rateLimiter.js";
 const app = express();
@@ -19,6 +19,8 @@ services.forEach(({ route, target }) => {
   app.use(route, limiter, createProxyMiddleware(proxyOptions));
 });
 
+// Middleware
+app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 

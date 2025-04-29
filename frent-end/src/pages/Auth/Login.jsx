@@ -11,16 +11,25 @@ import {
 } from "react-icons/fi";
 import { useTheme } from "../../context/ThemeContext";
 import { FaBookOpen } from "react-icons/fa";
+import { useDispatch } from "react-redux";
+import { loginUser } from "../../redux/ApiCalls";
 const Login = () => {
+  const dispatch = useDispatch();
   const [loading, setLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const { currentTheme, themes } = useTheme();
   const theme = themes[currentTheme];
-
+  const [user, setUser] = useState({
+    email: "",
+    password: "",
+  });
+  const handleChange = (e) => {
+    setUser({ ...user, [e.target.name]: e.target.value });
+  };
   const handleSubmit = (e) => {
     e.preventDefault();
     setLoading(true);
-    // Add login logic here
+    loginUser(dispatch, user);
     setTimeout(() => setLoading(false), 1500);
   };
 
@@ -40,7 +49,7 @@ const Login = () => {
           {/* Top section */}
           <div className="flex items-center justify-between">
             <div className="flex items-center space-x-2">
-              <FaBookOpen size={40} color={theme.primary}/>
+              <FaBookOpen size={40} color={theme.primary} />
               <h1 className="text-3xl font-bold tracking-widest">EdClub</h1>
             </div>
             <Link
@@ -143,6 +152,8 @@ const Login = () => {
             {/* Email field */}
             <div>
               <input
+                name="email"
+                onChange={handleChange}
                 type="email"
                 placeholder="Email"
                 className="w-full rounded-md py-3 px-4 focus:outline-none focus:ring-1 transition duration-300"
@@ -157,6 +168,8 @@ const Login = () => {
             {/* Password field with visibility toggle */}
             <div className="relative">
               <input
+                name="password"
+                onChange={handleChange}
                 type={showPassword ? "text" : "password"}
                 placeholder="Enter your password"
                 className="w-full rounded-md py-3 px-4 focus:outline-none focus:ring-1 transition duration-300"

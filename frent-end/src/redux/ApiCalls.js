@@ -1,3 +1,4 @@
+import { publicRequest } from "../utils/axios";
 import {
   addLectureToSection,
   addSection,
@@ -5,7 +6,12 @@ import {
   addVideoToLecture,
   addQuizToSection,
 } from "./features/courseSlice";
-
+import {
+  loginFailure,
+  loginRequest,
+  loginSuccess,
+  logout,
+} from "./features/userSlice";
 export const createSection = async (dispatch, section) => {
   dispatch(addSection(section));
 };
@@ -53,5 +59,42 @@ export const createQuiz = async (
   } catch (error) {
     console.error("Error creating quiz:", error);
     return false;
+  }
+};
+
+// auth api calls
+export const loginUser = async (dispatch, user) => {
+  dispatch(loginRequest());
+  try {
+    const res = await publicRequest.post("/api/v1/auth/login", user);
+
+    if (res.status === 200) {
+      dispatch(loginSuccess(res.data.data));
+    } else {
+      dispatch(loginFailure(data.message));
+    }
+  } catch (error) {
+    console.log("error", error);
+
+    dispatch(loginFailure(error.message));
+  }
+};
+
+export const logoutUser = async (dispatch) => {
+  dispatch(logout());
+};
+export const registerUser = async (dispatch, user) => {
+  dispatch(loginRequest());
+  try {
+    const res = await publicRequest.post("/api/v1/auth/register", user);
+
+    if (res.status === 201) {
+      dispatch(loginSuccess(res.data.data));
+    } else {
+      dispatch(loginFailure(data.message));
+    }
+  } catch (error) {
+    console.log("error", error);
+    dispatch(loginFailure(error.message));
   }
 };

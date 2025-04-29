@@ -23,7 +23,7 @@ const NavBar = () => {
   const themeRef = useRef(null);
   const location = useLocation();
   const currentPath = location.pathname;
-
+  const { user } = useSelector((state) => state.user);
   // Force re-render when cart changes
   useEffect(() => {
     // This empty effect will cause the component to re-render when items changes
@@ -216,17 +216,54 @@ const NavBar = () => {
           initial="hidden"
           animate="show"
         >
-          <motion.a
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-            className="cursor-pointer duration-300 py-1.5 px-3 rounded-md text-sm font-medium"
-            style={{
-              backgroundColor: theme.primary,
-              color: "#ffffff",
-            }}
-          >
-            <Link to={"/signin"}>Sign In</Link>
-          </motion.a>
+          {!user ? (
+            <motion.a
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              className="cursor-pointer duration-300 py-1.5 px-3 rounded-md text-sm font-medium"
+              style={{
+                backgroundColor: theme.primary,
+                color: "#ffffff",
+              }}
+            >
+              <Link to={"/signin"}>Sign In</Link>
+            </motion.a>
+          ) : (
+            <div ref={profileRef} className="relative z-20">
+              <motion.button
+                whileHover={{ scale: 1.1 }}
+                whileTap={{ scale: 0.9 }}
+                className="rounded-full h-8 w-8 overflow-hidden cursor-pointer focus:outline-none"
+                onClick={toggleProfileMenu}
+                style={{ border: `1px solid ${theme.border}` }}
+                aria-label="Profile menu"
+              >
+                <img
+                  src="https://ui-avatars.com/api/?background=random&name=User"
+                  alt="Profile"
+                  className="h-full w-full object-cover"
+                />
+              </motion.button>
+
+              <AnimatePresence>
+                {menuOpen && (
+                  <motion.div
+                    variants={menuVariants}
+                    initial="hidden"
+                    animate="visible"
+                    exit="exit"
+                    className="absolute top-full right-0 mt-2 shadow-lg rounded-md overflow-hidden z-[9999] w-48"
+                    style={{
+                      backgroundColor: theme.cardBg,
+                      border: `1px solid ${theme.border}`,
+                    }}
+                  >
+                    <ProfileMenu />
+                  </motion.div>
+                )}
+              </AnimatePresence>
+            </div>
+          )}
 
           <motion.button
             whileHover={{ scale: 1.1 }}
@@ -326,41 +363,6 @@ const NavBar = () => {
               </AnimatePresence>
             </Link>
           </motion.div>
-
-          <div ref={profileRef} className="relative z-20">
-            <motion.button
-              whileHover={{ scale: 1.1 }}
-              whileTap={{ scale: 0.9 }}
-              className="rounded-full h-8 w-8 overflow-hidden cursor-pointer focus:outline-none"
-              onClick={toggleProfileMenu}
-              style={{ border: `1px solid ${theme.border}` }}
-              aria-label="Profile menu"
-            >
-              <img
-                src="https://ui-avatars.com/api/?background=random&name=User"
-                alt="Profile"
-                className="h-full w-full object-cover"
-              />
-            </motion.button>
-
-            <AnimatePresence>
-              {menuOpen && (
-                <motion.div
-                  variants={menuVariants}
-                  initial="hidden"
-                  animate="visible"
-                  exit="exit"
-                  className="absolute top-full right-0 mt-2 shadow-lg rounded-md overflow-hidden z-[9999] w-48"
-                  style={{
-                    backgroundColor: theme.cardBg,
-                    border: `1px solid ${theme.border}`,
-                  }}
-                >
-                  <ProfileMenu />
-                </motion.div>
-              )}
-            </AnimatePresence>
-          </div>
         </motion.div>
       </div>
     </motion.div>

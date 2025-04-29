@@ -5,18 +5,23 @@ import { FaUserAlt } from "react-icons/fa";
 import { BiBookAlt } from "react-icons/bi";
 import { useTheme } from "../context/ThemeContext";
 import { motion } from "framer-motion";
+import { useDispatch, useSelector } from "react-redux";
+import { logoutUser } from "../redux/ApiCalls";
 
 const ProfileMenu = () => {
   const { currentTheme, themes } = useTheme();
   const theme = themes[currentTheme];
-
+  const { user } = useSelector((state) => state.user);
+  const dispatch = useDispatch();
   const menuItems = [
     { icon: <FaUserAlt />, label: "My Profile", link: "/myProfile" },
     { icon: <BiBookAlt />, label: "My Learning", link: "/myLearning" },
     { icon: <IoSettingsOutline />, label: "Settings", link: "/settings" },
-    { icon: <CiLogout />, label: "Sign Out", link: "/signout" },
+    { icon: <CiLogout />, label: "Sign Out", action: () => signout() },
   ];
-
+  const signout = () => {
+    logoutUser(dispatch);
+  };
   const itemVariants = {
     hidden: { x: -20, opacity: 0 },
     visible: (i) => ({
@@ -44,30 +49,53 @@ const ProfileMenu = () => {
           style={{ color: theme.primary }}
           whileHover={{ x: 3 }}
         >
-          user@example.com
+          {user?.username || "User Name"}
         </motion.p>
         <motion.p className="text-xs opacity-70" style={{ color: theme.text }}>
-          Free Account
+          {user?.email || "Email Address"}
         </motion.p>
       </motion.div>
 
       <motion.ul>
         {menuItems.map((item, index) => (
           <motion.li key={index} variants={itemVariants} custom={index + 1}>
-            <Link
-              to={item.link}
-              className="flex items-center gap-2 px-3 py-2 text-sm transition-all"
-            >
-              <motion.div
-                whileHover={{ scale: 1.1, rotate: 5 }}
-                style={{ color: theme.primary }}
+            {item.link ? (
+              <Link
+                to={item.link}
+                className="flex items-center gap-2 px-3 py-2 text-sm transition-all"
               >
-                {item.icon}
-              </motion.div>
-              <motion.span style={{ color: theme.text }} whileHover={{ x: 2 }}>
-                {item.label}
-              </motion.span>
-            </Link>
+                <motion.div
+                  whileHover={{ scale: 1.1, rotate: 5 }}
+                  style={{ color: theme.primary }}
+                >
+                  {item.icon}
+                </motion.div>
+                <motion.span
+                  style={{ color: theme.text }}
+                  whileHover={{ x: 2 }}
+                >
+                  {item.label}
+                </motion.span>
+              </Link>
+            ) : (
+              <div
+                onClick={item.action}
+                className="flex items-center gap-2 px-3 py-2 text-sm transition-all cursor-pointer"
+              >
+                <motion.div
+                  whileHover={{ scale: 1.1, rotate: 5 }}
+                  style={{ color: theme.primary }}
+                >
+                  {item.icon}
+                </motion.div>
+                <motion.span
+                  style={{ color: theme.text }}
+                  whileHover={{ x: 2 }}
+                >
+                  {item.label}
+                </motion.span>
+              </div>
+            )}
           </motion.li>
         ))}
       </motion.ul>

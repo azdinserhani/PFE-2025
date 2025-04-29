@@ -28,9 +28,40 @@ import Cart from "./pages/Cart";
 import Settings from "./pages/Settings";
 import { ThemeProvider } from "./context/ThemeContext";
 import ScrollToTop from "./components/Layout/ScrollToTop";
+import { useEffect } from "react";
+import { useNavigate, Navigate } from "react-router";
+
+const ProtectedRoute = ({ children }) => {
+  const { user } = useSelector((state) => state.user);
+
+  // Check if the user is authenticated
+  if (user == null) {
+    // Redirect to the login page if not authenticated
+    return <Navigate to="/Signin" replace />;
+  }
+
+  // Render the children if authenticated
+  return children;
+};
+
+const RedirectRoute = ({ children }) => {
+  const { user } = useSelector((state) => state.user);
+  const navigate = useNavigate();
+
+  // Check if the user is authenticated
+  if (user != null) {
+    // Redirect to the dashboard if authenticated
+    return <Navigate to="/" replace />;
+  }
+
+  // Render the children if not authenticated
+  return children;
+};
 
 function AnimatedRoutes() {
   const location = useLocation();
+  const navigate = useNavigate();
+  const { user } = useSelector((state) => state.user);
 
   return (
     <AnimatePresence mode="wait">
@@ -51,22 +82,97 @@ function AnimatedRoutes() {
             <Route path="/instructor/:id" element={<InstructorPageInfo />} />
             <Route path="/cart" element={<Cart />} />
           </Route>
-          <Route path="/" element={<DashBoardLayout />}>
-            <Route path="/myProfile" element={<MyProfile />} />
-            <Route path="/myLearning" element={<MyLearning />} />
-            <Route path="/course/learn/:id" element={<PlayCourse />} />
-            <Route path="/instructorCourse" element={<CourseByInstructor />} />
-            <Route path="/analytics" element={<Analytics />} />
+
+          <Route
+            path="/"
+            element={
+              <ProtectedRoute>
+                <DashBoardLayout />
+              </ProtectedRoute>
+            }
+          >
+            <Route
+              path="/myProfile"
+              element={
+                <ProtectedRoute>
+                  <MyProfile />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/myLearning"
+              element={
+                <ProtectedRoute>
+                  <MyLearning />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/course/learn/:id"
+              element={
+                <ProtectedRoute>
+                  <PlayCourse />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/instructorCourse"
+              element={
+                <ProtectedRoute>
+                  <CourseByInstructor />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/analytics"
+              element={
+                <ProtectedRoute>
+                  <Analytics />
+                </ProtectedRoute>
+              }
+            />
             <Route
               path="/instructor/create-course"
-              element={<CreateCourse />}
+              element={
+                <ProtectedRoute>
+                  <CreateCourse />
+                </ProtectedRoute>
+              }
             />
-            <Route path="/settings" element={<Settings />} />
+            <Route
+              path="/settings"
+              element={
+                <ProtectedRoute>
+                  <Settings />
+                </ProtectedRoute>
+              }
+            />
           </Route>
 
-          <Route path="/Signup" element={<SignUp />} />
-          <Route path="/Signin" element={<Login />} />
-          <Route path="/forgetPassword" element={<ForgetPassword />} />
+          <Route
+            path="/Signup"
+            element={
+              <RedirectRoute>
+                <SignUp />
+              </RedirectRoute>
+            }
+          />
+          <Route
+            path="/Signin"
+            element={
+              <RedirectRoute>
+                <Login />
+              </RedirectRoute>
+            }
+          />
+          <Route
+            path="/forgetPassword"
+            element={
+              <RedirectRoute>
+                <ForgetPassword />
+              </RedirectRoute>
+            }
+          />
         </Routes>
       </motion.div>
     </AnimatePresence>
