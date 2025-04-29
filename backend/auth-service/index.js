@@ -14,7 +14,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 // Routes
-app.use('/api/auth', authRoutes);
+app.use('/', authRoutes);
 
 // Root route
 app.get('/', (req, res) => {
@@ -41,8 +41,9 @@ app.use((req, res) => {
   });
 });
 
+
 // Start server
-const PORT = process.env.PORT || 3001;
+const PORT = process.env.PORT;
 app.listen(PORT, () => {
   console.log(`Auth service running on port ${PORT}`);
 });

@@ -1,0 +1,10 @@
+{
+  "name": "backend-services",
+  "version": "1.0.0",
+  "scripts": {
+    "start:services": "concurrently \"npm start --prefix api-gateway\" \"npm start --prefix auth-service\" \"npm start --prefix course-service\" \"npm start --prefix media-service\""
+  },
+  "devDependencies": {
+    "concurrently": "^8.0.0"
+  }
+}

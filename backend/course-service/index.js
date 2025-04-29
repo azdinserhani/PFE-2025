@@ -13,7 +13,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 // Routes
-app.use("/api/v1", courseRoute);
+app.use("/", courseRoute);
 
 // Root route
 app.get("/", (req, res) => {
