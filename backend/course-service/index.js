@@ -3,6 +3,7 @@ import cors from "cors";
 import dotenv from "dotenv";
 import courseRoute from "./routes/courseRoute.js";
 import moduleRoute from "./routes/moduleRoute.js";
+import lectureRoute from "./routes/lectureRoute.js";
 dotenv.config();
 
 // Initialize express app
@@ -16,6 +17,7 @@ app.use(express.urlencoded({ extended: true }));
 // Routes
 app.use("/", courseRoute);
 app.use("/module", moduleRoute);
+app.use("/lecture", lectureRoute);
 
 // Root route
 app.get("/", (req, res) => {

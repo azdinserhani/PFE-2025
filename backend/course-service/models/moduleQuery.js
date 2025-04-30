@@ -9,10 +9,12 @@ const moduleQueries = {
     const result = await db.query(query, values);
     return result.rows[0];
   },
-  updateModule: async (id, module) => {
-    const { name, number } = module;
-    const query = `UPDATE module SET name = $1, number = $2 WHERE id = $3 RETURNING *`;
-    const values = [name, number, id];
+  updateModule: async (id, updatedFields) => {
+    const setClause = Object.keys(updatedFields)
+      .map((key, index) => `${key} = $${index + 2}`)
+      .join(", ");
+    const values = [id, ...Object.values(updatedFields)];
+    const query = `UPDATE module SET ${setClause} WHERE id = $1 RETURNING *`;
     const result = await db.query(query, values);
     return result.rows[0];
   },

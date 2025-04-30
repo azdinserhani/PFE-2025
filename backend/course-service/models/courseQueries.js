@@ -111,6 +111,7 @@ const courseQueries = {
       WHERE course.id = $1`;
     const values = [course_id];
     const result = await db.query(query, values);
+
     return result.rows[0].course_content;
   },
   getEnrollStudentsByCourseId: async (course_id) => {

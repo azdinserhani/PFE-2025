@@ -27,10 +27,7 @@ router.get(
   "/courses/instructor/:instructor_id",
   courseController.getCourseByInstructor
 );
-router.get(
-  "/course/content/:course_id",
-  courseController.getCourseContentByCourseId
-);
+router.get("/course/content/:id", courseController.getCourseContentByCourseId);
 router.get(
   "/course/enroll-students/:course_id",
   courseController.getEnrollStudentsByCourseId
