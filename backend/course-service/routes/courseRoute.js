@@ -6,7 +6,7 @@ import { authenticate } from "../middleware/authMiddleware.js";
 const router = express.Router();
 
 router.post(
-  "/course",
+  "/create",
   validateRequest(courseSchema),
   courseController.createCourse
 );
