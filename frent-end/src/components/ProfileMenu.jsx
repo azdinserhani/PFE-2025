@@ -7,21 +7,39 @@ import { useTheme } from "../context/ThemeContext";
 import { motion } from "framer-motion";
 import { useDispatch, useSelector } from "react-redux";
 import { logoutUser } from "../redux/ApiCalls";
+import { useState, useEffect } from "react";
+import { useTranslation } from "react-i18next";
 
 const ProfileMenu = () => {
+  const { i18n } = useTranslation();
   const { currentTheme, themes } = useTheme();
   const theme = themes[currentTheme];
   const { user } = useSelector((state) => state.user);
   const dispatch = useDispatch();
+
+  useEffect(() => {
+    const savedLanguage = localStorage.getItem("selectedLanguage");
+    if (savedLanguage) {
+      i18n.changeLanguage(savedLanguage);
+    }
+  }, [i18n]);
+
+  const changeLanguage = (lng) => {
+    i18n.changeLanguage(lng);
+    localStorage.setItem("selectedLanguage", lng);
+  };
+
   const menuItems = [
     { icon: <FaUserAlt />, label: "My Profile", link: "/myProfile" },
     { icon: <BiBookAlt />, label: "My Learning", link: "/myLearning" },
     { icon: <IoSettingsOutline />, label: "Settings", link: "/settings" },
     { icon: <CiLogout />, label: "Sign Out", action: () => signout() },
   ];
+
   const signout = () => {
     logoutUser(dispatch);
   };
+
   const itemVariants = {
     hidden: { x: -20, opacity: 0 },
     visible: (i) => ({
@@ -34,6 +52,10 @@ const ProfileMenu = () => {
         damping: 10,
       },
     }),
+  };
+
+  const handleLanguageChange = (e) => {
+    setLanguage(e.target.value);
   };
 
   return (
@@ -113,6 +135,27 @@ const ProfileMenu = () => {
           <span style={{ color: theme.text }}>Version</span>
           <span style={{ color: theme.secondary }}>2.0.0</span>
         </motion.div>
+      </motion.div>
+
+      <motion.div
+        className="mt-2 px-3"
+        style={{ borderColor: theme.border }}
+        variants={itemVariants}
+        custom={menuItems.length + 2}
+      >
+        <label className="text-xs" style={{ color: theme.text }}>
+          Language:
+        </label>
+        <select
+          onChange={(e) => changeLanguage(e.target.value)}
+          className="ml-2 text-xs border rounded px-1"
+          style={{ color: theme.text, borderColor: theme.border }}
+          value={i18n.language}
+        >
+          <option value="en">English</option>
+          <option value="fr">French</option>
+          <option value="ar">Arabic</option>
+        </select>
       </motion.div>
     </motion.div>
   );

@@ -10,7 +10,7 @@ import { MdOutlineLightMode, MdOutlineDarkMode } from "react-icons/md";
 import { FaBookOpen, FaPalette } from "react-icons/fa";
 import { motion, AnimatePresence } from "framer-motion";
 import { fadeIn, slideIn } from "../../utils/animations";
-
+import { useTranslation } from "react-i18next";
 const NavBar = () => {
   const [menuOpen, setMenuOpen] = useState(false);
   const [searchOpen, setSearchOpen] = useState(false);
@@ -24,6 +24,7 @@ const NavBar = () => {
   const location = useLocation();
   const currentPath = location.pathname;
   const { user } = useSelector((state) => state.user);
+  const { t } = useTranslation();
   // Force re-render when cart changes
   useEffect(() => {
     // This empty effect will cause the component to re-render when items changes
@@ -160,7 +161,7 @@ const NavBar = () => {
                 paddingBottom: "2px",
               }}
             >
-              Home
+              {t("navbar.home")}
             </Link>
           </li>
           <li className="cursor-pointer transition-colors duration-300">
@@ -175,7 +176,7 @@ const NavBar = () => {
                 paddingBottom: "2px",
               }}
             >
-              Courses
+              {t("navbar.courses")}
             </Link>
           </li>
           <li className="cursor-pointer transition-colors duration-300">
@@ -190,7 +191,7 @@ const NavBar = () => {
                 paddingBottom: "2px",
               }}
             >
-              About
+              {t("navbar.about_us")}
             </Link>
           </li>
           <li className="cursor-pointer transition-colors duration-300">
@@ -205,7 +206,7 @@ const NavBar = () => {
                 paddingBottom: "2px",
               }}
             >
-              Contact
+              {t("navbar.contact_us")}
             </Link>
           </li>
         </motion.ul>
@@ -226,7 +227,7 @@ const NavBar = () => {
                 color: "#ffffff",
               }}
             >
-              <Link to={"/signin"}>Sign In</Link>
+              <Link to={"/signin"}>{t("navbar.sign_in")}</Link>
             </motion.a>
           ) : (
             <div ref={profileRef} className="relative z-20">

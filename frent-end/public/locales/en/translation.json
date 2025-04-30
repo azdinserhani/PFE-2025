@@ -1,0 +1,326 @@
+{
+    "navbar": {
+        "home": "Home",
+        "courses": "Courses",
+        "about_us": "About Us",
+        "contact_us": "Contact Us",
+        "sign_in": "Sign In"
+    },
+    "hero": {
+        "title": "Best Online Courses From EdClub",
+        "description": "Discover a world of knowledge and opportunities with our online education platform pursue a new career.",
+        "view_courses": "View Courses",
+        "online_course": "Online Course",
+        "our_instructors": "Our Instructors"
+    },
+    "trusted_by": {
+        "trusted_by": "Trusted by"
+    },
+    "info": {
+        "info_title": "Access to Learning Anytime & Anyware",
+        "info_description": " Many desktop publishing packages and web page editors now use Lorem Ipsum as their default model text, and a search for 'lorem ipsum' will uncover many web sites still in their infancy. Various versions have evolved over the years, sometimes by accident, sometimes on purpose (injected humour and the like).",
+        "features":["Easy Learning","Easy Learning","Affordable","World Class"],
+        "learn_more": "Learn More"
+    },
+    "features_title": "Discover Powerful Features",
+    "features_description": "Explore a world of knowledge and opportunities with our online education platform to pursue a new career.",
+    "read_more": "Read More",
+    "features": [
+        {
+            "name": "Relaxing & Learning",
+            "desc": "Learn at your own pace in a stress-free environment."
+        },
+        {
+            "name": "Certificate",
+            "desc": "Receive a certificate upon course completion."
+        },
+        {
+            "name": "Private Mentoring",
+            "desc": "Benefit from one-on-one mentoring sessions."
+        },
+        {
+            "name": "Creative Thinking",
+            "desc": "Boost your creativity and problem-solving skills."
+        }
+    ],
+    "newsletter": {
+        "title": "Subscribe to Our Newsletter!",
+        "description": "Stay updated with the latest courses and news.",
+        "email_placeholder": "Enter your email address:",
+        "subscribe": "Subscribe"
+    },
+    "explore_courses": {
+        "title": "Explore Our Best Courses",
+        "description": "Find the perfect course to advance your career or learn something new.",
+        "see_more_courses": "See More Courses"
+    },
+    "instructors": {
+        "title": "Expert Instructors",
+        "description": "Discover a world of knowledge and opportunities with our online education platform to pursue a new career"
+    },
+    "cart": {
+        "empty_cart": {
+            "title": "Your Cart is Empty",
+            "description": "Looks like you haven't added any courses to your cart yet.",
+            "continue_shopping": "Continue Shopping"
+        },
+        "summary": {
+            "order_summary": "Order Summary",
+            "subtotal": "Subtotal",
+            "items": "items",
+            "item": "item",
+            "total": "Total",
+            "checkout": "Proceed to Checkout"
+        },
+        "item": {
+            "remove": "Remove",
+            "price": "Price"
+        },
+        "actions": {
+            "shopping_cart": "Shopping Cart",
+            "clear_cart": "Clear Cart",
+            "items_in_cart": "in your cart"
+        }
+    },
+    "about": {
+        "header": {
+            "title": "About Us"
+        },
+        "stats": {
+            "courses": "COURSES",
+            "countries": "COUNTRIES",
+            "students": "STUDENTS",
+            "instructors": "INSTRUCTORS"
+        },
+        "question": {
+            "title": "Have Question ? Get in touch!",
+            "description": "Discover a world of knowledge and opportunities with our online education platform pursue a new career.",
+            "contact_us": "Contact us"
+        }
+    },
+    "contact": {
+        "message": {
+            "title": "Let's start a conversation",
+            "description": "We'd love to hear from you. Drop us a message and we'll get back to you as soon as possible.",
+            "form": {
+                "name": "Your Name",
+                "email": "Your Email",
+                "subject": "Subject",
+                "message": "Your Message",
+                "send": "Send Message"
+            }
+        },
+        "cards": {
+            "location": {
+                "title": "Our Location",
+                "description": "Visit our headquarters to meet our team in person and discuss your educational needs.",
+                "action": "View on map"
+            },
+            "phone": {
+                "title": "Call Us",
+                "description": "Have a quick question? Give us a call and our support team will assist you promptly.",
+                "action": "Call now"
+            },
+            "email": {
+                "title": "Email Us",
+                "description": "Send us a detailed message about your inquiry and we'll respond within 24 hours.",
+                "action": "Send email"
+            }
+        }
+    },
+    "course": {
+        "sections": {
+            "title": "Course Content"
+        },
+        "details": {
+            "view_profile": "View Profile",
+            "add_to_cart": "Add to Cart",
+            "stats": {
+                "duration": "Duration",
+                "level": "Level",
+                "lessons": "Lessons",
+                "quizzes": "Quizzes",
+                "students": "Students"
+            },
+            "stats_values": {
+                "duration": "hours",
+                "level": "All Levels",
+                "lessons": "Lessons",
+                "quizzes": "Quiz",
+                "students": "Students"
+            },
+            "overview": {
+                "title": "Overview"
+            },
+            "curriculum": {
+                "title": "Curriculum"
+            }
+        }
+    },
+    "courses": {
+        "header": {
+            "title": "Courses",
+            "breadcrumb": {
+                "home": "Edupath",
+                "current": "Courses"
+            }
+        },
+        "sidebar": {
+            "title": "Filters",
+            "search": {
+                "placeholder": "Search courses..."
+            },
+            "categories": {
+                "title": "Categories",
+                "items": [
+                    "Web Designing",
+                    "Data Science",
+                    "Machine Learning",
+                    "App Development",
+                    "Cyber Security"
+                ]
+            },
+            "pricing": {
+                "title": "Pricing",
+                "min": "$0",
+                "max": "$200"
+            },
+            "levels": {
+                "title": "Levels",
+                "items": [
+                    "Beginner",
+                    "Intermediate",
+                    "Expert"
+                ]
+            },
+            "clear_filters": "Clear All Filters"
+        }
+    },
+    "instructor_dashboard": {
+        "charts": {
+            "pie_chart": {
+                "labels": [
+                    "React Course",
+                    "Node.js Course",
+                    "Python Course",
+                    "JavaScript Course"
+                ]
+            },
+            "line_chart": {
+                "title": "Students Enrolled",
+                "labels": [
+                    "Jan", "Feb", "Mar", "Apr", "May", "Jun",
+                    "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"
+                ]
+            },
+            "bar_chart": {
+                "title": "Completion Rate (%)"
+            }
+        },
+        "leaderboard": {
+            "table": {
+                "headers": {
+                    "rank": "Rank",
+                    "course_name": "Course Name",
+                    "sales": "Sales",
+                    "revenue": "Revenue",
+                    "rating": "Rating"
+                }
+            }
+        },
+        "courses_table": {
+            "title": "Course Title",
+            "search_placeholder": "Search courses...",
+            "actions": {
+                "add": "Add Course",
+                "delete": "Delete",
+                "filter": "Filter",
+                "more": "More"
+            },
+            "columns": {
+                "title": "Course Title",
+                "price": "Price",
+                "status": "Status",
+                "students": "Students",
+                "rating": "Rating",
+                "actions": "Actions"
+            }
+        }
+    },
+    "instructor_info": {
+        "info": {
+            "title": "INSTRUCTOR",
+            "stats": {
+                "courses": "Courses",
+                "students": "Students"
+            }
+        },
+        "courses": {
+            "title": "My Courses"
+        },
+        "about": {
+            "title": "About Me" 
+        }
+    },
+    "profile": {
+        "menu": {
+            "user_info": {
+                "account_type": "Free Account"
+            },
+            "items": [
+                {
+                    "label": "My Profile"
+                },
+                {
+                    "label": "My Learning"
+                },
+                {
+                    "label": "Settings"
+                },
+                {
+                    "label": "Sign Out"
+                }
+            ],
+            "version": {
+                "label": "Version"
+            }
+        }
+    },
+    "ai_chat": {
+        "welcome_message": "Ask me anything about this course!",
+        "input": {
+            "placeholder": "Type your question here...",
+            "send_button": "Send"
+        }
+    },
+    "footer": {
+        "company": {
+            "logo": "Logo",
+            "description": "Discover a world of knowledge and opportunities with our online education platform pursue a new career."
+        },
+        "useful_links": {
+            "title": "Useful Links",
+            "links": [
+                "Course",
+                "Mission & Vision",
+                "Join a Career",
+                "Zoom Meeting",
+                "Pricing Plan"
+            ]
+        },
+        "institute": {
+            "title": "Our Institute",
+            "links": [
+                "Contact Us",
+                "Mission & Vision",
+                "Technology",
+                "Instructors",
+                "Pricing",
+                "Services"
+            ]
+        },
+        "get_in_touch": {
+            "title": "Get In Touch"
+        }
+    }
+}

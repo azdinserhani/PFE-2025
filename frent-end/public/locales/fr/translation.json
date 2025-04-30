@@ -1,0 +1,326 @@
+{
+    "navbar": {
+        "home": "Accueil",
+        "courses": "Cours",
+        "about_us": "À propos",
+        "contact_us": "Contact",
+        "sign_in": "Connexion"
+    },
+    "hero": {
+        "title": "Meilleurs cours en ligne d'EdClub",
+        "description": "Découvrez un monde de connaissances et d'opportunités avec notre plateforme d'éducation en ligne pour poursuivre une nouvelle carrière.",
+        "view_courses": "Voir les Cours",
+        "online_course": "Cours en Ligne",
+        "our_instructors": "Nos Instructeurs"
+    },
+    "trusted_by": {
+        "trusted_by": "Recommandé par"
+    },
+    "info": {
+        "info_title": "Accès à l'Apprentissage à Tout Moment et N'importe Où",
+        "info_description": "De nombreux logiciels de publication assistée par ordinateur et éditeurs de pages web utilisent maintenant Lorem Ipsum comme texte modèle par défaut, et une recherche de 'lorem ipsum' découvrira de nombreux sites web encore à leurs balbutiements. Différentes versions ont évolué au fil des années, parfois par accident, parfois de manière intentionnelle (avec des injections d'humour, etc.).",
+        "features": ["Apprentissage Facile", "Apprentissage Facile", "Abordable", "Classe Mondiale"],
+        "learn_more": "En Savoir Plus"
+    },
+    "features_title": "Découvrez des Fonctionnalités Puissantes",
+    "features_description": "Explorez un monde de connaissances et d'opportunités avec notre plateforme d'éducation en ligne pour poursuivre une nouvelle carrière.",
+    "read_more": "Lire Plus",
+    "features": [
+        {
+            "name": "Apprentissage Détendu",
+            "desc": "Apprenez à votre rythme dans un environnement sans stress."
+        },
+        {
+            "name": "Certificat",
+            "desc": "Recevez un certificat à la fin du cours."
+        },
+        {
+            "name": "Mentorat Privé",
+            "desc": "Bénéficiez de séances de mentorat individuelles."
+        },
+        {
+            "name": "Pensée Créative",
+            "desc": "Développez votre créativité et vos compétences en résolution de problèmes."
+        }
+    ],
+    "newsletter": {
+        "title": "Abonnez-vous à Notre Newsletter !",
+        "description": "Restez informé des derniers cours et actualités.",
+        "email_placeholder": "Entrez votre adresse e-mail :",
+        "subscribe": "S'abonner"
+    },
+    "explore_courses": {
+        "title": "Explorez Nos Meilleurs Cours",
+        "description": "Trouvez le cours parfait pour faire progresser votre carrière ou apprendre quelque chose de nouveau.",
+        "see_more_courses": "Voir Plus de Cours"
+    },
+    "instructors": {
+        "title": "Instructeurs Experts",
+        "description": "Découvrez un monde de connaissances et d'opportunités avec notre plateforme d'éducation en ligne pour poursuivre une nouvelle carrière"
+    },
+    "cart": {
+        "empty_cart": {
+            "title": "Votre Panier est Vide",
+            "description": "Il semble que vous n'ayez pas encore ajouté de cours à votre panier.",
+            "continue_shopping": "Continuer les Achats"
+        },
+        "summary": {
+            "order_summary": "Résumé de la Commande",
+            "subtotal": "Sous-total",
+            "items": "articles",
+            "item": "article",
+            "total": "Total",
+            "checkout": "Procéder au Paiement"
+        },
+        "item": {
+            "remove": "Supprimer",
+            "price": "Prix"
+        },
+        "actions": {
+            "shopping_cart": "Panier",
+            "clear_cart": "Vider le Panier",
+            "items_in_cart": "dans votre panier"
+        }
+    },
+    "about": {
+        "header": {
+            "title": "À Propos"
+        },
+        "stats": {
+            "courses": "COURS",
+            "countries": "PAYS",
+            "students": "ÉTUDIANTS",
+            "instructors": "INSTRUCTEURS"
+        },
+        "question": {
+            "title": "Vous avez une Question ? Contactez-nous !",
+            "description": "Découvrez un monde de connaissances et d'opportunités avec notre plateforme d'éducation en ligne pour poursuivre une nouvelle carrière.",
+            "contact_us": "Contactez-nous"
+        }
+    },
+    "contact": {
+        "message": {
+            "title": "Commençons la Conversation",
+            "description": "Nous aimerions avoir de vos nouvelles. Envoyez-nous un message et nous vous répondrons dès que possible.",
+            "form": {
+                "name": "Votre Nom",
+                "email": "Votre E-mail",
+                "subject": "Sujet",
+                "message": "Votre Message",
+                "send": "Envoyer le Message"
+            }
+        },
+        "cards": {
+            "location": {
+                "title": "Notre Localisation",
+                "description": "Visitez notre siège social pour rencontrer notre équipe en personne et discuter de vos besoins éducatifs.",
+                "action": "Voir sur la carte"
+            },
+            "phone": {
+                "title": "Appelez-nous",
+                "description": "Vous avez une question rapide ? Appelez-nous et notre équipe d'assistance vous aidera rapidement.",
+                "action": "Appeler maintenant"
+            },
+            "email": {
+                "title": "Envoyez-nous un E-mail",
+                "description": "Envoyez-nous un message détaillé sur votre demande et nous vous répondrons dans les 24 heures.",
+                "action": "Envoyer un e-mail"
+            }
+        }
+    },
+    "course": {
+        "sections": {
+            "title": "Contenu du Cours"
+        },
+        "details": {
+            "view_profile": "Voir le Profil",
+            "add_to_cart": "Ajouter au Panier",
+            "stats": {
+                "duration": "Durée",
+                "level": "Niveau",
+                "lessons": "Leçons",
+                "quizzes": "Quiz",
+                "students": "Étudiants"
+            },
+            "stats_values": {
+                "duration": "heures",
+                "level": "Tous Niveaux",
+                "lessons": "Leçons",
+                "quizzes": "Quiz",
+                "students": "Étudiants"
+            },
+            "overview": {
+                "title": "Aperçu"
+            },
+            "curriculum": {
+                "title": "Programme"
+            }
+        }
+    },
+    "courses": {
+        "header": {
+            "title": "Cours",
+            "breadcrumb": {
+                "home": "Edupath",
+                "current": "Cours"
+            }
+        },
+        "sidebar": {
+            "title": "Filtres",
+            "search": {
+                "placeholder": "Rechercher des cours..."
+            },
+            "categories": {
+                "title": "Catégories",
+                "items": [
+                    "Conception Web",
+                    "Science des Données",
+                    "Apprentissage Automatique",
+                    "Développement d'Applications",
+                    "Cybersécurité"
+                ]
+            },
+            "pricing": {
+                "title": "Tarification",
+                "min": "0€",
+                "max": "200€"
+            },
+            "levels": {
+                "title": "Niveaux",
+                "items": [
+                    "Débutant",
+                    "Intermédiaire",
+                    "Expert"
+                ]
+            },
+            "clear_filters": "Effacer Tous les Filtres"
+        }
+    },
+    "instructor_dashboard": {
+        "charts": {
+            "pie_chart": {
+                "labels": [
+                    "Cours React",
+                    "Cours Node.js",
+                    "Cours Python",
+                    "Cours JavaScript"
+                ]
+            },
+            "line_chart": {
+                "title": "Étudiants Inscrits",
+                "labels": [
+                    "Jan", "Fév", "Mar", "Avr", "Mai", "Juin",
+                    "Juil", "Août", "Sep", "Oct", "Nov", "Déc"
+                ]
+            },
+            "bar_chart": {
+                "title": "Taux de Complétion (%)"
+            }
+        },
+        "leaderboard": {
+            "table": {
+                "headers": {
+                    "rank": "Rang",
+                    "course_name": "Nom du Cours",
+                    "sales": "Ventes",
+                    "revenue": "Revenus",
+                    "rating": "Note"
+                }
+            }
+        },
+        "courses_table": {
+            "title": "Titre du Cours",
+            "search_placeholder": "Rechercher des cours...",
+            "actions": {
+                "add": "Ajouter un Cours",
+                "delete": "Supprimer",
+                "filter": "Filtrer",
+                "more": "Plus"
+            },
+            "columns": {
+                "title": "Titre du Cours",
+                "price": "Prix",
+                "status": "Statut",
+                "students": "Étudiants",
+                "rating": "Note",
+                "actions": "Actions"
+            }
+        }
+    },
+    "instructor_info": {
+        "info": {
+            "title": "INSTRUCTEUR",
+            "stats": {
+                "courses": "Cours",
+                "students": "Étudiants"
+            }
+        },
+        "courses": {
+            "title": "Mes Cours"
+        },
+        "about": {
+            "title": "À Propos de Moi"
+        }
+    },
+    "profile": {
+        "menu": {
+            "user_info": {
+                "account_type": "Compte Gratuit"
+            },
+            "items": [
+                {
+                    "label": "Mon Profil"
+                },
+                {
+                    "label": "Mon Apprentissage"
+                },
+                {
+                    "label": "Paramètres"
+                },
+                {
+                    "label": "Déconnexion"
+                }
+            ],
+            "version": {
+                "label": "Version"
+            }
+        }
+    },
+    "ai_chat": {
+        "welcome_message": "Demandez-moi n'importe quoi sur ce cours !",
+        "input": {
+            "placeholder": "Tapez votre question ici...",
+            "send_button": "Envoyer"
+        }
+    },
+    "footer": {
+        "company": {
+            "logo": "Logo",
+            "description": "Découvrez un monde de connaissances et d'opportunités avec notre plateforme d'éducation en ligne pour poursuivre une nouvelle carrière."
+        },
+        "useful_links": {
+            "title": "Liens Utiles",
+            "links": [
+                "Cours",
+                "Mission & Vision",
+                "Rejoindre une Carrière",
+                "Réunion Zoom",
+                "Plan de Tarification"
+            ]
+        },
+        "institute": {
+            "title": "Notre Institut",
+            "links": [
+                "Contactez-nous",
+                "Mission & Vision",
+                "Technologie",
+                "Instructeurs",
+                "Tarification",
+                "Services"
+            ]
+        },
+        "get_in_touch": {
+            "title": "Contactez-nous"
+        }
+    }
+}
