@@ -155,6 +155,8 @@ const ProfileMenu = () => {
           <option value="en">English</option>
           <option value="fr">French</option>
           <option value="ar">Arabic</option>
+          <option value="sp">Spanish</option>
+          <option value="gr">German</option>
         </select>
       </motion.div>
     </motion.div>

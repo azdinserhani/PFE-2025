@@ -1,0 +1,161 @@
+{
+    "navbar": {
+        "home": "Startseite",
+        "courses": "Kurse",
+        "about_us": "Über Uns",
+        "contact_us": "Kontakt",
+        "sign_in": "Anmelden"
+    },
+    "hero": {
+        "title": "Beste Online-Kurse von EdClub",
+        "description": "Entdecken Sie eine Welt voller Wissen und Möglichkeiten mit unserer Online-Bildungsplattform und verfolgen Sie eine neue Karriere.",
+        "view_courses": "Kurse Ansehen",
+        "online_course": "Online-Kurs",
+        "our_instructors": "Unsere Dozenten"
+    },
+    "trusted_by": {
+        "trusted_by": "Vertraut von"
+    },
+    "info": {
+        "info_title": "Zugang zum Lernen jederzeit und überall",
+        "info_description": "Viele Desktop-Publishing-Pakete und Webseiten-Editoren verwenden Lorem Ipsum als Standardtext, und eine Suche nach 'lorem ipsum' wird viele Webseiten in ihrer Anfangsphase aufdecken. Verschiedene Versionen sind im Laufe der Jahre entstanden, manchmal zufällig, manchmal absichtlich (eingefügter Humor und dergleichen).",
+        "features": ["Einfaches Lernen", "Erschwinglich", "Weltklasse"],
+        "learn_more": "Mehr Erfahren"
+    },
+    "features_title": "Entdecken Sie Leistungsstarke Funktionen",
+    "features_description": "Entdecken Sie eine Welt voller Wissen und Möglichkeiten mit unserer Online-Bildungsplattform, um eine neue Karriere zu verfolgen.",
+    "read_more": "Mehr Lesen",
+    "features": [
+        {
+            "name": "Entspanntes Lernen",
+            "desc": "Lernen Sie in Ihrem eigenen Tempo in einer stressfreien Umgebung."
+        },
+        {
+            "name": "Zertifikat",
+            "desc": "Erhalten Sie ein Zertifikat nach Abschluss des Kurses."
+        },
+        {
+            "name": "Private Betreuung",
+            "desc": "Profitieren Sie von individuellen Mentoring-Sitzungen."
+        },
+        {
+            "name": "Kreatives Denken",
+            "desc": "Steigern Sie Ihre Kreativität und Problemlösungsfähigkeiten."
+        }
+    ],
+    "newsletter": {
+        "title": "Abonnieren Sie unseren Newsletter!",
+        "description": "Bleiben Sie auf dem Laufenden mit den neuesten Kursen und Nachrichten.",
+        "email_placeholder": "Geben Sie Ihre E-Mail-Adresse ein:",
+        "subscribe": "Abonnieren"
+    },
+    "explore_courses": {
+        "title": "Entdecken Sie unsere besten Kurse",
+        "description": "Finden Sie den perfekten Kurs, um Ihre Karriere voranzutreiben oder etwas Neues zu lernen.",
+        "see_more_courses": "Mehr Kurse Ansehen"
+    },
+    "instructors": {
+        "title": "Experten-Dozenten",
+        "description": "Entdecken Sie eine Welt voller Wissen und Möglichkeiten mit unserer Online-Bildungsplattform, um eine neue Karriere zu verfolgen."
+    },
+    "cart": {
+        "empty_cart": {
+            "title": "Ihr Warenkorb ist leer",
+            "description": "Es sieht so aus, als hätten Sie noch keine Kurse in Ihren Warenkorb gelegt.",
+            "continue_shopping": "Weiter Einkaufen"
+        },
+        "summary": {
+            "order_summary": "Bestellübersicht",
+            "subtotal": "Zwischensumme",
+            "items": "Artikel",
+            "item": "Artikel",
+            "total": "Gesamt",
+            "checkout": "Zur Kasse"
+        },
+        "item": {
+            "remove": "Entfernen",
+            "price": "Preis"
+        },
+        "actions": {
+            "shopping_cart": "Warenkorb",
+            "clear_cart": "Warenkorb Leeren",
+            "items_in_cart": "in Ihrem Warenkorb"
+        }
+    },
+    "about": {
+        "header": {
+            "title": "Über Uns"
+        },
+        "stats": {
+            "courses": "KURSE",
+            "countries": "LÄNDER",
+            "students": "STUDENTEN",
+            "instructors": "DOZENTEN"
+        },
+        "question": {
+            "title": "Haben Sie Fragen? Kontaktieren Sie uns!",
+            "description": "Entdecken Sie eine Welt voller Wissen und Möglichkeiten mit unserer Online-Bildungsplattform und verfolgen Sie eine neue Karriere.",
+            "contact_us": "Kontaktieren Sie uns"
+        }
+    },
+    "contact": {
+        "message": {
+            "title": "Lassen Sie uns ein Gespräch beginnen",
+            "description": "Wir würden uns freuen, von Ihnen zu hören. Senden Sie uns eine Nachricht und wir melden uns so schnell wie möglich bei Ihnen.",
+            "form": {
+                "name": "Ihr Name",
+                "email": "Ihre E-Mail",
+                "subject": "Betreff",
+                "message": "Ihre Nachricht",
+                "send": "Nachricht Senden"
+            }
+        },
+        "cards": {
+            "location": {
+                "title": "Unser Standort",
+                "description": "Besuchen Sie unser Hauptquartier, um unser Team persönlich zu treffen und Ihre Bildungsbedürfnisse zu besprechen.",
+                "action": "Auf Karte anzeigen"
+            },
+            "phone": {
+                "title": "Rufen Sie uns an",
+                "description": "Haben Sie eine kurze Frage? Rufen Sie uns an und unser Support-Team hilft Ihnen gerne weiter.",
+                "action": "Jetzt anrufen"
+            },
+            "email": {
+                "title": "E-Mail an uns",
+                "description": "Senden Sie uns eine detaillierte Nachricht zu Ihrer Anfrage und wir antworten innerhalb von 24 Stunden.",
+                "action": "E-Mail senden"
+            }
+        }
+    },
+    "footer": {
+        "company": {
+            "logo": "Logo",
+            "description": "Entdecken Sie eine Welt voller Wissen und Möglichkeiten mit unserer Online-Bildungsplattform und verfolgen Sie eine neue Karriere."
+        },
+        "useful_links": {
+            "title": "Nützliche Links",
+            "links": [
+                "Kurs",
+                "Mission & Vision",
+                "Karriere Beitreten",
+                "Zoom-Meeting",
+                "Preisplan"
+            ]
+        },
+        "institute": {
+            "title": "Unser Institut",
+            "links": [
+                "Kontakt",
+                "Mission & Vision",
+                "Technologie",
+                "Dozenten",
+                "Preise",
+                "Dienstleistungen"
+            ]
+        },
+        "get_in_touch": {
+            "title": "Kontaktieren Sie uns"
+        }
+    }
+}
