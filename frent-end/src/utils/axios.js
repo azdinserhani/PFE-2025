@@ -2,24 +2,29 @@ import axios from "axios";
 
 const BASE_URL = import.meta.env.VITE_BASE_URL;
 
-const persisterData = localStorage.getItem("persist:root");
-let Token = null;
-if (persisterData) {
+// Initialize token
+let token = null;
+
+// Get token from persisted Redux state (localStorage)
+const persistedData = localStorage.getItem("persist:root");
+
+if (persistedData) {
   try {
-    const parseData = JSON.parse(persisterData);
-    const user = parseData?.user ? JSON.parse(parseData.user) : null;
-    Token = user?.currentUser?.accessToken || null;
-    console.log(Token);
+    const parsedData = JSON.parse(persistedData);
+    const user = parsedData?.user ? JSON.parse(parsedData.user) : null;
+    token = user?.token || null;
   } catch (error) {
-    console.error("error parsing persister Data: ", error);
+    console.error("Error parsing persisted data:", error);
   }
 }
 
+// Create public request instance
 export const publicRequest = axios.create({
   baseURL: BASE_URL,
 });
 
+// Create user request instance with Authorization header if token exists
 export const userRequest = axios.create({
   baseURL: BASE_URL,
-  headers: { Token: `Bearer ${Token}` },
+  headers: token ? { Authorization: `Bearer ${token}` } : {},
 });

@@ -4,10 +4,12 @@ import CourseCard from "../components/LandingPage/CourseCard";
 import { motion } from "framer-motion";
 import { useTheme } from "../context/ThemeContext";
 
+
 const MyLearning = () => {
   const { currentTheme, themes } = useTheme();
   const theme = themes[currentTheme];
 
+  
   const cards = [
     {
       title: "Enrolled Courses",

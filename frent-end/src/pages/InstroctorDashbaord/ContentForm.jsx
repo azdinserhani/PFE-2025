@@ -11,7 +11,7 @@ const ContentForm = ({
 }) => {
   const video = useSelector((state) => {
     const section = state.course.sections[sectionIndex];
-    return section?.lecture[lectureIndex]?.video || null;
+    return section?.lecture[lectureIndex]?.video_url || null;
   });
 
   return (
@@ -77,22 +77,8 @@ const ContentForm = ({
               className="text-lg font-medium mb-4"
               style={{ color: theme.primary }}
             >
-              Video Information
+              Video upload successfully!
             </motion.h3>
-            <motion.div
-              className="grid grid-cols-3 gap-6"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ delay: 0.2 }}
-            >
-              <InfoItem label="Name" value={video.name} theme={theme} />
-              <InfoItem label="Size" value={video.size} theme={theme} />
-              <InfoItem
-                label="Uploaded On"
-                value={video.uploadDate}
-                theme={theme}
-              />
-            </motion.div>
           </motion.div>
         )}
       </AnimatePresence>

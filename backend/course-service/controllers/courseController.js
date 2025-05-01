@@ -3,8 +3,12 @@ import courseService from "../services/courseService.js";
 const courseController = {
   createCourse: async (req, res) => {
     try {
+      const instructorId = req.user.id;
       const courseData = req.body;
-      const createdCourse = await courseService.createCourse(courseData);
+      const createdCourse = await courseService.createCourse({
+        ...courseData,
+        instructor_id: instructorId,
+      });
       res.status(201).json({
         success: true,
         message: "Course created successfully",
@@ -25,6 +29,15 @@ const courseController = {
     try {
       const courseId = req.params.id;
       const courseData = req.body;
+      const instructorId = req.user.id;
+      const course = await courseService.getCourseById(courseId);
+
+      if (course.instructor_id != instructorId) {
+        return res.status(403).json({
+          success: false,
+          message: "You are not authorized to update this course",
+        });
+      }
       const updatedCourse = await courseService.updateCourse(
         courseId,
         courseData
@@ -48,6 +61,15 @@ const courseController = {
   deleteCourse: async (req, res) => {
     try {
       const courseId = req.params.id;
+      const instructorId = req.user.id;
+      const course = await courseService.getCourseById(courseId);
+
+      if (course.instructor_id != instructorId) {
+        return res.status(403).json({
+          success: false,
+          message: "You are not authorized to delete this course",
+        });
+      }
       await courseService.deleteCourse(courseId);
       res.status(200).json({
         success: true,
@@ -104,7 +126,7 @@ const courseController = {
       });
     }
   },
-  searchCourseByTitle: async (req, res) => { 
+  searchCourseByTitle: async (req, res) => {
     try {
       const title = req.query.title;
       const courses = await courseService.searchCourseByTitle(title);
@@ -125,7 +147,7 @@ const courseController = {
       });
     }
   },
-  getCoursesByCategory: async (req, res) => { 
+  getCoursesByCategory: async (req, res) => {
     try {
       const categoryId = req.params.category_id;
       const courses = await courseService.getCoursesByCategory(categoryId);
@@ -167,7 +189,7 @@ const courseController = {
       });
     }
   },
-  getCourseContentByCourseId: async (req, res) => { 
+  getCourseContentByCourseId: async (req, res) => {
     try {
       const courseId = req.params.id;
       const courseContent = await courseService.getCourseContentByCourseId(

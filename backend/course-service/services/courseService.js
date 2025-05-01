@@ -35,6 +35,7 @@ const courseService = {
     if (!courseExists) {
       throw new Error("Course not found");
     }
+    
     const updatedCourse = await courseQueries.updateCourse(
       course_id,
       courseData

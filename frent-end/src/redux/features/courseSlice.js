@@ -22,7 +22,8 @@ const courseSlice = createSlice({
     addSection: (state, action) => {
       state.sections.push({
         id: nanoid(), // Add unique id for each section
-        title: action.payload.title,
+        name: action.payload.name,
+        courseId: action.payload.courseId,
         lecture: [],
       });
     },
@@ -32,13 +33,14 @@ const courseSlice = createSlice({
         id: nanoid(),
         type: "lecture",
         title,
-        video: null,
+        video_url: null,
       });
     },
     addVideoToLecture: (state, action) => {
-      const { sectionIndex, lectureIndex, video } = action.payload;
+      const { sectionIndex, lectureIndex, video_url } = action.payload;
       if (state.sections[sectionIndex]?.lecture[lectureIndex]) {
-        state.sections[sectionIndex].lecture[lectureIndex].video = video;
+        state.sections[sectionIndex].lecture[lectureIndex].video_url =
+          video_url;
       }
     },
     addQuizToSection: (state, action) => {

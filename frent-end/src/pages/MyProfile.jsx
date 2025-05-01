@@ -137,9 +137,6 @@ const MyProfile = () => {
                   style={{ color: theme.text }}
                 >
                   <MdEdit style={{ color: theme.primary }} />
-                  <span>
-                    {user.role === "instructor" ? "Instructor" : "Student"}
-                  </span>
                 </div>
                 <span
                   className="px-3 py-1 rounded-full text-sm"
@@ -148,7 +145,7 @@ const MyProfile = () => {
                     color: theme.primary,
                   }}
                 >
-                  Student
+                  {user.role}
                 </span>
               </div>
             </div>

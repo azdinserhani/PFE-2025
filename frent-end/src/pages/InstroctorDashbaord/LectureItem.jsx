@@ -5,7 +5,7 @@ import { MdOutlineDeleteOutline } from "react-icons/md";
 import { useState } from "react";
 import ContentForm from "./ContentForm";
 import { useDispatch } from "react-redux";
-import { addVideoToLectureAction } from "../../redux/ApiCalls";
+import { addVideoToLectureAction, uploadFile } from "../../redux/ApiCalls";
 import { motion, AnimatePresence } from "framer-motion";
 import React from "react";
 
@@ -13,9 +13,13 @@ const LectureItem = React.memo(({ lecture, index, sectionId, theme }) => {
   const dispatch = useDispatch();
   const [contentFormOpen, setContentFormOpen] = useState(false);
   const [videoInfo, setVideoInfo] = useState(null);
+  const [videoFileUrl, setVideoFileurl] = useState(null);
+  console.log("videoFileUrl", videoFileUrl);
 
-  const handleVideoUpload = (event) => {
+  const handleVideoUpload = async (event) => {
     const file = event.target.files[0];
+    const fileUrl = await uploadFile(file);
+    setVideoFileurl(fileUrl.url);
     if (file) {
       const newVideoInfo = {
         name: file.name,
@@ -23,7 +27,7 @@ const LectureItem = React.memo(({ lecture, index, sectionId, theme }) => {
         uploadDate: new Date().toLocaleString(),
       };
       setVideoInfo(newVideoInfo);
-      addVideoToLectureAction(dispatch, sectionId, index, newVideoInfo);
+      addVideoToLectureAction(dispatch, sectionId, index, fileUrl.url);
     }
   };
 

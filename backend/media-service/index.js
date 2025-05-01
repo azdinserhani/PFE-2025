@@ -3,12 +3,13 @@ import multer from "multer";
 import path from "path";
 import fs from "fs";
 import { fileURLToPath } from "url";
+import cors from "cors";
 import dotenv from "dotenv";
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 dotenv.config();
 const app = express();
-
+app.use(cors());
 // Create uploads folder if not exists
 const uploadDir = path.join(__dirname, "uploads");
 if (!fs.existsSync(uploadDir)) {
@@ -30,7 +31,7 @@ const storage = multer.diskStorage({
 const upload = multer({ storage });
 
 // Serve uploaded files statically
-app.use("/", express.static(path.join(__dirname, "uploads")));
+app.use("/media", express.static(path.join(__dirname, "uploads")));
 
 // Upload endpoint
 app.post("/upload", upload.single("file"), (req, res) => {
@@ -43,7 +44,6 @@ app.post("/upload", upload.single("file"), (req, res) => {
   }`;
   res.status(200).json({ message: "Upload successful", url: fileUrl });
 });
-
 
 app.listen(process.env.PORT, () => {
   console.log(`Server is running on http://localhost:${process.env.PORT}`);

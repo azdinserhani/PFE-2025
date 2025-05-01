@@ -8,7 +8,7 @@ const Player = () => {
           type: "video",
           sources: [
             {
-              src: "http://localhost:3000/media/1745513471878-hack - Made with Clipchamp.mp4", // Replace with your video URL
+              src: "http://localhost:3003/media/1746106457823-2%20-%20Meet%20Your%20Hosts%20Brad.mp4", // Replace with your video URL
               type: "video/mp4",
             },
           ],
