@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useTheme } from "../../context/ThemeContext";
 import { motion, AnimatePresence } from "framer-motion";
+import { useTranslation } from "react-i18next";
 
 const NewsLettre = () => {
   const { currentTheme, themes } = useTheme();
@@ -10,7 +11,7 @@ const NewsLettre = () => {
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
-
+  const { t } = useTranslation();
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setFormData((prev) => ({
@@ -96,17 +97,6 @@ const NewsLettre = () => {
           {/* Left side - Enhanced content and form */}
           <motion.div variants={itemVariants} className="w-full md:w-7/12">
             <motion.div variants={itemVariants} className="mb-8">
-              <h5
-                className="text-sm uppercase tracking-wider mb-3 font-semibold inline-block"
-                style={{
-                  color: `${theme.text}95`,
-                  background: `linear-gradient(120deg, ${theme.secondary}30 0%, transparent 100%)`,
-                  padding: "4px 12px",
-                  borderRadius: "4px",
-                }}
-              >
-                Stay Connected
-              </h5>
               <h2
                 className="text-3xl md:text-4xl font-bold mb-4 leading-tight"
                 style={{
@@ -114,16 +104,14 @@ const NewsLettre = () => {
                   textShadow: "0 2px 4px rgba(0,0,0,0.1)",
                 }}
               >
-                Never Miss a Learning Opportunity
+                {t("newsletter.title")}
               </h2>
 
               <p
                 className="text-base md:text-lg leading-relaxed"
                 style={{ color: `${theme.text}90` }}
               >
-                Join our community of learners and receive personalized course
-                recommendations, exclusive learning resources, and expert
-                insights directly in your inbox.
+                {t("newsletter.description")}
               </p>
             </motion.div>
 
@@ -162,17 +150,7 @@ const NewsLettre = () => {
                         />
                       </svg>
                     </motion.div>
-                    <h3
-                      className="text-lg font-bold"
-                      style={{ color: theme.text }}
-                    >
-                      Welcome Aboard!
-                    </h3>
                   </div>
-                  <p className="text-base" style={{ color: `${theme.text}90` }}>
-                    You're now part of our learning community. Check your inbox
-                    for a welcome surprise!
-                  </p>
                 </motion.div>
               ) : (
                 <motion.form
@@ -192,7 +170,7 @@ const NewsLettre = () => {
                       name="email"
                       value={formData.email}
                       onChange={handleInputChange}
-                      placeholder="Enter your email address"
+                      placeholder={t("newsletter.email_placeholder")}
                       className="w-full p-4 rounded-lg outline-none transition-all"
                       style={{
                         backgroundColor: `${theme.background}95`,
@@ -261,7 +239,7 @@ const NewsLettre = () => {
                         </>
                       ) : (
                         <>
-                          Join Our Community
+                          {t("newsletter.subscribe")}
                           <motion.svg
                             xmlns="http://www.w3.org/2000/svg"
                             className="h-5 w-5"
@@ -282,16 +260,6 @@ const NewsLettre = () => {
                       )}
                     </span>
                   </motion.button>
-
-                  <p
-                    className="text-sm text-center mt-4"
-                    style={{ color: `${theme.text}80` }}
-                  >
-                    By subscribing, you agree to receive updates and marketing
-                    emails from us.
-                    <br />
-                    You can unsubscribe at any time.
-                  </p>
                 </motion.form>
               )}
             </AnimatePresence>

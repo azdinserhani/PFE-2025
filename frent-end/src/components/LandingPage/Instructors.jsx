@@ -2,11 +2,12 @@ import React from "react";
 import InstructorsCard from "./InstructorsCard";
 import { useTheme } from "../../context/ThemeContext";
 import { motion } from "framer-motion";
+import { useTranslation } from "react-i18next";
 
 const Instructors = () => {
   const { currentTheme, themes } = useTheme();
   const theme = themes[currentTheme];
-
+  const { t } = useTranslation();
   const instructorsContent = [
     {
       Img: "/instu1.jpg",
@@ -68,16 +69,14 @@ const Instructors = () => {
           className="text-4xl font-bold mb-6"
           style={{ color: theme.text }}
         >
-          Learn from the Best Instructors
+          {t("instructors.title")}
         </motion.h2>
         <motion.div
           className="w-20 h-1 mx-auto mb-6"
           style={{ backgroundColor: theme.primary }}
         />
         <motion.p className="text-lg mb-8" style={{ color: theme.secondary }}>
-          Our expert instructors bring real-world experience and cutting-edge
-          knowledge to help you achieve your learning goals and advance your
-          career.
+          {t("instructors.description")}
         </motion.p>
       </motion.div>
 
