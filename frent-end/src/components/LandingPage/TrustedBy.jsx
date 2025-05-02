@@ -23,12 +23,12 @@ const TrustedBy = () => {
       </h2>
       <div className="grid grid-cols-2 mt-5 sm:grid-cols-3 lg:grid-cols-6 gap-4 justify-items-center">
         {[
-          { src: "/amazon.svg", alt: "Amazon" },
-          { src: "/google.svg", alt: "Google" },
-          { src: "/shopify.svg", alt: "Shopify" },
-          { src: "/lenovo.svg", alt: "Lenovo" },
-          { src: "/paypal.svg", alt: "PayPal" },
-          { src: "/spotify.svg", alt: "Spotify" },
+          { src: "/amazon.svg", alt: t("alt_text.company_logos.amazon") },
+          { src: "/google.svg", alt: t("alt_text.company_logos.google") },
+          { src: "/shopify.svg", alt: t("alt_text.company_logos.shopify") },
+          { src: "/lenovo.svg", alt: t("alt_text.company_logos.lenovo") },
+          { src: "/paypal.svg", alt: t("alt_text.company_logos.paypal") },
+          { src: "/spotify.svg", alt: t("alt_text.company_logos.spotify") },
         ].map((item, index) => {
           return (
             <motion.img

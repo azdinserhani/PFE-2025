@@ -7,9 +7,9 @@
         "sign_in": "Anmelden"
     },
     "hero": {
-        "title": "Beste Online-Kurse von EdClub",
-        "description": "Entdecken Sie eine Welt voller Wissen und Möglichkeiten mit unserer Online-Bildungsplattform und verfolgen Sie eine neue Karriere.",
-        "view_courses": "Kurse Ansehen",
+        "title": "Die besten Online-Kurse von EdClub",
+        "description": "Entdecke eine Welt des Wissens und der Möglichkeiten mit unserer Online-Bildungsplattform, um eine neue Karriere zu verfolgen.",
+        "view_courses": "Kurse ansehen",
         "online_course": "Online-Kurs",
         "our_instructors": "Unsere Dozenten"
     },
@@ -18,51 +18,51 @@
     },
     "info": {
         "info_title": "Zugang zum Lernen jederzeit und überall",
-        "info_description": "EdClub ist eine interaktive Lernplattform, die personalisierte Lektionen und hilfreiche Werkzeuge für Schüler und Lehrer bietet.",
-        "features": ["Einfaches Lernen", "Erschwinglich", "Weltklasse"],
-        "learn_more": "Mehr Erfahren"
+        "info_description": "EdClub ist eine interaktive Lernplattform, die personalisierte Lektionen und nützliche Tools für Schüler und Lehrer bietet, um effektives Lernen zu unterstützen.",
+        "features": ["Einfaches Lernen", "Einfaches Lernen", "Erschwinglich", "Weltklasse"],
+        "learn_more": "Mehr erfahren"
     },
-    "features_title": "Entdecken Sie Leistungsstarke Funktionen",
-    "features_description": "Entdecken Sie eine Welt voller Wissen und Möglichkeiten mit unserer Online-Bildungsplattform, um eine neue Karriere zu verfolgen.",
-    "read_more": "Mehr Lesen",
+    "features_title": "Entdecke leistungsstarke Funktionen",
+    "features_description": "Erkunde eine Welt des Wissens und der Möglichkeiten mit unserer Online-Bildungsplattform, um eine neue Karriere zu verfolgen.",
+    "read_more": "Weiterlesen",
     "features": [
         {
-            "name": "Entspanntes Lernen",
-            "desc": "Lernen Sie in Ihrem eigenen Tempo in einer stressfreien Umgebung."
+            "name": "Entspannt Lernen",
+            "desc": "Lerne in deinem eigenen Tempo in einer stressfreien Umgebung."
         },
         {
             "name": "Zertifikat",
-            "desc": "Erhalten Sie ein Zertifikat nach Abschluss des Kurses."
+            "desc": "Erhalte ein Zertifikat nach Abschluss des Kurses."
         },
         {
-            "name": "Private Betreuung",
-            "desc": "Profitieren Sie von individuellen Mentoring-Sitzungen."
+            "name": "Privates Mentoring",
+            "desc": "Profitiere von individuellen Mentoring-Sitzungen."
         },
         {
             "name": "Kreatives Denken",
-            "desc": "Steigern Sie Ihre Kreativität und Problemlösungsfähigkeiten."
+            "desc": "Steigere deine Kreativität und Problemlösungsfähigkeiten."
         }
     ],
     "newsletter": {
-        "title": "Abonnieren Sie unseren Newsletter!",
-        "description": "Bleiben Sie auf dem Laufenden mit den neuesten Kursen und Nachrichten.",
-        "email_placeholder": "Geben Sie Ihre E-Mail-Adresse ein:",
+        "title": "Abonniere unseren Newsletter!",
+        "description": "Bleibe über die neuesten Kurse und Nachrichten informiert.",
+        "email_placeholder": "Gib deine E-Mail-Adresse ein:",
         "subscribe": "Abonnieren"
     },
     "explore_courses": {
-        "title": "Entdecken Sie unsere besten Kurse",
-        "description": "Finden Sie den perfekten Kurs, um Ihre Karriere voranzutreiben oder etwas Neues zu lernen.",
-        "see_more_courses": "Mehr Kurse Ansehen"
+        "title": "Entdecke unsere besten Kurse",
+        "description": "Finde den perfekten Kurs, um deine Karriere voranzutreiben oder etwas Neues zu lernen.",
+        "see_more_courses": "Mehr Kurse ansehen"
     },
     "instructors": {
         "title": "Experten-Dozenten",
-        "description": "Entdecken Sie eine Welt voller Wissen und Möglichkeiten mit unserer Online-Bildungsplattform, um eine neue Karriere zu verfolgen."
+        "description": "Entdecke eine Welt des Wissens und der Möglichkeiten mit unserer Online-Bildungsplattform"
     },
     "cart": {
         "empty_cart": {
-            "title": "Ihr Warenkorb ist leer",
-            "description": "Es sieht so aus, als hätten Sie noch keine Kurse in Ihren Warenkorb gelegt.",
-            "continue_shopping": "Weiter Einkaufen"
+            "title": "Dein Warenkorb ist leer",
+            "description": "Es scheint, dass du noch keine Kurse in deinen Warenkorb gelegt hast.",
+            "continue_shopping": "Weiter einkaufen"
         },
         "summary": {
             "order_summary": "Bestellübersicht",
@@ -78,8 +78,8 @@
         },
         "actions": {
             "shopping_cart": "Warenkorb",
-            "clear_cart": "Warenkorb Leeren",
-            "items_in_cart": "in Ihrem Warenkorb"
+            "clear_cart": "Warenkorb leeren",
+            "items_in_cart": "in deinem Warenkorb"
         }
     },
     "about": {
@@ -93,52 +93,232 @@
             "instructors": "DOZENTEN"
         },
         "question": {
-            "title": "Haben Sie Fragen? Kontaktieren Sie uns!",
-            "description": "Entdecken Sie eine Welt voller Wissen und Möglichkeiten mit unserer Online-Bildungsplattform und verfolgen Sie eine neue Karriere.",
-            "contact_us": "Kontaktieren Sie uns"
+            "title": "Hast du Fragen? Kontaktiere uns!",
+            "description": "Entdecke eine Welt des Wissens und der Möglichkeiten mit unserer Online-Bildungsplattform.",
+            "contact_us": "Kontaktiere uns"
         }
     },
     "contact": {
         "message": {
-            "title": "Lassen Sie uns ein Gespräch beginnen",
-            "description": "Wir würden uns freuen, von Ihnen zu hören. Senden Sie uns eine Nachricht und wir melden uns so schnell wie möglich bei Ihnen.",
+            "title": "Lass uns ins Gespräch kommen",
+            "description": "Wir würden gerne von dir hören. Hinterlasse uns eine Nachricht und wir melden uns so schnell wie möglich bei dir.",
             "form": {
-                "name": "Ihr Name",
-                "email": "Ihre E-Mail",
+                "name": "Dein Name",
+                "email": "Deine E-Mail",
                 "subject": "Betreff",
-                "message": "Ihre Nachricht",
-                "send": "Nachricht Senden"
+                "message": "Deine Nachricht",
+                "send": "Nachricht senden"
             }
         },
         "cards": {
             "location": {
                 "title": "Unser Standort",
-                "description": "Besuchen Sie unser Hauptquartier, um unser Team persönlich zu treffen und Ihre Bildungsbedürfnisse zu besprechen.",
+                "description": "Besuche unseren Hauptsitz, um unser Team persönlich zu treffen und deine Bildungsbedürfnisse zu besprechen.",
                 "action": "Auf Karte anzeigen"
             },
             "phone": {
-                "title": "Rufen Sie uns an",
-                "description": "Haben Sie eine kurze Frage? Rufen Sie uns an und unser Support-Team hilft Ihnen gerne weiter.",
+                "title": "Ruf uns an",
+                "description": "Hast du eine schnelle Frage? Ruf uns an und unser Support-Team hilft dir sofort weiter.",
                 "action": "Jetzt anrufen"
             },
             "email": {
-                "title": "E-Mail an uns",
-                "description": "Senden Sie uns eine detaillierte Nachricht zu Ihrer Anfrage und wir antworten innerhalb von 24 Stunden.",
+                "title": "Schreib uns",
+                "description": "Sende uns eine detaillierte Nachricht zu deiner Anfrage und wir antworten innerhalb von 24 Stunden.",
                 "action": "E-Mail senden"
             }
+        }
+    },
+    "course": {
+        "sections": {
+            "title": "Kursinhalt"
+        },
+        "details": {
+            "view_profile": "Profil ansehen",
+            "add_to_cart": "In den Warenkorb",
+            "stats": {
+                "duration": "Dauer",
+                "level": "Level",
+                "lessons": "Lektionen",
+                "quizzes": "Tests",
+                "students": "Studenten"
+            },
+            "stats_values": {
+                "duration": "Stunden",
+                "level": "Alle Level",
+                "lessons": "Lektionen",
+                "quizzes": "Test",
+                "students": "Studenten"
+            },
+            "overview": {
+                "title": "Überblick"
+            },
+            "curriculum": {
+                "title": "Lehrplan"
+            }
+        }
+    },
+    "courses": {
+        "header": {
+            "title": "Kurse",
+            "breadcrumb": {
+                "home": "Edupath",
+                "current": "Kurse"
+            }
+        },
+        "sidebar": {
+            "title": "Filter",
+            "search": {
+                "placeholder": "Kurse suchen..."
+            },
+            "categories": {
+                "title": "Kategorien",
+                "items": [
+                    "Webdesign",
+                    "Data Science",
+                    "Machine Learning",
+                    "App-Entwicklung",
+                    "Cybersicherheit"
+                ]
+            },
+            "pricing": {
+                "title": "Preise",
+                "min": "0€",
+                "max": "200€"
+            },
+            "levels": {
+                "title": "Level",
+                "items": [
+                    "Anfänger",
+                    "Fortgeschritten",
+                    "Experte"
+                ]
+            },
+            "clear_filters": "Alle Filter zurücksetzen",
+            "accountSettings": "Kontoeinstellungen",
+            "myLearning": "Mein Lernen",
+            "myCourses": "Meine Kurse",
+            "analytics": "Analysen",
+            "settings": "Einstellungen",
+            "helpInfo": "Hilfe & Informationen",
+            "logout": "Abmelden"
+        }
+    },
+    "instructor_dashboard": {
+        "charts": {
+            "pie_chart": {
+                "labels": [
+                    "React-Kurs",
+                    "Node.js-Kurs",
+                    "Python-Kurs",
+                    "JavaScript-Kurs"
+                ]
+            },
+            "line_chart": {
+                "title": "Eingeschriebene Studenten",
+                "labels": [
+                    "Jan", "Feb", "Mär", "Apr", "Mai", "Jun",
+                    "Jul", "Aug", "Sep", "Okt", "Nov", "Dez"
+                ]
+            },
+            "bar_chart": {
+                "title": "Abschlussrate (%)"
+            }
+        },
+        "leaderboard": {
+            "table": {
+                "headers": {
+                    "rank": "Rang",
+                    "course_name": "Kursname",
+                    "sales": "Verkäufe",
+                    "revenue": "Umsatz",
+                    "rating": "Bewertung"
+                }
+            }
+        },
+        "courses_table": {
+            "title": "Kurstitel",
+            "search_placeholder": "Kurse suchen...",
+            "actions": {
+                "add": "Kurs hinzufügen",
+                "delete": "Löschen",
+                "filter": "Filtern",
+                "more": "Mehr"
+            },
+            "columns": {
+                "title": "Kurstitel",
+                "price": "Preis",
+                "status": "Status",
+                "students": "Studenten",
+                "rating": "Bewertung",
+                "actions": "Aktionen"
+            }
+        }
+    },
+    "instructor_info": {
+        "info": {
+            "title": "DOZENT",
+            "stats": {
+                "courses": "Kurse",
+                "students": "Studenten"
+            }
+        },
+        "courses": {
+            "title": "Meine Kurse"
+        },
+        "about": {
+            "title": "Über Mich"
+        }
+    },
+    "profile": {
+        "menu": {
+            "description": "Verwalte deine persönlichen Informationen und Kontoeinstellungen",
+            "user_info": {
+                "account_type": "Kostenloses Konto"
+            },
+            "items": [
+                {
+                    "label": "Mein Profil"
+                },
+                {
+                    "label": "Mein Lernen"
+                },
+                {
+                    "label": "Einstellungen"
+                },
+                {
+                    "label": "Abmelden"
+                }
+            ],
+            "version": {
+                "label": "Version"
+            }
+        },
+        "edit_profile": "Profil bearbeiten",
+        "password": "Passwort",
+        "phone": "Telefonnummer",
+        "phone_placeholder": "Gib deine Telefonnummer ein",
+        "joined": "Beigetreten",
+        "cancel": "Abbrechen",
+        "save_changes": "Änderungen speichern"
+    },
+    "ai_chat": {
+        "welcome_message": "Frag mich alles über diesen Kurs!",
+        "input": {
+            "placeholder": "Schreib deine Frage hier...",
+            "send_button": "Senden"
         }
     },
     "footer": {
         "company": {
             "logo": "Logo",
-            "description": "Entdecken Sie eine Welt voller Wissen und Möglichkeiten mit unserer Online-Bildungsplattform und verfolgen Sie eine neue Karriere."
+            "description": "Entdecke eine Welt des Wissens und der Möglichkeiten mit unserer Online-Bildungsplattform, um eine neue Karriere zu verfolgen."
         },
         "useful_links": {
             "title": "Nützliche Links",
             "links": [
                 "Kurs",
                 "Mission & Vision",
-                "Karriere Beitreten",
+                "Karriere starten",
                 "Zoom-Meeting",
                 "Preisplan"
             ]
@@ -151,11 +331,38 @@
                 "Technologie",
                 "Dozenten",
                 "Preise",
-                "Dienstleistungen"
+                "Services"
             ]
         },
         "get_in_touch": {
-            "title": "Kontaktieren Sie uns"
+            "title": "Kontaktiere uns"
         }
+    },
+    "profile_menu": {
+        "my_profile": "Mein Profil",
+        "my_learning": "Mein Lernen",
+        "settings": "Einstellungen",
+        "sign_out": "Abmelden",
+        "language": "Sprache"
+    },
+    "form": {
+        "placeholders": {
+            "name": "Max Mustermann",
+            "email": "max@beispiel.de",
+            "subject": "Wie können wir dir helfen?",
+            "message": "Deine Nachricht hier..."
+        }
+    },
+    "alt_text": {
+        "person_illustration": "Personenillustration",
+        "company_logos": {
+            "amazon": "Amazon Logo",
+            "google": "Google Logo",
+            "shopify": "Shopify Logo",
+            "lenovo": "Lenovo Logo",
+            "paypal": "PayPal Logo",
+            "spotify": "Spotify Logo"
+        },
+        "profile_photo": "Profilfoto"
     }
 }

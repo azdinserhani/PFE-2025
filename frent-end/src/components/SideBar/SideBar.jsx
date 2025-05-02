@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { PiProjectorScreenChartLight } from "react-icons/pi";
 import { GrHomeRounded } from "react-icons/gr";
-import { IoIosArrowForward } from "react-icons/io";
+import { IoIosArrowForward, IoIosArrowBack } from "react-icons/io";
 import { FaBookOpen, FaUser } from "react-icons/fa";
 import { FaTasks } from "react-icons/fa";
 import { RiTeamFill } from "react-icons/ri";
@@ -15,38 +15,47 @@ import { TbBrandGoogleAnalytics } from "react-icons/tb";
 import { IoIosList } from "react-icons/io";
 import { useTheme } from "../../context/ThemeContext";
 import { motion, AnimatePresence } from "framer-motion";
+import { useTranslation } from "react-i18next";
+import { MdLanguage } from "react-icons/md";
 
 const SideBar = () => {
   const [open, setOpen] = useState(true);
   const [selectedItem, setSelectedItem] = useState(null);
   const { currentTheme, themes } = useTheme();
   const theme = themes[currentTheme];
+  const { t, i18n } = useTranslation();
+
+  const isRTL = i18n.dir() === 'rtl';
 
   const handleItemClick = (item) => {
     setSelectedItem(item);
   };
 
+  const changeLanguage = (lng) => {
+    i18n.changeLanguage(lng);
+  };
+
   const mainNavItems = [
     {
-      label: "Account settings",
+      label: t("courses.sidebar.accountSettings"),
       icon: FaUser,
       path: "/myProfile",
       id: "profile",
     },
     {
-      label: "My Learning",
+      label: t("courses.sidebar.myLearning"),
       icon: BiBookAlt,
       path: "/myLearning",
       id: "learning",
     },
     {
-      label: "My Courses",
+      label: t("courses.sidebar.myCourses"),
       icon: IoIosList,
       path: "/instructorCourse",
       id: "instructorCourse",
     },
     {
-      label: "Analytics",
+      label: t("courses.sidebar.analytics"),
       icon: TbBrandGoogleAnalytics,
       path: "/analytics",
       id: "analytics",
@@ -55,19 +64,19 @@ const SideBar = () => {
 
   const bottomNavItems = [
     {
-      label: "Settings",
+      label: t("courses.sidebar.settings"),
       icon: IoSettingsOutline,
       path: "/settings",
       id: "settings",
     },
     {
-      label: "Help & information",
+      label: t("courses.sidebar.helpInfo"),
       icon: IoIosInformationCircleOutline,
       path: "/dashBoard/help",
       id: "help",
     },
     {
-      label: "Log out",
+      label: t("courses.sidebar.logout"),
       icon: CiLogout,
       path: "/logout",
       id: "logout",
@@ -108,7 +117,7 @@ const SideBar = () => {
       },
     },
     closed: {
-      x: -20,
+      x: isRTL ? 20 : -20,
       opacity: 0,
       transition: {
         type: "spring",
@@ -133,15 +142,21 @@ const SideBar = () => {
       <button
         onClick={() => setOpen(!open)}
         className={`fixed z-50 ${
-          open ? "left-[237px]" : "left-[37px]"
+          isRTL
+            ? open
+              ? "right-[237px]"
+              : "right-[37px]"
+            : open
+            ? "left-[237px]"
+            : "left-[37px]"
         } top-9 rounded-full p-1 text-2xl cursor-pointer`}
         style={{ backgroundColor: theme.primary, color: "#fff" }}
       >
         <motion.div
-          animate={{ rotate: open ? 180 : 0 }}
+          animate={{ rotate: isRTL ? (open ? 0 : 180) : (open ? 180 : 0) }}
           transition={{ duration: 0.3 }}
         >
-          <IoIosArrowForward />
+          {isRTL ? <IoIosArrowBack /> : <IoIosArrowForward />}
         </motion.div>
       </button>
 
@@ -171,8 +186,31 @@ const SideBar = () => {
           </Link>
         </motion.div>
 
+        {/* Language Switcher */}
+        {open && (
+          <motion.div
+            variants={itemVariants}
+            className="flex items-center gap-2 px-6 py-2"
+            style={{ color: theme.text }}
+          >
+            <MdLanguage size={20} />
+            <select
+              onChange={(e) => changeLanguage(e.target.value)}
+              value={i18n.language}
+              className="bg-transparent outline-none"
+              style={{ color: theme.text }}
+            >
+              <option value="en">English</option>
+              <option value="fr">Français</option>
+              <option value="ar">العربية</option>
+              <option value="es">Español</option>
+              <option value="de">Deutsch</option>
+            </select>
+          </motion.div>
+        )}
+
         {/* Main Navigation */}
-        <motion.nav className={`mt-10 ${open ? "ml-6" : "ml-1"}`}>
+        <motion.nav className={`mt-10 ${open ? (isRTL ? "mr-6" : "ml-6") : (isRTL ? "mr-1" : "ml-1")}`}>
           <motion.ul className="space-y-4" style={{ color: theme.secondary }}>
             {mainNavItems.map((item, index) => (
               <motion.div
@@ -191,6 +229,7 @@ const SideBar = () => {
                     open={open}
                     onClick={() => handleItemClick(item.id)}
                     theme={theme}
+                    isRTL={isRTL}
                   />
                 </Link>
               </motion.div>
@@ -199,7 +238,7 @@ const SideBar = () => {
         </motion.nav>
 
         {/* Bottom Navigation */}
-        <motion.nav className={`absolute bottom-2 ${open ? "ml-6" : "ml-1"}`}>
+        <motion.nav className={`absolute bottom-2 ${open ? (isRTL ? "mr-6" : "ml-6") : (isRTL ? "mr-1" : "ml-1")}`}>
           <motion.ul className="space-y-3" style={{ color: theme.secondary }}>
             {bottomNavItems.map((item, index) => (
               <motion.div
@@ -218,6 +257,7 @@ const SideBar = () => {
                     open={open}
                     onClick={() => handleItemClick(item.id)}
                     theme={theme}
+                    isRTL={isRTL}
                   />
                 </Link>
               </motion.div>

@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
 
-const NavItem = ({ icon: Icon, label, open, onClick, theme }) => {
+const NavItem = ({ icon: Icon, label, open, onClick, theme, isRTL }) => {
   const [isHovered, setIsHovered] = useState(false);
 
   return (
@@ -19,7 +19,7 @@ const NavItem = ({ icon: Icon, label, open, onClick, theme }) => {
         onMouseLeave={() => setIsHovered(false)}
         whileHover={{
           backgroundColor: `${theme.primary}15`,
-          x: 3,
+          x: isRTL ? -3 : 3,
         }}
         animate={{
           backgroundColor: isHovered ? `${theme.primary}15` : "transparent",
@@ -29,21 +29,22 @@ const NavItem = ({ icon: Icon, label, open, onClick, theme }) => {
       >
         <motion.div
           className="flex items-center gap-4 flex-grow"
+          style={{ flexDirection: isRTL ? 'row-reverse' : 'row' }}
           animate={{
             color: isHovered ? theme.primary : "inherit",
           }}
         >
           <motion.div
-            whileHover={{ scale: 1.1, rotate: 5 }}
+            whileHover={{ scale: 1.1, rotate: isRTL ? -5 : 5 }}
             whileTap={{ scale: 0.9 }}
           >
             <Icon fontSize={20} />
           </motion.div>
           {open && (
             <motion.span
-              initial={{ opacity: 0, x: -10 }}
+              initial={{ opacity: 0, x: isRTL ? 10 : -10 }}
               animate={{ opacity: 1, x: 0 }}
-              exit={{ opacity: 0, x: -10 }}
+              exit={{ opacity: 0, x: isRTL ? 10 : -10 }}
               transition={{ duration: 0.2 }}
             >
               {label}
@@ -54,10 +55,10 @@ const NavItem = ({ icon: Icon, label, open, onClick, theme }) => {
 
       {!open && isHovered && (
         <motion.div
-          className="fixed left-14 px-2 py-1 rounded-md text-sm font-medium z-50"
-          initial={{ opacity: 0, x: -10 }}
+          className={`fixed ${isRTL ? 'right-14' : 'left-14'} px-2 py-1 rounded-md text-sm font-medium z-50`}
+          initial={{ opacity: 0, x: isRTL ? 10 : -10 }}
           animate={{ opacity: 1, x: 0 }}
-          exit={{ opacity: 0, x: -10 }}
+          exit={{ opacity: 0, x: isRTL ? 10 : -10 }}
           style={{
             backgroundColor: theme.cardBg,
             color: theme.text,

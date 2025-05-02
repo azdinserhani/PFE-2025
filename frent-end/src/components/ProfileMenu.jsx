@@ -11,7 +11,7 @@ import { useState, useEffect } from "react";
 import { useTranslation } from "react-i18next";
 
 const ProfileMenu = () => {
-  const { i18n } = useTranslation();
+  const { i18n, t } = useTranslation();
   const { currentTheme, themes } = useTheme();
   const theme = themes[currentTheme];
   const { user } = useSelector((state) => state.user);
@@ -30,10 +30,10 @@ const ProfileMenu = () => {
   };
 
   const menuItems = [
-    { icon: <FaUserAlt />, label: "My Profile", link: "/myProfile" },
-    { icon: <BiBookAlt />, label: "My Learning", link: "/myLearning" },
-    { icon: <IoSettingsOutline />, label: "Settings", link: "/settings" },
-    { icon: <CiLogout />, label: "Sign Out", action: () => signout() },
+    { icon: <FaUserAlt />, label: t("profile_menu.my_profile"), link: "/myProfile" },
+    { icon: <BiBookAlt />, label: t("profile_menu.my_learning"), link: "/myLearning" },
+    { icon: <IoSettingsOutline />, label: t("profile_menu.settings"), link: "/settings" },
+    { icon: <CiLogout />, label: t("profile_menu.sign_out"), action: () => signout() },
   ];
 
   const signout = () => {

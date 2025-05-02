@@ -120,20 +120,43 @@ export const createCourseWithContent = async (course) => {
       thumbnail: image,
     });
 
-    const courseId = res.data.data?.id; // capture the actual courseId from backend
+    const courseId = res.data.data?.id;
 
-    const sectionPromises = course.sections.map((element) =>
-      storeSection({
+    // Store sections and get their IDs
+    const sectionPromises = course.sections.map(async (element) => {
+      const sectionData = await storeSection({
         name: element.name,
         number: element.number,
         course_id: courseId,
-      })
-    );
+      });
+      return { ...sectionData, lectures: element.lecture };
+    });
 
-    // await Promise.all(sectionPromises);
-    console.log("All sections stored");
+    const sectionsWithIds = await Promise.all(sectionPromises);
+
+    // Store lectures for each section
+    for (const section of sectionsWithIds) {
+      const lecturePromises = section.lectures.map(async (lecture, index) => {
+        if (lecture.type === 'lecture') {
+          return storeLecture({
+            module_id: section.id,
+            name: lecture.title,
+            number: index + 1,
+            video_url: lecture.video_url,
+            lessons_details: "Lecture content",
+            is_free: index === 0 // Make first lecture free
+          });
+        }
+        return null; // Skip non-lecture content (like quizzes)
+      });
+      await Promise.all(lecturePromises.filter(p => p !== null));
+    }
+
+    console.log("All sections and lectures stored");
+    return res.data.data;
   } catch (error) {
     console.error("Error creating course with content:", error);
+    throw error;
   }
 };
 
@@ -170,5 +193,15 @@ const storeSection = async (section) => {
     return res.data.data;
   } catch (error) {
     console.error(`Error storing section "${section.name}":`, error);
+  }
+};
+
+const storeLecture = async (lecture) => {
+  try {
+    const res = await userRequest.post("/api/v1/course/lecture", lecture);
+    return res.data.data;
+  } catch (error) {
+    console.error(`Error storing lecture "${lecture.name}":`, error);
+    throw error;
   }
 };

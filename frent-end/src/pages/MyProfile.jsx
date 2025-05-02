@@ -6,6 +6,7 @@ import { useState } from "react";
 import { motion } from "framer-motion";
 import { useTheme } from "../context/ThemeContext";
 import { useSelector } from "react-redux";
+import { useTranslation } from "react-i18next";
 
 const MyProfile = () => {
   const [profile, setProfile] = useState(null);
@@ -13,6 +14,7 @@ const MyProfile = () => {
   const { currentTheme, themes } = useTheme();
   const theme = themes[currentTheme];
   const { user } = useSelector((state) => state.user);
+  const { t } = useTranslation();
 
   const handleFileChange = (event) => {
     const file = event.target.files[0];
@@ -35,10 +37,10 @@ const MyProfile = () => {
         className="mb-8"
       >
         <h1 className="text-3xl font-bold mb-2" style={{ color: theme.text }}>
-          My Profile
+          {t("profile_menu.my_profile")}
         </h1>
         <p style={{ color: theme.secondary }}>
-          Manage your personal information and account settings
+          {t("profile.menu.description", "Manage your personal information and account settings")}
         </p>
       </motion.div>
 
@@ -83,7 +85,7 @@ const MyProfile = () => {
                   {profile ? (
                     <img
                       src={profile}
-                      alt="Profile"
+                      alt={t("alt_text.profile_photo", "Profile Photo")}
                       className="w-full h-full object-cover"
                     />
                   ) : (
@@ -119,7 +121,7 @@ const MyProfile = () => {
                   style={{ color: theme.text }}
                 >
                   <FaRegCalendarAlt style={{ color: theme.primary }} />
-                  <span>Joined</span>
+                  <span>{t("profile.joined", "Joined")}</span>
                 </div>
                 <span style={{ color: theme.secondary }}>
                   {user.created_at
@@ -171,7 +173,7 @@ const MyProfile = () => {
               className="text-xl font-semibold mb-6"
               style={{ color: theme.text }}
             >
-              Edit Profile
+              {t("profile.edit_profile", "Edit Profile")}
             </h3>
 
             <form className="space-y-6">
@@ -181,7 +183,7 @@ const MyProfile = () => {
                     className="block mb-2 text-sm font-medium"
                     style={{ color: theme.text }}
                   >
-                    Full Name
+                    {t("form.placeholders.name", "Full Name")}
                   </label>
                   <div className="relative">
                     <FaUserAlt
@@ -190,7 +192,7 @@ const MyProfile = () => {
                     />
                     <input
                       type="text"
-                      placeholder="Enter your full name"
+                      placeholder={t("form.placeholders.name")}
                       className="w-full pl-10 pr-4 py-2 rounded-lg focus:outline-none focus:ring-2 transition-all"
                       style={{
                         backgroundColor: theme.background,
@@ -207,7 +209,7 @@ const MyProfile = () => {
                     className="block mb-2 text-sm font-medium"
                     style={{ color: theme.text }}
                   >
-                    Email Address
+                    {t("form.placeholders.email", "Email Address")}
                   </label>
                   <div className="relative">
                     <MdEmail
@@ -216,7 +218,7 @@ const MyProfile = () => {
                     />
                     <input
                       type="email"
-                      placeholder="Enter your email"
+                      placeholder={t("form.placeholders.email")}
                       className="w-full pl-10 pr-4 py-2 rounded-lg focus:outline-none focus:ring-2 transition-all"
                       style={{
                         backgroundColor: theme.background,
@@ -233,7 +235,7 @@ const MyProfile = () => {
                     className="block mb-2 text-sm font-medium"
                     style={{ color: theme.text }}
                   >
-                    Password
+                    {t("profile.password", "Password")}
                   </label>
                   <div className="relative">
                     <MdLock
@@ -260,7 +262,7 @@ const MyProfile = () => {
                     className="block mb-2 text-sm font-medium"
                     style={{ color: theme.text }}
                   >
-                    Phone Number
+                    {t("profile.phone", "Phone Number")}
                   </label>
                   <div className="relative">
                     <span
@@ -271,7 +273,7 @@ const MyProfile = () => {
                     </span>
                     <input
                       type="tel"
-                      placeholder="Enter your phone number"
+                      placeholder={t("profile.phone_placeholder", "Enter your phone number")}
                       className="w-full pl-10 pr-4 py-2 rounded-lg focus:outline-none focus:ring-2 transition-all"
                       style={{
                         backgroundColor: theme.background,
@@ -299,7 +301,7 @@ const MyProfile = () => {
                     e.currentTarget.style.backgroundColor = `${theme.primary}20`;
                   }}
                 >
-                  Cancel
+                  {t("profile.cancel", "Cancel")}
                 </button>
                 <button
                   type="submit"
@@ -315,7 +317,7 @@ const MyProfile = () => {
                     e.currentTarget.style.backgroundColor = theme.primary;
                   }}
                 >
-                  Save Changes
+                  {t("profile.save_changes", "Save Changes")}
                 </button>
               </div>
             </form>

@@ -9,10 +9,12 @@ import { MdOutlineEmail } from "react-icons/md";
 import { FaLocationDot } from "react-icons/fa6";
 import { motion } from "framer-motion";
 import { useTheme } from "../../context/ThemeContext";
+import { useTranslation } from "react-i18next";
 
 const Footer = () => {
   const { currentTheme, themes } = useTheme();
   const theme = themes[currentTheme];
+  const { t } = useTranslation();
 
   const backgroundVariants = {
     dark: {
@@ -60,11 +62,11 @@ const Footer = () => {
   };
 
   const socialLinks = [
-    { icon: <CiLinkedin className="text-xl" />, label: "LinkedIn" },
-    { icon: <LuFacebook className="text-xl" />, label: "Facebook" },
-    { icon: <FaInstagram className="text-xl" />, label: "Instagram" },
-    { icon: <CiTwitter className="text-xl" />, label: "Twitter" },
-    { icon: <MdOutlineEmail className="text-xl" />, label: "Email" },
+    { icon: <CiLinkedin className="text-xl" />, label: t("footer.get_in_touch.social_links.linkedin") },
+    { icon: <LuFacebook className="text-xl" />, label: t("footer.get_in_touch.social_links.facebook") },
+    { icon: <FaInstagram className="text-xl" />, label: t("footer.get_in_touch.social_links.instagram") },
+    { icon: <CiTwitter className="text-xl" />, label: t("footer.get_in_touch.social_links.twitter") },
+    { icon: <MdOutlineEmail className="text-xl" />, label: t("footer.get_in_touch.social_links.email") },
   ];
 
   return (
@@ -114,8 +116,7 @@ const Footer = () => {
               className="text-gray-300 leading-relaxed text-sm"
               variants={childVariants}
             >
-              Discover a world of knowledge and opportunities with our online
-              education platform pursue a new career.
+              {t("footer.company_info.description")}
             </motion.p>
             <motion.div className="space-y-4" variants={staggerChildren}>
               <motion.div
@@ -132,7 +133,7 @@ const Footer = () => {
                   <FaLocationDot className="size-5" />
                 </motion.div>
                 <span className="font-medium text-gray-300 group-hover:text-white transition-colors">
-                  Ksar el Kebir
+                  {t("footer.company_info.location")}
                 </span>
               </motion.div>
               <motion.div
@@ -149,7 +150,7 @@ const Footer = () => {
                   <FaPhoneVolume className="size-5" />
                 </motion.div>
                 <span className="font-medium text-gray-300 group-hover:text-white transition-colors">
-                  +212636241246
+                  {t("footer.company_info.phone")}
                 </span>
               </motion.div>
             </motion.div>
@@ -161,7 +162,7 @@ const Footer = () => {
               className="font-bold text-xl text-white relative inline-block"
               whileHover={{ x: 5 }}
             >
-              Useful Links
+              {t("footer.useful_links.title")}
               <motion.span
                 className="absolute left-0 bottom-0 w-12 h-1 bg-gradient-to-r from-purple-600 to-purple-400"
                 initial={{ scaleX: 0 }}
@@ -173,13 +174,7 @@ const Footer = () => {
               className="flex flex-col gap-3 text-gray-300"
               variants={staggerChildren}
             >
-              {[
-                "Course",
-                "Mission & Vision",
-                "Join a Career",
-                "Zoom Meeting",
-                "Pricing Plan",
-              ].map((item, index) => (
+              {t("footer.useful_links.items", { returnObjects: true }).map((item, index) => (
                 <motion.li key={index} variants={childVariants}>
                   <motion.a
                     href="#"
@@ -204,7 +199,7 @@ const Footer = () => {
               className="font-bold text-xl text-white relative inline-block"
               whileHover={{ x: 5 }}
             >
-              Our Institute
+              {t("footer.our_institute.title")}
               <motion.span
                 className="absolute left-0 bottom-0 w-12 h-1 bg-gradient-to-r from-purple-600 to-purple-400"
                 initial={{ scaleX: 0 }}
@@ -216,14 +211,7 @@ const Footer = () => {
               className="flex flex-col gap-3 text-gray-300"
               variants={staggerChildren}
             >
-              {[
-                "Contact Us",
-                "Mission & Vision",
-                "Technology",
-                "Instructors",
-                "Pricing",
-                "Services",
-              ].map((item, index) => (
+              {t("footer.our_institute.items", { returnObjects: true }).map((item, index) => (
                 <motion.li key={index} variants={childVariants}>
                   <motion.a
                     href="#"
@@ -248,7 +236,7 @@ const Footer = () => {
               className="font-bold text-xl text-white relative inline-block"
               whileHover={{ x: 5 }}
             >
-              Get In Touch
+              {t("footer.get_in_touch.title")}
               <motion.span
                 className="absolute left-0 bottom-0 w-12 h-1 bg-gradient-to-r from-purple-600 to-purple-400"
                 initial={{ scaleX: 0 }}
@@ -264,10 +252,11 @@ const Footer = () => {
                 href="#"
                 className="transform transition-all duration-300"
                 whileHover={{ scale: 1.05, y: -5 }}
+                aria-label={t("footer.get_in_touch.app_store")}
               >
                 <img
                   src="/AppStore.png"
-                  alt="App Store"
+                  alt={t("footer.get_in_touch.app_store")}
                   className="rounded-xl shadow-md"
                 />
               </motion.a>
@@ -275,10 +264,11 @@ const Footer = () => {
                 href="#"
                 className="transform transition-all duration-300"
                 whileHover={{ scale: 1.05, y: -5 }}
+                aria-label={t("footer.get_in_touch.play_store")}
               >
                 <img
                   src="/PlayStore.png"
-                  alt="Play Store"
+                  alt={t("footer.get_in_touch.play_store")}
                   className="rounded-xl shadow-md"
                 />
               </motion.a>
@@ -322,7 +312,7 @@ const Footer = () => {
           initial="initial"
           animate="animate"
         >
-          <p>© {new Date().getFullYear()} Your Company. All rights reserved.</p>
+          <p>{t("footer.copyright", { year: new Date().getFullYear() })}</p>
         </motion.div>
       </div>
     </motion.footer>

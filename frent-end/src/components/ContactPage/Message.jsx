@@ -72,7 +72,7 @@ const Message = () => {
                 <input
                   id="name"
                   type="text"
-                  placeholder="John Doe"
+                  placeholder={t("form.placeholders.name")}
                   className="w-full rounded-lg p-3 text-sm transition-colors"
                   style={{ 
                     backgroundColor: theme.background,
@@ -92,7 +92,7 @@ const Message = () => {
                 <input
                   id="email"
                   type="email"
-                  placeholder="john@example.com"
+                  placeholder={t("form.placeholders.email")}
                   className="w-full rounded-lg p-3 text-sm transition-colors"
                   style={{ 
                     backgroundColor: theme.background,
@@ -113,7 +113,7 @@ const Message = () => {
               <input
                 id="subject"
                 type="text"
-                placeholder="How can we help you?"
+                placeholder={t("form.placeholders.subject")}
                 className="w-full rounded-lg p-3 text-sm transition-colors"
                 style={{ 
                   backgroundColor: theme.background,
@@ -134,7 +134,7 @@ const Message = () => {
                 id="message"
                 rows="4"
                 className="w-full rounded-lg p-3 text-sm transition-colors"
-                placeholder="Your message here..."
+                placeholder={t("form.placeholders.message")}
                 style={{ 
                   backgroundColor: theme.background,
                   color: theme.text,

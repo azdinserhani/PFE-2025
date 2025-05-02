@@ -15,9 +15,8 @@ const createLessonSchema = Joi.object({
     "number.min": "Lesson number must be at least 1",
     "any.required": "Lesson number is required",
   }),
-  video_url: Joi.string().uri().required().messages({
+  video_url: Joi.string().required().messages({
     "string.empty": "Video URL is required",
-    "string.uri": "Video URL must be a valid URI",
     "any.required": "Video URL is required",
   }),
   lessons_details: Joi.string().optional().allow("").messages({

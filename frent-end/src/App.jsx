@@ -30,6 +30,9 @@ import { ThemeProvider } from "./context/ThemeContext";
 import ScrollToTop from "./components/Layout/ScrollToTop";
 import { useEffect } from "react";
 import { useNavigate, Navigate } from "react-router";
+import { useTranslation } from "react-i18next";
+import './i18n';
+import './styles/rtl.css';
 
 const ProtectedRoute = ({ children }) => {
   const { user } = useSelector((state) => ({
@@ -182,6 +185,27 @@ function AnimatedRoutes() {
 }
 
 function App() {
+  const { i18n } = useTranslation();
+  
+  useEffect(() => {
+    // Get the stored language or default to 'en'
+    const currentLanguage = localStorage.getItem('i18nextLng') || 'en';
+    
+    // Set the language
+    i18n.changeLanguage(currentLanguage);
+    
+    // Set the direction based on the language
+    const dir = currentLanguage === 'ar' ? 'rtl' : 'ltr';
+    document.documentElement.dir = dir;
+    
+  }, []); // Empty dependency array for initial load
+
+  // Watch for language changes
+  useEffect(() => {
+    const dir = i18n.language === 'ar' ? 'rtl' : 'ltr';
+    document.documentElement.dir = dir;
+  }, [i18n.language]);
+
   return (
     <ThemeProvider>
       <div className="">

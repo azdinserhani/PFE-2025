@@ -193,7 +193,14 @@
                     "Expert"
                 ]
             },
-            "clear_filters": "Clear All Filters"
+            "clear_filters": "Clear All Filters",
+            "accountSettings": "Account settings",
+            "myLearning": "My Learning",
+            "myCourses": "My Courses",
+            "analytics": "Analytics",
+            "settings": "Settings",
+            "helpInfo": "Help & information",
+            "logout": "Log out"
         }
     },
     "instructor_dashboard": {
@@ -264,6 +271,7 @@
     },
     "profile": {
         "menu": {
+            "description": "Manage your personal information and account settings",
             "user_info": {
                 "account_type": "Free Account"
             },
@@ -280,11 +288,15 @@
                 {
                     "label": "Sign Out"
                 }
-            ],
-            "version": {
-                "label": "Version"
-            }
-        }
+            ]
+        },
+        "edit_profile": "Edit Profile",
+        "password": "Password",
+        "phone": "Phone Number",
+        "phone_placeholder": "Enter your phone number",
+        "joined": "Joined",
+        "cancel": "Cancel",
+        "save_changes": "Save Changes"
     },
     "ai_chat": {
         "welcome_message": "Ask me anything about this course!",
@@ -294,13 +306,14 @@
         }
     },
     "footer": {
-        "company": {
-            "logo": "Logo",
-            "description": "Discover a world of knowledge and opportunities with our online education platform pursue a new career."
+        "company_info": {
+            "description": "Discover a world of knowledge and opportunities with our online education platform pursue a new career.",
+            "location": "Ksar el Kebir",
+            "phone": "+212636241246"
         },
         "useful_links": {
             "title": "Useful Links",
-            "links": [
+            "items": [
                 "Course",
                 "Mission & Vision",
                 "Join a Career",
@@ -308,9 +321,9 @@
                 "Pricing Plan"
             ]
         },
-        "institute": {
+        "our_institute": {
             "title": "Our Institute",
-            "links": [
+            "items": [
                 "Contact Us",
                 "Mission & Vision",
                 "Technology",
@@ -320,7 +333,44 @@
             ]
         },
         "get_in_touch": {
-            "title": "Get In Touch"
+            "title": "Get In Touch",
+            "app_store": "Download from App Store",
+            "play_store": "Download from Play Store",
+            "social_links": {
+                "linkedin": "LinkedIn",
+                "facebook": "Facebook",
+                "instagram": "Instagram",
+                "twitter": "Twitter",
+                "email": "Email"
+            }
+        },
+        "copyright": "© {{year}} Your Company. All rights reserved."
+    },
+    "profile_menu": {
+        "my_profile": "My Profile",
+        "my_learning": "My Learning",
+        "settings": "Settings",
+        "sign_out": "Sign Out",
+        "language": "Language"
+    },
+    "form": {
+        "placeholders": {
+            "name": "John Doe",
+            "email": "john@example.com",
+            "subject": "How can we help you?",
+            "message": "Your message here..."
         }
+    },
+    "alt_text": {
+        "person_illustration": "Person illustration",
+        "company_logos": {
+            "amazon": "Amazon logo",
+            "google": "Google logo",
+            "shopify": "Shopify logo",
+            "lenovo": "Lenovo logo",
+            "paypal": "PayPal logo",
+            "spotify": "Spotify logo"
+        },
+        "profile_photo": "Profile Photo"
     }
 }

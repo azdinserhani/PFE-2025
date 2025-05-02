@@ -7,46 +7,46 @@
     "sign_in": "Iniciar Sesión"
   },
   "hero": {
-    "title": "Los Mejores Cursos Online de EdClub",
-    "description": "Descubre un mundo de conocimiento y oportunidades con nuestra plataforma educativa online y persigue una nueva carrera.",
+    "title": "Los Mejores Cursos en Línea de EdClub",
+    "description": "Descubre un mundo de conocimiento y oportunidades con nuestra plataforma educativa en línea para seguir una nueva carrera.",
     "view_courses": "Ver Cursos",
-    "online_course": "Curso Online",
+    "online_course": "Curso en Línea",
     "our_instructors": "Nuestros Instructores"
   },
   "trusted_by": {
-    "trusted_by": "Confiado por"
+    "trusted_by": "Confían en nosotros"
   },
   "info": {
-    "info_title": "Accede al Aprendizaje en Cualquier Momento y Lugar",
-    "info_description": "EdClub es una plataforma de aprendizaje interactiva que ofrece lecciones personalizadas y herramientas útiles para estudiantes y profesores.",
-    "features": ["Aprendizaje Fácil", "Aprendizaje Sencillo", "Asequible", "De Clase Mundial"],
+    "info_title": "Acceso al Aprendizaje en Cualquier Momento y Lugar",
+    "info_description": "EdClub es una plataforma de aprendizaje interactiva que ofrece lecciones personalizadas y herramientas útiles para estudiantes y profesores para apoyar un aprendizaje efectivo.",
+    "features": ["Aprendizaje Fácil", "Aprendizaje Fácil", "Asequible", "Clase Mundial"],
     "learn_more": "Saber Más"
   },
-  "features_title": "Descubre Potentes Funcionalidades",
-  "features_description": "Explora un mundo de conocimiento y oportunidades con nuestra plataforma educativa online para comenzar una nueva carrera.",
+  "features_title": "Descubre Características Poderosas",
+  "features_description": "Explora un mundo de conocimiento y oportunidades con nuestra plataforma educativa en línea para seguir una nueva carrera.",
   "read_more": "Leer Más",
   "features": [
     {
-      "name": "Relájate y Aprende",
-      "desc": "Aprende a tu propio ritmo en un entorno sin estrés."
+      "name": "Relajación y Aprendizaje",
+      "desc": "Aprende a tu propio ritmo en un ambiente libre de estrés."
     },
     {
       "name": "Certificado",
-      "desc": "Recibe un certificado al finalizar el curso."
+      "desc": "Recibe un certificado al completar el curso."
     },
     {
-      "name": "Mentoría Privada",
-      "desc": "Benefíciate de sesiones de mentoría personalizadas."
+      "name": "Tutoría Privada",
+      "desc": "Benefíciate de sesiones de tutoría individuales."
     },
     {
       "name": "Pensamiento Creativo",
-      "desc": "Mejora tu creatividad y habilidades para resolver problemas."
+      "desc": "Potencia tu creatividad y habilidades de resolución de problemas."
     }
   ],
   "newsletter": {
     "title": "¡Suscríbete a Nuestro Boletín!",
-    "description": "Mantente informado con los últimos cursos y noticias.",
-    "email_placeholder": "Introduce tu correo electrónico:",
+    "description": "Mantente actualizado con los últimos cursos y noticias.",
+    "email_placeholder": "Ingresa tu dirección de correo electrónico:",
     "subscribe": "Suscribirse"
   },
   "explore_courses": {
@@ -56,13 +56,13 @@
   },
   "instructors": {
     "title": "Instructores Expertos",
-    "description": "Descubre un mundo de conocimiento y oportunidades con nuestra plataforma educativa online para comenzar una nueva carrera."
+    "description": "Descubre un mundo de conocimiento y oportunidades con nuestra plataforma educativa en línea"
   },
   "cart": {
     "empty_cart": {
-      "title": "Tu Carrito Está Vacío",
-      "description": "Parece que aún no has agregado ningún curso a tu carrito.",
-      "continue_shopping": "Seguir Comprando"
+      "title": "Tu Carrito está Vacío",
+      "description": "Parece que aún no has añadido ningún curso a tu carrito.",
+      "continue_shopping": "Continuar Comprando"
     },
     "summary": {
       "order_summary": "Resumen del Pedido",
@@ -94,17 +94,17 @@
     },
     "question": {
       "title": "¿Tienes Preguntas? ¡Contáctanos!",
-      "description": "Descubre un mundo de conocimiento y oportunidades con nuestra plataforma educativa online y persigue una nueva carrera.",
+      "description": "Descubre un mundo de conocimiento y oportunidades con nuestra plataforma educativa en línea.",
       "contact_us": "Contáctanos"
     }
   },
   "contact": {
     "message": {
-      "title": "Empecemos una Conversación",
-      "description": "Nos encantaría saber de ti. Envíanos un mensaje y te responderemos lo antes posible.",
+      "title": "Iniciemos una conversación",
+      "description": "Nos encantaría saber de ti. Déjanos un mensaje y te responderemos lo antes posible.",
       "form": {
         "name": "Tu Nombre",
-        "email": "Tu Correo",
+        "email": "Tu Correo Electrónico",
         "subject": "Asunto",
         "message": "Tu Mensaje",
         "send": "Enviar Mensaje"
@@ -113,17 +113,17 @@
     "cards": {
       "location": {
         "title": "Nuestra Ubicación",
-        "description": "Visita nuestra sede para conocer a nuestro equipo en persona y hablar sobre tus necesidades educativas.",
+        "description": "Visita nuestra sede para conocer a nuestro equipo en persona y discutir tus necesidades educativas.",
         "action": "Ver en el mapa"
       },
       "phone": {
         "title": "Llámanos",
-        "description": "¿Tienes una pregunta rápida? Llámanos y nuestro equipo de soporte te ayudará inmediatamente.",
+        "description": "¿Tienes una pregunta rápida? Llámanos y nuestro equipo de soporte te ayudará de inmediato.",
         "action": "Llamar ahora"
       },
       "email": {
         "title": "Envíanos un Correo",
-        "description": "Envíanos un mensaje detallado con tu consulta y responderemos en 24 horas.",
+        "description": "Envíanos un mensaje detallado sobre tu consulta y responderemos dentro de 24 horas.",
         "action": "Enviar correo"
       }
     }
@@ -134,7 +134,7 @@
     },
     "details": {
       "view_profile": "Ver Perfil",
-      "add_to_cart": "Agregar al Carrito",
+      "add_to_cart": "Añadir al Carrito",
       "stats": {
         "duration": "Duración",
         "level": "Nivel",
@@ -150,7 +150,7 @@
         "students": "Estudiantes"
       },
       "overview": {
-        "title": "Resumen"
+        "title": "Descripción General"
       },
       "curriculum": {
         "title": "Plan de Estudios"
@@ -175,8 +175,8 @@
         "items": [
           "Diseño Web",
           "Ciencia de Datos",
-          "Aprendizaje Automático",
-          "Desarrollo de Apps",
+          "Machine Learning",
+          "Desarrollo de Aplicaciones",
           "Ciberseguridad"
         ]
       },
@@ -193,7 +193,14 @@
           "Experto"
         ]
       },
-      "clear_filters": "Borrar Todos los Filtros"
+      "clear_filters": "Limpiar Todos los Filtros",
+      "accountSettings": "Configuración de la cuenta",
+      "myLearning": "Mi aprendizaje",
+      "myCourses": "Mis cursos",
+      "analytics": "Análisis",
+      "settings": "Configuración",
+      "helpInfo": "Ayuda e información",
+      "logout": "Cerrar sesión"
     }
   },
   "instructor_dashboard": {
@@ -232,7 +239,7 @@
       "title": "Título del Curso",
       "search_placeholder": "Buscar cursos...",
       "actions": {
-        "add": "Agregar Curso",
+        "add": "Añadir Curso",
         "delete": "Eliminar",
         "filter": "Filtrar",
         "more": "Más"
@@ -264,8 +271,9 @@
   },
   "profile": {
     "menu": {
+      "description": "Administra tu información personal y la configuración de tu cuenta",
       "user_info": {
-        "account_type": "Cuenta Gratuita"
+        "account_type": "Cuenta gratuita"
       },
       "items": [
         {
@@ -280,14 +288,18 @@
         {
           "label": "Cerrar Sesión"
         }
-      ],
-      "version": {
-        "label": "Versión"
-      }
-    }
+      ]
+    },
+    "edit_profile": "Editar Perfil",
+    "password": "Contraseña",
+    "phone": "Número de Teléfono",
+    "phone_placeholder": "Ingresa tu número de teléfono",
+    "joined": "Se unió",
+    "cancel": "Cancelar",
+    "save_changes": "Guardar Cambios"
   },
   "ai_chat": {
-    "welcome_message": "¡Pregunta lo que quieras sobre este curso!",
+    "welcome_message": "¡Pregúntame cualquier cosa sobre este curso!",
     "input": {
       "placeholder": "Escribe tu pregunta aquí...",
       "send_button": "Enviar"
@@ -296,7 +308,7 @@
   "footer": {
     "company": {
       "logo": "Logo",
-      "description": "Descubre un mundo de conocimiento y oportunidades con nuestra plataforma educativa online y persigue una nueva carrera."
+      "description": "Descubre un mundo de conocimiento y oportunidades con nuestra plataforma educativa en línea para seguir una nueva carrera."
     },
     "useful_links": {
       "title": "Enlaces Útiles",
@@ -304,7 +316,7 @@
         "Curso",
         "Misión y Visión",
         "Únete a una Carrera",
-        "Reunión por Zoom",
+        "Reunión Zoom",
         "Plan de Precios"
       ]
     },
@@ -322,5 +334,32 @@
     "get_in_touch": {
       "title": "Ponte en Contacto"
     }
+  },
+  "profile_menu": {
+    "my_profile": "Mi Perfil",
+    "my_learning": "Mi Aprendizaje",
+    "settings": "Configuración",
+    "sign_out": "Cerrar Sesión",
+    "language": "Idioma"
+  },
+  "form": {
+    "placeholders": {
+      "name": "Juan Pérez",
+      "email": "juan@ejemplo.com",
+      "subject": "¿Cómo podemos ayudarte?",
+      "message": "Tu mensaje aquí..."
+    }
+  },
+  "alt_text": {
+    "person_illustration": "Ilustración de persona",
+    "company_logos": {
+      "amazon": "Logo de Amazon",
+      "google": "Logo de Google",
+      "shopify": "Logo de Shopify",
+      "lenovo": "Logo de Lenovo",
+      "paypal": "Logo de PayPal",
+      "spotify": "Logo de Spotify"
+    },
+    "profile_photo": "Foto de Perfil"
   }
 }
