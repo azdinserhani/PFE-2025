@@ -1,11 +1,12 @@
 import React from "react";
-
+import { useTranslation } from "react-i18next";
 const CoverImg = () => {
+  const { t } = useTranslation();
   const stats = [
-    { value: "1,548+", label: "COURSES" },
-    { value: "12+", label: "COUNTRIES" },
-    { value: "500K", label: "STUDENTS" },
-    { value: "80+", label: "INSTRUCTORS" },
+    { value: "1,548+", label: `${t("about.stats.courses")}` },
+    { value: "12+", label: `${t("about.stats.courses")}` },
+    { value: "500K", label: `${t("about.stats.students")}` },
+    { value: "80+", label: `${t("about.stats.instructors")}` },
   ];
 
   return (
@@ -22,15 +23,14 @@ const CoverImg = () => {
           style={{ zIndex: 1 }}
         ></div>
         <div className="relative z-10"></div>
-          {stats.map((stat, index) => (
-            <div key={index} className="z-30">
-              <h1 className="text-4xl font-bold">{stat.value}</h1>
-              <h5>{stat.label}</h5>
-            </div>
-          ))}
-        </div>
+        {stats.map((stat, index) => (
+          <div key={index} className="z-30">
+            <h1 className="text-4xl font-bold">{stat.value}</h1>
+            <h5>{stat.label}</h5>
+          </div>
+        ))}
       </div>
-
+    </div>
   );
 };
 

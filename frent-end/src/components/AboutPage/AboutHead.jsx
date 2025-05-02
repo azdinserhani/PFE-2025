@@ -1,6 +1,8 @@
 import React from "react";
+import { useTranslation } from "react-i18next";
 
 const AboutHead = () => {
+  const { t } = useTranslation();
   return (
     <div>
       <div
@@ -11,7 +13,7 @@ const AboutHead = () => {
         <div className="container relative">
           <div className="grid grid-cols-1 text-center mt-12">
             <h2 className="md:text-3xl text-2xl md:leading-normal leading-normal font-semibold text-white">
-              About Us
+              {t("about.header.title")}
             </h2>
           </div>
         </div>

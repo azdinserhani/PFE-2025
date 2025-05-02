@@ -3,8 +3,9 @@ import InputField from "../Auth/InputField";
 import ButtonAuth from "../Auth/Button";
 import { motion } from "framer-motion";
 import { useTheme } from "../../context/ThemeContext";
-
+import { useTranslation } from "react-i18next";
 const Message = () => {
+  const { t } = useTranslation();
   const { themes, currentTheme } = useTheme();
   const theme = themes[currentTheme];
 
@@ -34,7 +35,7 @@ const Message = () => {
               className="font-bold text-3xl mb-3"
               style={{ color: theme.text }}
             >
-              Let's start a conversation
+              {t("contact.message.title")}
             </h2>
             <div 
               className="w-20 h-1 mb-4"
@@ -43,7 +44,7 @@ const Message = () => {
             <p
               style={{ color: `${theme.text}99` }}
             >
-              We'd love to hear from you. Drop us a message and we'll get back to you as soon as possible.
+              {t("contact.message.description")}
             </p>
           </div>
           <motion.form
@@ -66,7 +67,7 @@ const Message = () => {
                   className="block text-sm font-medium mb-2"
                   style={{ color: theme.text }}
                 >
-                  Your Name
+                 {t("contact.message.form.name")}
                 </label>
                 <input
                   id="name"
@@ -86,7 +87,7 @@ const Message = () => {
                   className="block text-sm font-medium mb-2"
                   style={{ color: theme.text }}
                 >
-                  Your Email
+                  {t("contact.message.form.email")}
                 </label>
                 <input
                   id="email"
@@ -107,7 +108,7 @@ const Message = () => {
                 className="block text-sm font-medium mb-2"
                 style={{ color: theme.text }}
               >
-                Subject
+                {t("contact.message.form.subject")}
               </label>
               <input
                 id="subject"
@@ -127,7 +128,7 @@ const Message = () => {
                 className="block text-sm font-medium mb-2"
                 style={{ color: theme.text }}
               >
-                Message
+                {t("contact.message.form.message")}
               </label>
               <textarea
                 id="message"
@@ -148,9 +149,9 @@ const Message = () => {
                 color: "#ffffff"
               }}
             >
-              Send Message
+              {t("contact.message.form.send")}
             </button>
-          </motion.form>
+          </motion.form>  
         </div>
       </motion.div>
     </section>

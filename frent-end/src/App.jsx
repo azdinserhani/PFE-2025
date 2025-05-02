@@ -32,11 +32,9 @@ import { useEffect } from "react";
 import { useNavigate, Navigate } from "react-router";
 
 const ProtectedRoute = ({ children }) => {
-  const { user, course } = useSelector((state) => ({
+  const { user } = useSelector((state) => ({
     user: state.user,
-    course: state.course,
   }));
-  console.log(course);
 
   // Check if the user is authenticated
   if (user == null) {

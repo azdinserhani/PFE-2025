@@ -21,14 +21,16 @@ import {
   verticalListSortingStrategy,
   arrayMove,
 } from "@dnd-kit/sortable";
-import { reorderSections } from "../../redux/features/courseSlice";
+import {
+  reorderSections,
+  setCourseInfo,
+} from "../../redux/features/courseSlice";
 import { MdDragIndicator } from "react-icons/md";
 import { uploadFile, createCourse } from "../../redux/ApiCalls";
 import { useEffect, useState } from "react";
 
 const CreateCourse = () => {
   const [courseId, setCourseId] = useState(null);
-  const [finishCreateCourse, setFinishCreateCourse] = useState(false);
   const [img, setImg] = useState(null);
   const [imgUrl, setImgUrl] = useState(null);
   const [fileName, setFileName] = useState("");
@@ -37,7 +39,11 @@ const CreateCourse = () => {
   const [price, setPrice] = useState("");
   const [category, setCategory] = useState("");
   const [progress, setProgress] = useState(0);
-  const sec = useSelector((stat) => stat.course.sections);
+  const { course, sec } = useSelector((stat) => ({
+    sec: stat.course.sections,
+    course: stat.course,
+  }));
+
   const [sectionFormOpen, setSectionFormOpen] = useState(false);
   const [activeId, setActiveId] = useState(null);
   const dispatch = useDispatch();
@@ -57,15 +63,11 @@ const CreateCourse = () => {
     };
   }, []);
   const handleCreateCourse = async () => {
-    setFinishCreateCourse(true);
-    const createdCourse = await createCourse({
-      title,
-      description,
-      thumbnail: imgUrl,
-      price,
-      categoryId: 1,
-    });
-    setCourseId(createdCourse.id);
+    localStorage.removeItem("course");
+    const courseInfo = { title, description, price, category, image: imgUrl };
+
+    dispatch(setCourseInfo(courseInfo));
+    console.log(course);
   };
   // DnD sensors configuration
   const sensors = useSensors(
@@ -285,14 +287,144 @@ const CreateCourse = () => {
               </div>
             </div>
           </div>
+        </div>
+        <div className="flex flex-col gap-6 flex-1">
+          <div className="flex gap-3 items-center">
+            <div
+              className="p-3 rounded-full"
+              style={{ backgroundColor: `${theme.primary}20` }}
+            >
+              <LuListTodo fontSize={30} style={{ color: theme.primary }} />
+            </div>
+            <h2 className="text-xl font-semibold" style={{ color: theme.text }}>
+              Course Content
+            </h2>
+          </div>
+          <div
+            className="shadow-md p-6 rounded-lg flex flex-col gap-4"
+            style={{ backgroundColor: theme.cardBg }}
+          >
+            <div
+              className="flex flex-col gap-4 p-2"
+              style={{ minHeight: "100px" }}
+            >
+              {sec && sec.length > 0 ? (
+                <DndContext
+                  sensors={sensors}
+                  collisionDetection={closestCenter}
+                  onDragStart={handleDragStart}
+                  onDragEnd={handleDragEnd}
+                >
+                  <SortableContext
+                    items={sec.map((section) => section.id)}
+                    strategy={verticalListSortingStrategy}
+                  >
+                    {sec.map((section, index) => (
+                      <SectionItem
+                        section={section.title}
+                        index={index}
+                        key={section.id || `section-${index}`}
+                        id={section.id}
+                        theme={theme}
+                      />
+                    ))}
+                  </SortableContext>
+                  <DragOverlay adjustScale={true}>
+                    {activeId ? (
+                      <div
+                        className="rounded-md px-4 py-3 opacity-90 w-full"
+                        style={{
+                          backgroundColor: `${theme.primary}05`,
+                          borderColor: theme.primary,
+                          borderWidth: "2px",
+                          borderStyle: "dashed",
+                          boxShadow: `0 10px 15px -3px ${theme.primary}30, 0 4px 6px -4px ${theme.primary}20`,
+                        }}
+                      >
+                        <div className="flex items-center gap-3">
+                          <div className="flex items-center justify-center p-1.5 rounded-md">
+                            <div
+                              className="p-1.5 rounded-md flex items-center justify-center"
+                              style={{
+                                backgroundColor: `${theme.primary}20`,
+                                border: `1px solid ${theme.primary}40`,
+                              }}
+                            >
+                              <MdDragIndicator
+                                size={20}
+                                style={{ color: theme.primary }}
+                              />
+                            </div>
+                          </div>
+                          <div className="flex flex-col">
+                            <div className="flex items-center">
+                              <span
+                                className="font-semibold mr-2 px-2 py-0.5 text-sm rounded-md"
+                                style={{
+                                  backgroundColor: `${theme.primary}15`,
+                                  color: theme.primary,
+                                }}
+                              >
+                                Section {activeSectionIndex + 1}
+                              </span>
+                              <h2
+                                className="text-md font-medium"
+                                style={{ color: theme.primary }}
+                              >
+                                {activeSection?.title}
+                              </h2>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    ) : null}
+                  </DragOverlay>
+                </DndContext>
+              ) : (
+                <div
+                  className="text-center p-4"
+                  style={{ color: theme.secondary }}
+                >
+                  No sections added yet. Add a section to get started.
+                </div>
+              )}
+            </div>
+            {!sectionFormOpen && (
+              <button
+                onClick={() => setSectionFormOpen(!sectionFormOpen)}
+                className="p-3 w-full flex cursor-pointer justify-center items-center rounded-md gap-2 font-semibold transition duration-300"
+                style={{
+                  backgroundColor: theme.background,
+                  color: theme.primary,
+                  borderColor: theme.primary,
+                  borderWidth: "1px",
+                }}
+                onMouseOver={(e) => {
+                  e.currentTarget.style.backgroundColor = `${theme.primary}20`;
+                }}
+                onMouseOut={(e) => {
+                  e.currentTarget.style.backgroundColor = theme.background;
+                }}
+              >
+                <FaPlus style={{ color: theme.secondary }} /> Add Section
+              </button>
+            )}
+            {sectionFormOpen && (
+              <AddSectionForm
+                setSectionFormOpen={setSectionFormOpen}
+                theme={theme}
+                courseId={courseId}
+              />
+            )}
+          </div>
           <div className="w-full flex items-center justify-end">
             <button
               onClick={() => handleCreateCourse()}
               className={`
-                        px-4 py-1.5 rounded-md  font-medium cursor-pointer h-12 w-full 
-                        transition-all duration-300 transform flex items-center justify-center 
-                        hover:-translate-y-[1px]
-                      `}
+                          px-4 py-1.5 rounded-md  font-medium cursor-pointer h-12 w-full 
+                          transition-all duration-300 transform flex items-center justify-center 
+                          hover:-translate-y-[1px]
+                        `}
               style={{
                 backgroundColor: theme.primary,
                 color: theme.cardBg,
@@ -311,166 +443,6 @@ const CreateCourse = () => {
             </button>
           </div>
         </div>
-        {finishCreateCourse && (
-          <div className="flex flex-col gap-6 flex-1">
-            <div className="flex gap-3 items-center">
-              <div
-                className="p-3 rounded-full"
-                style={{ backgroundColor: `${theme.primary}20` }}
-              >
-                <LuListTodo fontSize={30} style={{ color: theme.primary }} />
-              </div>
-              <h2
-                className="text-xl font-semibold"
-                style={{ color: theme.text }}
-              >
-                Course Content
-              </h2>
-            </div>
-            <div
-              className="shadow-md p-6 rounded-lg flex flex-col gap-4"
-              style={{ backgroundColor: theme.cardBg }}
-            >
-              <div
-                className="flex flex-col gap-4 p-2"
-                style={{ minHeight: "100px" }}
-              >
-                {sec && sec.length > 0 ? (
-                  <DndContext
-                    sensors={sensors}
-                    collisionDetection={closestCenter}
-                    onDragStart={handleDragStart}
-                    onDragEnd={handleDragEnd}
-                  >
-                    <SortableContext
-                      items={sec.map((section) => section.id)}
-                      strategy={verticalListSortingStrategy}
-                    >
-                      {sec.map((section, index) => (
-                        <SectionItem
-                          section={section.title}
-                          index={index}
-                          key={section.id || `section-${index}`}
-                          id={section.id}
-                          theme={theme}
-                        />
-                      ))}
-                    </SortableContext>
-                    <DragOverlay adjustScale={true}>
-                      {activeId ? (
-                        <div
-                          className="rounded-md px-4 py-3 opacity-90 w-full"
-                          style={{
-                            backgroundColor: `${theme.primary}05`,
-                            borderColor: theme.primary,
-                            borderWidth: "2px",
-                            borderStyle: "dashed",
-                            boxShadow: `0 10px 15px -3px ${theme.primary}30, 0 4px 6px -4px ${theme.primary}20`,
-                          }}
-                        >
-                          <div className="flex items-center gap-3">
-                            <div className="flex items-center justify-center p-1.5 rounded-md">
-                              <div
-                                className="p-1.5 rounded-md flex items-center justify-center"
-                                style={{
-                                  backgroundColor: `${theme.primary}20`,
-                                  border: `1px solid ${theme.primary}40`,
-                                }}
-                              >
-                                <MdDragIndicator
-                                  size={20}
-                                  style={{ color: theme.primary }}
-                                />
-                              </div>
-                            </div>
-                            <div className="flex flex-col">
-                              <div className="flex items-center">
-                                <span
-                                  className="font-semibold mr-2 px-2 py-0.5 text-sm rounded-md"
-                                  style={{
-                                    backgroundColor: `${theme.primary}15`,
-                                    color: theme.primary,
-                                  }}
-                                >
-                                  Section {activeSectionIndex + 1}
-                                </span>
-                                <h2
-                                  className="text-md font-medium"
-                                  style={{ color: theme.primary }}
-                                >
-                                  {activeSection?.title}
-                                </h2>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                      ) : null}
-                    </DragOverlay>
-                  </DndContext>
-                ) : (
-                  <div
-                    className="text-center p-4"
-                    style={{ color: theme.secondary }}
-                  >
-                    No sections added yet. Add a section to get started.
-                  </div>
-                )}
-              </div>
-              {!sectionFormOpen && (
-                <button
-                  onClick={() => setSectionFormOpen(!sectionFormOpen)}
-                  className="p-3 w-full flex cursor-pointer justify-center items-center rounded-md gap-2 font-semibold transition duration-300"
-                  style={{
-                    backgroundColor: theme.background,
-                    color: theme.primary,
-                    borderColor: theme.primary,
-                    borderWidth: "1px",
-                  }}
-                  onMouseOver={(e) => {
-                    e.currentTarget.style.backgroundColor = `${theme.primary}20`;
-                  }}
-                  onMouseOut={(e) => {
-                    e.currentTarget.style.backgroundColor = theme.background;
-                  }}
-                >
-                  <FaPlus style={{ color: theme.secondary }} /> Add Section
-                </button>
-              )}
-              {sectionFormOpen && (
-                <AddSectionForm
-                  setSectionFormOpen={setSectionFormOpen}
-                  theme={theme}
-                  courseId={courseId}
-                />
-              )}
-            </div>
-            <div className="w-full flex items-center justify-end">
-              <button
-                onClick={() => handleCreateCourse()}
-                className={`
-                        px-4 py-1.5 rounded-md  font-medium cursor-pointer h-12 w-full 
-                        transition-all duration-300 transform flex items-center justify-center 
-                        hover:-translate-y-[1px]
-                      `}
-                style={{
-                  backgroundColor: theme.primary,
-                  color: theme.cardBg,
-                  boxShadow: `0 2px 6px ${theme.primary}30`,
-                }}
-                onMouseOver={(e) => {
-                  e.currentTarget.style.backgroundColor = `${theme.primary}e0`;
-                  e.currentTarget.style.boxShadow = `0 4px 10px ${theme.primary}50`;
-                }}
-                onMouseOut={(e) => {
-                  e.currentTarget.style.backgroundColor = theme.primary;
-                  e.currentTarget.style.boxShadow = `0 2px 6px ${theme.primary}30`;
-                }}
-              >
-                Save
-              </button>
-            </div>
-          </div>
-        )}
       </div>
     </div>
   );

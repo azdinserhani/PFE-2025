@@ -3,11 +3,11 @@ import Message from '../components/ContactPage/Message';
 import Carddet from '../components/ContactPage/Carddet';
 import { motion } from 'framer-motion';
 import { useTheme } from '../context/ThemeContext';
-
+import {useTranslation} from 'react-i18next'
 const ContactPage = () => {
   const { themes, currentTheme } = useTheme();
   const theme = themes[currentTheme];
-
+  const { t } = useTranslation();
   return (
     <motion.div 
       initial={{ opacity: 0 }}
@@ -59,7 +59,7 @@ const ContactPage = () => {
               className='text-4xl md:text-5xl font-bold mb-4'
               style={{ color: theme.text }}
             >
-              Contact Us
+              {t('contact.message.title')}
             </h1>
             <div 
               className="w-24 h-1 mx-auto mb-6"
@@ -69,7 +69,7 @@ const ContactPage = () => {
               className='max-w-2xl mx-auto'
               style={{ color: `${theme.text}99` }}
             >
-              Have questions about our courses or services? We're here to help you find the right educational path for your career
+              {t('contact.message.description')}
             </p>
           </motion.div>
         </div>
