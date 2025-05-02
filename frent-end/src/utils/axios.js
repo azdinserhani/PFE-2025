@@ -17,6 +17,7 @@ if (persistedData) {
     console.error("Error parsing persisted data:", error);
   }
 }
+console.log("Token:", token);
 
 // Create public request instance
 export const publicRequest = axios.create({

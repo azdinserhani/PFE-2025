@@ -1,5 +1,3 @@
-import { Slate, Editable, withReact } from "slate-react";
-
 import { TbCategory } from "react-icons/tb";
 import { FaUserAlt, FaImage, FaPlus } from "react-icons/fa";
 import { LuListTodo } from "react-icons/lu";
@@ -24,12 +22,14 @@ import {
 import {
   reorderSections,
   setCourseInfo,
+  resetCourse,
 } from "../../redux/features/courseSlice";
 import { MdDragIndicator } from "react-icons/md";
-import { uploadFile, createCourse } from "../../redux/ApiCalls";
+import { uploadFile, createCourseWithContent } from "../../redux/ApiCalls";
 import { useEffect, useState } from "react";
-
+import { useNavigate } from "react-router";
 const CreateCourse = () => {
+  const navigate = useNavigate();
   const [courseId, setCourseId] = useState(null);
   const [img, setImg] = useState(null);
   const [imgUrl, setImgUrl] = useState(null);
@@ -62,12 +62,22 @@ const CreateCourse = () => {
       window.removeEventListener("beforeunload", handleBeforeUnload);
     };
   }, []);
+  // Handle course creation
   const handleCreateCourse = async () => {
-    localStorage.removeItem("course");
     const courseInfo = { title, description, price, category, image: imgUrl };
-
     dispatch(setCourseInfo(courseInfo));
-    console.log(course);
+    await createCourseWithContent({
+      ...courseInfo,
+      sections: sec,
+    });
+    dispatch(resetCourse());
+    setTitle("");
+    setDescription("");
+    setPrice("");
+    setCategory("");
+    setImg(null);
+    setImgUrl(null);
+    setFileName("");
   };
   // DnD sensors configuration
   const sensors = useSensors(
@@ -321,7 +331,7 @@ const CreateCourse = () => {
                   >
                     {sec.map((section, index) => (
                       <SectionItem
-                        section={section.title}
+                        section={section.name}
                         index={index}
                         key={section.id || `section-${index}`}
                         id={section.id}
@@ -413,7 +423,6 @@ const CreateCourse = () => {
               <AddSectionForm
                 setSectionFormOpen={setSectionFormOpen}
                 theme={theme}
-                courseId={courseId}
               />
             )}
           </div>

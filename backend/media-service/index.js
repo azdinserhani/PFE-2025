@@ -46,5 +46,5 @@ app.post("/upload", upload.single("file"), (req, res) => {
 });
 
 app.listen(process.env.PORT, () => {
-  console.log(`Server is running on http://localhost:${process.env.PORT}`);
+  console.log(`media service is running on Port:${process.env.PORT}`);
 });

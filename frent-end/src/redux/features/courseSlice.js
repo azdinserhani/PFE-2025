@@ -12,6 +12,14 @@ const courseSlice = createSlice({
   name: "course",
   initialState,
   reducers: {
+    resetCourse: (state) => {
+      state.title = "";
+      state.description = "";
+      state.price = 0;
+      state.category = "";
+      state.image = "";
+      state.sections = [];
+    },
     setCourseInfo: (state, action) => {
       state.title = action.payload.title;
       state.description = action.payload.description;
@@ -23,7 +31,7 @@ const courseSlice = createSlice({
       state.sections.push({
         id: nanoid(), // Add unique id for each section
         name: action.payload.name,
-        courseId: action.payload.courseId,
+        number: state.sections.length + 1,
         lecture: [],
       });
     },
@@ -38,11 +46,28 @@ const courseSlice = createSlice({
     },
     addVideoToLecture: (state, action) => {
       const { sectionIndex, lectureIndex, video_url } = action.payload;
-      if (state.sections[sectionIndex]?.lecture[lectureIndex]) {
-        state.sections[sectionIndex].lecture[lectureIndex].video_url =
-          video_url;
+
+      const section = state.sections[sectionIndex];
+      if (!section) {
+        console.warn(`Section at index ${sectionIndex} not found.`);
+        return;
+      }
+
+      const lecture = section.lecture[lectureIndex];
+      if (!lecture) {
+        console.warn(
+          `Lecture at index ${lectureIndex} in section ${sectionIndex} not found.`
+        );
+        return;
+      }
+
+      if (lecture.type === "lecture") {
+        lecture.video_url = video_url;
+      } else {
+        console.warn(`Item at lectureIndex ${lectureIndex} is not a lecture.`);
       }
     },
+
     addQuizToSection: (state, action) => {
       const { sectionIndex, title } = action.payload;
       const quiz = {
@@ -85,7 +110,14 @@ const courseSlice = createSlice({
         const sections = [...state.sections];
         const [movedSection] = sections.splice(activeIndex, 1);
         sections.splice(overIndex, 0, movedSection);
-        state.sections = sections;
+
+        // Update section numbers based on new order
+        const updatedSections = sections.map((section, index) => ({
+          ...section,
+          number: index + 1,
+        }));
+
+        state.sections = updatedSections;
       }
     },
   },
@@ -99,6 +131,7 @@ export const {
   addQuizToSection,
   addQuizQuestion,
   reorderSections,
+  resetCourse,
 } = courseSlice.actions;
 
 export default courseSlice.reducer;

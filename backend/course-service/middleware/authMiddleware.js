@@ -6,7 +6,6 @@ import jwt from "jsonwebtoken";
 const authenticate = (req, res, next) => {
   // Get token from authorization header
   const authHeader = req.headers.authorization;
-
   if (!authHeader || !authHeader.startsWith("Bearer ")) {
     return res.status(401).json({
       success: false,
@@ -15,7 +14,6 @@ const authenticate = (req, res, next) => {
   }
 
   const token = authHeader.split(" ")[1];
-
   try {
     // Verify token
     const decoded = jwt.verify(
@@ -38,7 +36,6 @@ const authenticate = (req, res, next) => {
  */
 const authorize = (roles) => {
   return (req, res, next) => {
-
     if (!req.user) {
       return res.status(401).json({
         success: false,

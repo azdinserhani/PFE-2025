@@ -8,6 +8,7 @@ const ContentForm = ({
   sectionIndex,
   lectureIndex,
   theme,
+  loading,
 }) => {
   const video = useSelector((state) => {
     const section = state.course.sections[sectionIndex];
@@ -61,25 +62,44 @@ const ContentForm = ({
       </motion.div>
 
       <AnimatePresence>
-        {video && (
+        {loading ? (
           <motion.div
-            className="p-4 rounded-lg"
+            key="loading"
+            className="p-4 rounded-lg text-center "
             style={{
               backgroundColor: theme.cardBg,
               border: `1px solid ${theme.border}`,
+              color: theme.primary,
             }}
-            initial={{ opacity: 0, y: -10 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -10 }}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
             transition={{ duration: 0.3 }}
           >
-            <motion.h3
-              className="text-lg font-medium mb-4"
-              style={{ color: theme.primary }}
-            >
-              Video upload successfully!
-            </motion.h3>
+            Uploading video...
           </motion.div>
+        ) : (
+          video && (
+            <motion.div
+              key="success"
+              className="p-4 rounded-lg"
+              style={{
+                backgroundColor: theme.cardBg,
+                border: `1px solid ${theme.border}`,
+              }}
+              initial={{ opacity: 0, y: -10 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -10 }}
+              transition={{ duration: 0.3 }}
+            >
+              <motion.h3
+                className="text-lg font-medium mb-4"
+                style={{ color: theme.primary }}
+              >
+                Video uploaded successfully!
+              </motion.h3>
+            </motion.div>
+          )
         )}
       </AnimatePresence>
     </motion.div>

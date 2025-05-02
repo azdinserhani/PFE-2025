@@ -4,30 +4,37 @@ import { CiEdit } from "react-icons/ci";
 import { MdOutlineDeleteOutline } from "react-icons/md";
 import { useState } from "react";
 import ContentForm from "./ContentForm";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { addVideoToLectureAction, uploadFile } from "../../redux/ApiCalls";
 import { motion, AnimatePresence } from "framer-motion";
 import React from "react";
 
 const LectureItem = React.memo(({ lecture, index, sectionId, theme }) => {
+  const [loading, setLoading] = useState(false);
+
   const dispatch = useDispatch();
   const [contentFormOpen, setContentFormOpen] = useState(false);
-  const [videoInfo, setVideoInfo] = useState(null);
+
+  
   const [videoFileUrl, setVideoFileurl] = useState(null);
   console.log("videoFileUrl", videoFileUrl);
 
   const handleVideoUpload = async (event) => {
     const file = event.target.files[0];
-    const fileUrl = await uploadFile(file);
-    setVideoFileurl(fileUrl.url);
-    if (file) {
-      const newVideoInfo = {
-        name: file.name,
-        size: (file.size / (1024 * 1024)).toFixed(2) + " MB",
-        uploadDate: new Date().toLocaleString(),
-      };
-      setVideoInfo(newVideoInfo);
+    if (!file) return;
+
+    setLoading(true); // Start loading
+
+    try {
+      const fileUrl = await uploadFile(file);
+      console.log("lecture", index, sectionId, fileUrl.url);
+
+      setVideoFileurl(fileUrl.url);
       addVideoToLectureAction(dispatch, sectionId, index, fileUrl.url);
+    } catch (error) {
+      console.error("Video upload failed:", error);
+    } finally {
+      setLoading(false); // End loading
     }
   };
 
@@ -42,8 +49,8 @@ const LectureItem = React.memo(({ lecture, index, sectionId, theme }) => {
         transition: "all 0.3s ease-in-out",
       }}
       className="flex flex-col px-4 py-3 rounded-md justify-center"
-      initial={{ opacity: 0, y: 20 }}
-      animate={{ opacity: 1, y: 0 }}
+      // initial={{ opacity: 0, y: 20 }}
+      // animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.3 }}
       whileHover={{
         backgroundColor: `${theme.cardBg}`,
@@ -160,9 +167,9 @@ const LectureItem = React.memo(({ lecture, index, sectionId, theme }) => {
             <ContentForm
               lectureIndex={index}
               sectionIndex={sectionId}
-              videoInfo={videoInfo}
               handleVideoUpload={handleVideoUpload}
               theme={theme}
+              loading={loading}
             />
           </motion.div>
         )}

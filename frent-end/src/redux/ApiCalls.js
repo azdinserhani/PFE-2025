@@ -14,7 +14,6 @@ import {
 } from "./features/userSlice";
 export const createSection = async (dispatch, section) => {
   try {
-
     // const res = await userRequest.post("/api/v1/course/module/create", section);
     // console.log("res", res.data.data);
 
@@ -107,12 +106,34 @@ export const registerUser = async (dispatch, user) => {
 };
 
 //course api calls
-export const createCourse = async (course) => {
+export const createCourseWithContent = async (course) => {
   try {
-    const res = await userRequest.post("/api/v1/course/create", course);
-    console.log("res", res.data.data);
+    const { title, description, price, category, image } = course;
+    console.log("course", course);
+    console.log("lecture", course.sections[0].lecture);
+
+    const res = await userRequest.post("/api/v1/course/create", {
+      title,
+      description,
+      price,
+      categoryId: 1,
+      thumbnail: image,
+    });
+
+    const courseId = res.data.data?.id; // capture the actual courseId from backend
+
+    const sectionPromises = course.sections.map((element) =>
+      storeSection({
+        name: element.name,
+        number: element.number,
+        course_id: courseId,
+      })
+    );
+
+    // await Promise.all(sectionPromises);
+    console.log("All sections stored");
   } catch (error) {
-    console.log("error", error);
+    console.error("Error creating course with content:", error);
   }
 };
 
@@ -139,5 +160,15 @@ export const uploadFile = async (file) => {
     return res.data;
   } catch (error) {
     console.log("error", error);
+  }
+};
+
+const storeSection = async (section) => {
+  try {
+    const res = await userRequest.post("/api/v1/course/module/create", section);
+    
+    return res.data.data;
+  } catch (error) {
+    console.error(`Error storing section "${section.name}":`, error);
   }
 };

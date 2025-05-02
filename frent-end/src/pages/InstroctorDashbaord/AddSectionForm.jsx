@@ -8,7 +8,7 @@ const AddSectionForm = ({
   setSectionFormOpen,
   setSections,
   sections,
-  courseId,
+  
 }) => {
   const dispatch = useDispatch();
   const { currentTheme, themes } = useTheme();
@@ -25,7 +25,7 @@ const AddSectionForm = ({
     if (sectionTitle.trim()) {
       const newSection = {
         name: sectionTitle,
-        courseId: courseId,
+        
         lectures: [],
       };
 
