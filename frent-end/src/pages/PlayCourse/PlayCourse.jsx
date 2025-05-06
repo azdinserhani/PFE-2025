@@ -4,25 +4,71 @@ import CourseSections from "../../components/CoursePage/CourseSections";
 import CourseOverview from "../../components/PlayCourse/CourseOverview";
 import AIChat from "../../components/PlayCourse/AIChat";
 import { useTheme } from "../../context/ThemeContext";
-import { FaBook, FaRobot, FaChevronRight, FaChevronLeft } from "react-icons/fa";
+import {
+  FaBook,
+  FaRobot,
+  FaChevronRight,
+  FaChevronLeft,
+  FaCode,
+  FaEye,
+} from "react-icons/fa";
+import LiveIde from "../../components/PlayCourse/LIveIde";
 
 const PlayCourse = () => {
   const [activeTab, setActiveTab] = useState("sections");
+  const [contentTab, setContentTab] = useState("overview"); // NEW
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
   const { currentTheme, themes } = useTheme();
   const theme = themes[currentTheme];
 
   return (
     <div className="flex p-5 gap-4 h-screen">
+      {/* Left Side */}
       <div
         className={`transition-all duration-300 ${
           isSidebarOpen ? "flex-2/3" : "flex-[95%]"
         } overflow-y-scroll p-6`}
       >
-        <div className="">
-          <Player />
+        <Player />
+
+        {/* Tabs for Overview & IDE */}
+        <div className="flex gap-2 mt-4">
+          <button
+            onClick={() => setContentTab("overview")}
+            className="flex items-center gap-2 px-4 py-2 rounded-md transition-all duration-300 cursor-pointer"
+            style={{
+              backgroundColor:
+                contentTab === "overview" ? theme.primary : "transparent",
+              color: contentTab === "overview" ? "#fff" : theme.text,
+          
+            }}
+          >
+            <FaEye />
+            Overview
+          </button>
+          <button
+            onClick={() => setContentTab("ide")}
+            className="flex items-center gap-2 px-4 py-2 rounded-md transition-all duration-300 cursor-pointer"
+            style={{
+              backgroundColor:
+                contentTab === "ide" ? theme.primary : "transparent",
+              color: contentTab === "ide" ? "#fff" : theme.text,
+             
+            }}
+          >
+            <FaCode />
+            Live IDE
+          </button>
         </div>
-        <CourseOverview />
+
+        {/* Content for Overview or IDE */}
+        <div className="mt-4">
+          {contentTab === "overview" ? (
+            <CourseOverview />
+          ) : (
+            <LiveIde />
+          )}
+        </div>
       </div>
 
       {/* Collapse/Expand Button */}
@@ -73,21 +119,15 @@ const PlayCourse = () => {
               </button>
             </div>
 
-            {/* Content */}
+            {/* Sidebar Content */}
             <div className="flex-1 overflow-y-auto">
               {activeTab === "sections" ? (
-                // Course sections content
                 <div className="flex flex-col gap-3">
-                  <CourseSections />
-                  <CourseSections />
-                  <CourseSections />
-                  <CourseSections />
                   <CourseSections />
                   <CourseSections />
                   <CourseSections />
                 </div>
               ) : (
-                // AI Chat content
                 <div
                   className="h-full p-4 rounded-lg"
                   style={{ backgroundColor: theme.cardBg }}
