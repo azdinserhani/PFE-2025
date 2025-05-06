@@ -15,9 +15,7 @@ const LectureItem = React.memo(({ lecture, index, sectionId, theme }) => {
   const dispatch = useDispatch();
   const [contentFormOpen, setContentFormOpen] = useState(false);
 
-  
   const [videoFileUrl, setVideoFileurl] = useState(null);
-  console.log("videoFileUrl", videoFileUrl);
 
   const handleVideoUpload = async (event) => {
     const file = event.target.files[0];
@@ -27,7 +25,6 @@ const LectureItem = React.memo(({ lecture, index, sectionId, theme }) => {
 
     try {
       const fileUrl = await uploadFile(file);
-      console.log("lecture", index, sectionId, fileUrl.url);
 
       setVideoFileurl(fileUrl.url);
       addVideoToLectureAction(dispatch, sectionId, index, fileUrl.url);

@@ -25,7 +25,7 @@ const courseSchema = Joi.object({
     "any.required": "Category ID is required",
   }),
 
-  thumbnail: Joi.string().uri().required().messages({
+  thumbnail: Joi.string().required().messages({
     "string.uri": "Thumbnail must be a valid URI",
     "any.required": "Thumbnail is required",
   }),

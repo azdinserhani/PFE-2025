@@ -14,8 +14,7 @@ import {
 } from "./features/userSlice";
 export const createSection = async (dispatch, section) => {
   try {
-    // const res = await userRequest.post("/api/v1/course/module/create", section);
-    // console.log("res", res.data.data);
+    const res = await userRequest.post("/api/v1/course/module/create", section);
 
     dispatch(addSection(section));
   } catch (error) {}
@@ -80,7 +79,6 @@ export const loginUser = async (dispatch, user) => {
       dispatch(loginFailure(data.message));
     }
   } catch (error) {
-    console.log("error", error);
 
     dispatch(loginFailure(error.message));
   }
@@ -100,7 +98,6 @@ export const registerUser = async (dispatch, user) => {
       dispatch(loginFailure(data.message));
     }
   } catch (error) {
-    console.log("error", error);
     dispatch(loginFailure(error.message));
   }
 };
@@ -109,8 +106,6 @@ export const registerUser = async (dispatch, user) => {
 export const createCourseWithContent = async (course) => {
   try {
     const { title, description, price, category, image } = course;
-    console.log("course", course);
-    console.log("lecture", course.sections[0].lecture);
 
     const res = await userRequest.post("/api/v1/course/create", {
       title,
@@ -152,7 +147,6 @@ export const createCourseWithContent = async (course) => {
       await Promise.all(lecturePromises.filter(p => p !== null));
     }
 
-    console.log("All sections and lectures stored");
     return res.data.data;
   } catch (error) {
     console.error("Error creating course with content:", error);
@@ -165,7 +159,6 @@ export const getCourseByInstructor = async (id) => {
     const res = await publicRequest.get(`/api/v1/course/instructor/${id}`);
     return res.data.data;
   } catch (error) {
-    console.log("error", error);
   }
 };
 
@@ -182,7 +175,6 @@ export const uploadFile = async (file) => {
 
     return res.data;
   } catch (error) {
-    console.log("error", error);
   }
 };
 

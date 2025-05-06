@@ -4,8 +4,8 @@ import jwt from "jsonwebtoken";
  * Middleware to verify JWT token and set user in request
  */
 const authenticate = (req, res, next) => {
-  // Get token from authorization header
   const authHeader = req.headers.authorization;
+
   if (!authHeader || !authHeader.startsWith("Bearer ")) {
     return res.status(401).json({
       success: false,
@@ -14,18 +14,17 @@ const authenticate = (req, res, next) => {
   }
 
   const token = authHeader.split(" ")[1];
+
   try {
-    // Verify token
-    const decoded = jwt.verify(
-      token,
-      process.env.JWT_SECRET || "your_jwt_secret_key"
-    );
+    // Verify the token (using your JWT secret)
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+
     req.user = decoded;
     next();
-  } catch (error) {
-    return res.status(401).json({
+  } catch (err) {
+    return res.status(403).json({
       success: false,
-      message: "Invalid token",
+      message: "Invalid or expired token.",
     });
   }
 };
