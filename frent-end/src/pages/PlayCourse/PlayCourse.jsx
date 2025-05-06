@@ -12,7 +12,7 @@ import {
   FaCode,
   FaEye,
 } from "react-icons/fa";
-import LiveIde from "../../components/PlayCourse/LIveIde";
+
 
 const PlayCourse = () => {
   const [activeTab, setActiveTab] = useState("sections");
@@ -23,105 +23,89 @@ const PlayCourse = () => {
 
   return (
     <div className="flex p-5 gap-4 h-screen">
-      {/* Left Side */}
+      {/* Left Side */ }
       <div
-        className={`transition-all duration-300 ${
-          isSidebarOpen ? "flex-2/3" : "flex-[95%]"
-        } overflow-y-scroll p-6`}
+        className={ `transition-all duration-300 ${isSidebarOpen ? "flex-2/3" : "flex-[95%]"
+          } overflow-y-scroll p-6` }
       >
         <Player />
 
-        {/* Tabs for Overview & IDE */}
-        <div className="flex gap-2 mt-4">
-          <button
-            onClick={() => setContentTab("overview")}
-            className="flex items-center gap-2 px-4 py-2 rounded-md transition-all duration-300 cursor-pointer"
-            style={{
-              backgroundColor:
-                contentTab === "overview" ? theme.primary : "transparent",
-              color: contentTab === "overview" ? "#fff" : theme.text,
-          
-            }}
-          >
-            <FaEye />
-            Overview
-          </button>
-          <button
-            onClick={() => setContentTab("ide")}
-            className="flex items-center gap-2 px-4 py-2 rounded-md transition-all duration-300 cursor-pointer"
-            style={{
-              backgroundColor:
-                contentTab === "ide" ? theme.primary : "transparent",
-              color: contentTab === "ide" ? "#fff" : theme.text,
-             
-            }}
-          >
-            <FaCode />
-            Live IDE
-          </button>
-        </div>
+        <span
+          onClick={ () => setContentTab("overview") }
+          className="flex items-center gap-2 px-4 py-2 rounded-md transition-all duration-300 cursor-pointer"
+          style={ {
+            backgroundColor:
+              contentTab === "overview" ? theme.primary : "transparent",
+            color: contentTab === "overview" ? "#fff" : theme.text,
 
-        {/* Content for Overview or IDE */}
+          } }
+        >
+          <FaEye />
+          Overview
+        </span>
+
+
+
+        {/* Content for Overview or IDE */ }
         <div className="mt-4">
-          {contentTab === "overview" ? (
+          { contentTab === "overview" ? (
             <CourseOverview />
           ) : (
             <LiveIde />
-          )}
+          ) }
         </div>
       </div>
 
-      {/* Collapse/Expand Button */}
+      {/* Collapse/Expand Button */ }
       <button
-        onClick={() => setIsSidebarOpen(!isSidebarOpen)}
+        onClick={ () => setIsSidebarOpen(!isSidebarOpen) }
         className="self-center p-2 rounded-full shadow-lg transition-all duration-300 hover:scale-110 cursor-pointer"
-        style={{ backgroundColor: theme.primary, color: "#fff" }}
+        style={ { backgroundColor: theme.primary, color: "#fff" } }
       >
-        {isSidebarOpen ? <FaChevronRight /> : <FaChevronLeft />}
+        { isSidebarOpen ? <FaChevronRight /> : <FaChevronLeft /> }
       </button>
 
-      {/* Sidebar */}
+      {/* Sidebar */ }
       <div
-        className={`transition-all duration-300 ${
-          isSidebarOpen ? "flex-1/3 flex flex-col gap-3" : "w-0 opacity-0"
-        } overflow-hidden max-h-screen`}
+        className={ `transition-all duration-300 ${isSidebarOpen ? "flex-1/3 flex flex-col gap-3" : "w-0 opacity-0"
+          } overflow-hidden max-h-screen` }
       >
-        {isSidebarOpen && (
+        { isSidebarOpen && (
           <>
-            {/* Tabs */}
+            {/* Tabs */ }
             <div
               className="flex gap-2 p-2"
-              style={{ backgroundColor: theme.cardBg, borderRadius: "0.5rem" }}
+              style={ { backgroundColor: theme.cardBg, borderRadius: "0.5rem" } }
             >
               <button
-                onClick={() => setActiveTab("sections")}
+                onClick={ () => setActiveTab("sections") }
                 className="flex items-center gap-2 px-4 py-2 rounded-md transition-all duration-300 cursor-pointer"
-                style={{
+                style={ {
                   backgroundColor:
                     activeTab === "sections" ? theme.primary : "transparent",
                   color: activeTab === "sections" ? "#fff" : theme.text,
-                }}
+                } }
               >
-                <FaBook size={16} />
+                <FaBook size={ 16 } />
                 <span>Sections</span>
               </button>
               <button
-                onClick={() => setActiveTab("ai-chat")}
+                onClick={ () => setActiveTab("ai-chat") }
                 className="flex items-center gap-2 px-4 py-2 rounded-md transition-all duration-300 cursor-pointer"
-                style={{
+                style={ {
                   backgroundColor:
                     activeTab === "ai-chat" ? theme.primary : "transparent",
                   color: activeTab === "ai-chat" ? "#fff" : theme.text,
-                }}
+                } }
               >
-                <FaRobot size={16} />
+                <FaRobot size={ 16 } />
                 <span>AI Chat</span>
               </button>
             </div>
 
-            {/* Sidebar Content */}
+            {/* Sidebar Content */ }
             <div className="flex-1 overflow-y-auto">
-              {activeTab === "sections" ? (
+              { activeTab === "sections" ? (
                 <div className="flex flex-col gap-3">
                   <CourseSections />
                   <CourseSections />
@@ -130,14 +114,14 @@ const PlayCourse = () => {
               ) : (
                 <div
                   className="h-full p-4 rounded-lg"
-                  style={{ backgroundColor: theme.cardBg }}
+                  style={ { backgroundColor: theme.cardBg } }
                 >
                   <AIChat />
                 </div>
-              )}
+              ) }
             </div>
           </>
-        )}
+        ) }
       </div>
     </div>
   );

@@ -60,155 +60,155 @@ const CourseCard = ({ item, index }) => {
 
   return (
     <motion.div
-      variants={cardVariants}
+      variants={ cardVariants }
       initial="hidden"
       whileInView="visible"
       whileHover="hover"
-      viewport={{ once: true, amount: 0.25 }}
+      viewport={ { once: true, amount: 0.25 } }
       className="relative p-6 rounded-2xl shadow-lg transition-all duration-300 cursor-pointer group overflow-hidden min-w-[400px] backdrop-blur-sm"
-      style={{
+      style={ {
         backgroundColor: theme.cardBg,
         borderColor: theme.border,
         borderWidth: "1px",
-      }}
+      } }
     >
       <div className="relative overflow-hidden rounded-xl mb-4">
         <motion.img
-          src={item.image || "/Info1.jpg"}
-          alt={item.title}
+          src={ item.image || "/Info1.jpg" }
+          alt={ item.title }
           className="w-full h-48 object-cover"
-          variants={imageVariants}
+          variants={ imageVariants }
           loading="lazy"
         />
         <AnimatePresence>
-          {item.isEnrolled && (
+          { item.isEnrolled && (
             <motion.div
               className="absolute bottom-0 left-0 h-1 bg-gradient-to-r from-primary to-primary/80"
-              style={{
+              style={ {
                 backgroundColor: theme.primary,
                 width: `${item.progress || 0}%`,
-              }}
-              initial={{ width: 0, opacity: 0 }}
-              animate={{ width: `${item.progress || 0}%`, opacity: 1 }}
-              transition={{ duration: 0.8, ease: "easeOut" }}
+              } }
+              initial={ { width: 0, opacity: 0 } }
+              animate={ { width: `${item.progress || 0}%`, opacity: 1 } }
+              transition={ { duration: 0.8, ease: "easeOut" } }
             />
-          )}
+          ) }
         </AnimatePresence>
       </div>
 
       <div className="space-y-4">
         <motion.h3
           className="text-xl font-semibold line-clamp-2"
-          style={{ color: theme.text }}
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 0.2 }}
+          style={ { color: theme.text } }
+          initial={ { opacity: 0 } }
+          animate={ { opacity: 1 } }
+          transition={ { delay: 0.2 } }
         >
-          {item.title}
+          { item.title }
         </motion.h3>
         <motion.p
           className="text-sm line-clamp-2"
-          style={{ color: theme.secondary }}
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 0.3 }}
+          style={ { color: theme.secondary } }
+          initial={ { opacity: 0 } }
+          animate={ { opacity: 1 } }
+          transition={ { delay: 0.3 } }
         >
-          {item.description}
+          { item.description }
         </motion.p>
 
         <div className="flex items-center justify-between">
           <motion.div
             className="flex items-center gap-2"
-            initial={{ opacity: 0, x: -20 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ delay: 0.4 }}
+            initial={ { opacity: 0, x: -20 } }
+            animate={ { opacity: 1, x: 0 } }
+            transition={ { delay: 0.4 } }
           >
-            <span style={{ color: theme.text }}>{item.lessons} lessons</span>
-            <span style={{ color: theme.secondary }}>•</span>
-            <span style={{ color: theme.text }}>{item.students} students</span>
+            <span style={ { color: theme.text } }>{ item.lessons } lessons</span>
+            <span style={ { color: theme.secondary } }>•</span>
+            <span style={ { color: theme.text } }>{ item.students } students</span>
           </motion.div>
           <motion.span
             className="text-lg font-semibold"
-            style={{ color: theme.primary }}
-            initial={{ opacity: 0, x: 20 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ delay: 0.4 }}
+            style={ { color: theme.primary } }
+            initial={ { opacity: 0, x: 20 } }
+            animate={ { opacity: 1, x: 0 } }
+            transition={ { delay: 0.4 } }
           >
-            ${item.price}
+            ${ item.price }
           </motion.span>
         </div>
 
         <motion.div
           className="flex items-center justify-between gap-4 pt-4 border-t"
-          style={{ borderColor: theme.border }}
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.5 }}
+          style={ { borderColor: theme.border } }
+          initial={ { opacity: 0, y: 20 } }
+          animate={ { opacity: 1, y: 0 } }
+          transition={ { delay: 0.5 } }
         >
           <Link
             to={
               item.isEnrolled
                 ? `/course/learn/${item.id}`
-                : `/course/${item.id}`
+                : `/course/22`
             }
             className="flex-1"
           >
             <motion.button
               className="w-full flex items-center justify-center gap-2 py-2 px-4 rounded-lg transition-all duration-300"
-              style={{
+              style={ {
                 backgroundColor: `${theme.primary}15`,
                 color: theme.primary,
-              }}
-              whileHover={{
+              } }
+              whileHover={ {
                 backgroundColor: `${theme.primary}25`,
                 gap: "12px",
-              }}
-              whileTap={{ scale: 0.98 }}
+              } }
+              whileTap={ { scale: 0.98 } }
             >
               <span className="text-sm font-medium">
-                {item.isEnrolled ? "Continue Learning" : "View Details"}
+                { item.isEnrolled ? "Continue Learning" : "View Details" }
               </span>
               <motion.div
-                animate={{ x: item.isEnrolled ? 0 : [0, 4, 0] }}
-                transition={{
+                animate={ { x: item.isEnrolled ? 0 : [0, 4, 0] } }
+                transition={ {
                   duration: 1,
                   repeat: Infinity,
                   repeatType: "reverse",
                   ease: "easeInOut",
-                }}
+                } }
               >
                 <FaLongArrowAltRight />
               </motion.div>
             </motion.button>
           </Link>
 
-          {!item.isEnrolled && (
+          { !item.isEnrolled && (
             <motion.button
-              onClick={handleAddToCart}
+              onClick={ handleAddToCart }
               className="flex items-center gap-2 py-2 px-4 rounded-lg transition-all duration-300"
-              style={{
+              style={ {
                 backgroundColor: theme.primary,
                 color: "#ffffff",
-              }}
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
+              } }
+              whileHover={ { scale: 1.05 } }
+              whileTap={ { scale: 0.95 } }
             >
               <motion.div
-                animate={{
+                animate={ {
                   rotate: [0, 15, -15, 0],
                   scale: [1, 1.2, 1.2, 1],
-                }}
-                transition={{
+                } }
+                transition={ {
                   duration: 1,
                   repeat: Infinity,
                   repeatDelay: 1,
-                }}
+                } }
               >
                 <PiShoppingCartLight />
               </motion.div>
               <span className="text-sm font-medium">Add to Cart</span>
             </motion.button>
-          )}
+          ) }
         </motion.div>
       </div>
     </motion.div>

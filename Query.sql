@@ -163,8 +163,37 @@ SELECT
                    LEFT JOIN course co ON c.id = co.category_id
                    GROUP BY c.id
 
+-- ENROLMENT table: enrolment → user
+ALTER TABLE enrolment
+DROP CONSTRAINT IF EXISTS enrolment_user_id_fkey;
+
+ALTER TABLE enrolment
+ADD CONSTRAINT enrolment_user_id_fkey
+FOREIGN KEY (user_ID) REFERENCES "user_acount"(ID) ON DELETE CASCADE;
+
+-- STUDENT_QUIZ_ATTEMPT table: student_quiz_attempt → user
+ALTER TABLE student_quiz_attempt
+DROP CONSTRAINT IF EXISTS student_quiz_attempt_student_id_fkey;
+
+ALTER TABLE student_quiz_attempt
+ADD CONSTRAINT student_quiz_attempt_student_id_fkey
+FOREIGN KEY (student_id) REFERENCES "user_acount"(ID) ON DELETE CASCADE;
+
+-- STUDENT_LESSON table: student_lesson → user
+ALTER TABLE student_lesson
+DROP CONSTRAINT IF EXISTS student_lesson_student_id_fkey;
+
+ALTER TABLE student_lesson
+ADD CONSTRAINT student_lesson_student_id_fkey
+FOREIGN KEY (student_id) REFERENCES "user_acount"(ID) ON DELETE CASCADE;
+
+ALTER TABLE module
+ADD COLUMN cours_ID INT;
+
+ALTER TABLE module
+DROP CONSTRAINT IF EXISTS fk_course;
 
 
-
-
-
+ALTER TABLE module
+ADD CONSTRAINT fk_course
+FOREIGN KEY (cours_ID) REFERENCES course(ID) ON DELETE CASCADE;

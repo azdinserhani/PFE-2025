@@ -137,86 +137,86 @@ const CreateCourse = () => {
   return (
     <div
       className="container mx-auto p-6 h-screen flex flex-col gap-6 "
-      style={{ backgroundColor: theme.background }}
+      style={ { backgroundColor: theme.background } }
     >
       <div className="flex justify-between items-center">
-        <h1 className="text-2xl font-bold" style={{ color: theme.primary }}>
+        <h1 className="text-2xl font-bold" style={ { color: theme.primary } }>
           Create a New Course
         </h1>
-        <span style={{ color: theme.secondary }}>
-          Complete all fields ({Math.round(progress / 20)}/5)
+        <span style={ { color: theme.secondary } }>
+          Complete all fields ({ Math.round(progress / 20) }/5)
         </span>
       </div>
       <div
         className="w-full h-2 rounded-full"
-        style={{ backgroundColor: `${theme.primary}20` }}
+        style={ { backgroundColor: `${theme.primary}20` } }
       >
         <div
           className="h-2 rounded-full transition-all duration-500"
-          style={{ backgroundColor: theme.primary, width: `${progress}%` }}
+          style={ { backgroundColor: theme.primary, width: `${progress}%` } }
         ></div>
       </div>
       <div className="flex gap-6 overflow-y-scroll h-full">
-        {/* Left Section */}
+        {/* Left Section */ }
         <div className="flex flex-col gap-6 flex-1">
           <div className="flex gap-3 items-center">
             <div
               className="p-3 rounded-full"
-              style={{ backgroundColor: `${theme.primary}20` }}
+              style={ { backgroundColor: `${theme.primary}20` } }
             >
-              <TbCategory fontSize={30} style={{ color: theme.primary }} />
+              <TbCategory fontSize={ 30 } style={ { color: theme.primary } } />
             </div>
-            <h2 className="text-xl font-semibold" style={{ color: theme.text }}>
+            <h2 className="text-xl font-semibold" style={ { color: theme.text } }>
               Customize Your Course
             </h2>
           </div>
           <div
             className="shadow-md p-6 rounded-lg"
-            style={{ backgroundColor: theme.cardBg }}
+            style={ { backgroundColor: theme.cardBg } }
           >
-            <h2 className="text-lg font-medium" style={{ color: theme.text }}>
+            <h2 className="text-lg font-medium" style={ { color: theme.text } }>
               Course Title
             </h2>
             <input
               type="text"
-              value={title}
-              onChange={(e) => setTitle(e.target.value)}
+              value={ title }
+              onChange={ (e) => setTitle(e.target.value) }
               placeholder="Enter course title"
               className="mt-2 rounded-md p-3 w-full focus:outline-none focus:ring-2"
-              style={{
+              style={ {
                 backgroundColor: theme.background,
                 color: theme.text,
                 borderColor: theme.border,
                 borderWidth: "1px",
-              }}
+              } }
             />
           </div>
           <div
             className="shadow-md p-6 rounded-lg"
-            style={{ backgroundColor: theme.cardBg }}
+            style={ { backgroundColor: theme.cardBg } }
           >
-            <h2 className="text-lg font-medium" style={{ color: theme.text }}>
+            <h2 className="text-lg font-medium" style={ { color: theme.text } }>
               Course Description
             </h2>
             <textarea
-              rows={4}
-              value={description}
-              onChange={(e) => setDescription(e.target.value)}
+              rows={ 4 }
+              value={ description }
+              onChange={ (e) => setDescription(e.target.value) }
               placeholder="Enter course description"
               className="mt-2 rounded-md p-3 w-full focus:outline-none focus:ring-2"
-              style={{
+              style={ {
                 backgroundColor: theme.background,
                 color: theme.text,
                 borderColor: theme.border,
                 borderWidth: "1px",
-              }}
+              } }
             />
           </div>
           <div
             className="shadow-md p-6 rounded-lg"
-            style={{ backgroundColor: theme.cardBg }}
+            style={ { backgroundColor: theme.cardBg } }
           >
-            <h2 className="text-lg font-medium" style={{ color: theme.text }}>
+            <h2 className="text-lg font-medium" style={ { color: theme.text } }>
               Course Image
             </h2>
             <input
@@ -224,69 +224,69 @@ const CreateCourse = () => {
               id="image"
               className="hidden"
               accept="image/*"
-              onChange={handleFileChange}
+              onChange={ handleFileChange }
             />
             <label
               htmlFor="image"
               className="mt-2 w-full h-52 flex justify-center items-center cursor-pointer border-dashed rounded-md overflow-hidden"
-              style={{
+              style={ {
                 borderColor: theme.border,
                 borderWidth: "1px",
                 backgroundColor: theme.background,
-              }}
+              } }
             >
-              {img ? (
+              { img ? (
                 <img
-                  src={img}
+                  src={ img }
                   alt="Selected"
                   className="h-full w-full object-cover"
                 />
               ) : (
-                <FaImage style={{ color: theme.secondary, fontSize: "3rem" }} />
-              )}
+                <FaImage style={ { color: theme.secondary, fontSize: "3rem" } } />
+              ) }
             </label>
           </div>
           <div className="flex gap-2">
             <div
               className="shadow-md p-6 rounded-lg flex-1/2"
-              style={{ backgroundColor: theme.cardBg }}
+              style={ { backgroundColor: theme.cardBg } }
             >
-              <h2 className="text-lg font-medium" style={{ color: theme.text }}>
+              <h2 className="text-lg font-medium" style={ { color: theme.text } }>
                 Course Price
               </h2>
               <input
-                min={0}
+                min={ 0 }
                 type="number"
-                value={price}
-                onChange={(e) => setPrice(e.target.value)}
+                value={ price }
+                onChange={ (e) => setPrice(e.target.value) }
                 placeholder="Enter course price"
                 className="mt-2 rounded-md p-3 w-full focus:outline-none focus:ring-2"
-                style={{
+                style={ {
                   backgroundColor: theme.background,
                   color: theme.text,
                   borderColor: theme.border,
                   borderWidth: "1px",
-                }}
+                } }
               />
             </div>
             <div
               className="shadow-md p-6 rounded-lg flex-1/2"
-              style={{ backgroundColor: theme.cardBg }}
+              style={ { backgroundColor: theme.cardBg } }
             >
-              <h2 className="text-lg font-medium" style={{ color: theme.text }}>
+              <h2 className="text-lg font-medium" style={ { color: theme.text } }>
                 Course Category
               </h2>
               <div className="relative">
                 <select
-                  value={category}
-                  onChange={(e) => setCategory(e.target.value)}
+                  value={ category }
+                  onChange={ (e) => setCategory(e.target.value) }
                   className="appearance-auto mt-2 px-2 rounded-md p-3 w-full focus:outline-none focus:ring-2"
-                  style={{
+                  style={ {
                     backgroundColor: theme.background,
                     color: theme.text,
                     borderColor: theme.border,
                     borderWidth: "1px",
-                  }}
+                  } }
                 >
                   <option value="">Select a category</option>
                   <option value="Programming">Programming</option>
@@ -302,67 +302,67 @@ const CreateCourse = () => {
           <div className="flex gap-3 items-center">
             <div
               className="p-3 rounded-full"
-              style={{ backgroundColor: `${theme.primary}20` }}
+              style={ { backgroundColor: `${theme.primary}20` } }
             >
-              <LuListTodo fontSize={30} style={{ color: theme.primary }} />
+              <LuListTodo fontSize={ 30 } style={ { color: theme.primary } } />
             </div>
-            <h2 className="text-xl font-semibold" style={{ color: theme.text }}>
+            <h2 className="text-xl font-semibold" style={ { color: theme.text } }>
               Course Content
             </h2>
           </div>
           <div
             className="shadow-md p-6 rounded-lg flex flex-col gap-4"
-            style={{ backgroundColor: theme.cardBg }}
+            style={ { backgroundColor: theme.cardBg } }
           >
             <div
               className="flex flex-col gap-4 p-2"
-              style={{ minHeight: "100px" }}
+              style={ { minHeight: "100px" } }
             >
-              {sec && sec.length > 0 ? (
+              { sec && sec.length > 0 ? (
                 <DndContext
-                  sensors={sensors}
-                  collisionDetection={closestCenter}
-                  onDragStart={handleDragStart}
-                  onDragEnd={handleDragEnd}
+                  sensors={ sensors }
+                  collisionDetection={ closestCenter }
+                  onDragStart={ handleDragStart }
+                  onDragEnd={ handleDragEnd }
                 >
                   <SortableContext
-                    items={sec.map((section) => section.id)}
-                    strategy={verticalListSortingStrategy}
+                    items={ sec.map((section) => section.id) }
+                    strategy={ verticalListSortingStrategy }
                   >
-                    {sec.map((section, index) => (
+                    { sec.map((section, index) => (
                       <SectionItem
-                        section={section.name}
-                        index={index}
-                        key={section.id || `section-${index}`}
-                        id={section.id}
-                        theme={theme}
+                        section={ section.name }
+                        index={ index }
+                        key={ section.id || `section-${index}` }
+                        id={ section.id }
+                        theme={ theme }
                       />
-                    ))}
+                    )) }
                   </SortableContext>
-                  <DragOverlay adjustScale={true}>
-                    {activeId ? (
+                  <DragOverlay adjustScale={ true }>
+                    { activeId ? (
                       <div
                         className="rounded-md px-4 py-3 opacity-90 w-full"
-                        style={{
+                        style={ {
                           backgroundColor: `${theme.primary}05`,
                           borderColor: theme.primary,
                           borderWidth: "2px",
                           borderStyle: "dashed",
                           boxShadow: `0 10px 15px -3px ${theme.primary}30, 0 4px 6px -4px ${theme.primary}20`,
-                        }}
+                        } }
                       >
                         <div className="flex items-center gap-3">
                           <div className="flex items-center justify-center p-1.5 rounded-md">
                             <div
                               className="p-1.5 rounded-md flex items-center justify-center"
-                              style={{
+                              style={ {
                                 backgroundColor: `${theme.primary}20`,
                                 border: `1px solid ${theme.primary}40`,
-                              }}
+                              } }
                             >
                               <MdDragIndicator
-                                size={20}
-                                style={{ color: theme.primary }}
+                                size={ 20 }
+                                style={ { color: theme.primary } }
                               />
                             </div>
                           </div>
@@ -370,83 +370,83 @@ const CreateCourse = () => {
                             <div className="flex items-center">
                               <span
                                 className="font-semibold mr-2 px-2 py-0.5 text-sm rounded-md"
-                                style={{
+                                style={ {
                                   backgroundColor: `${theme.primary}15`,
                                   color: theme.primary,
-                                }}
+                                } }
                               >
-                                Section {activeSectionIndex + 1}
+                                Section { activeSectionIndex + 1 }
                               </span>
                               <h2
                                 className="text-md font-medium"
-                                style={{ color: theme.primary }}
+                                style={ { color: theme.primary } }
                               >
-                                {activeSection?.title}
+                                { activeSection?.title }
                               </h2>
                             </div>
                           </div>
                         </div>
                       </div>
-                    ) : null}
+                    ) : null }
                   </DragOverlay>
                 </DndContext>
               ) : (
                 <div
                   className="text-center p-4"
-                  style={{ color: theme.secondary }}
+                  style={ { color: theme.secondary } }
                 >
                   No sections added yet. Add a section to get started.
                 </div>
-              )}
+              ) }
             </div>
-            {!sectionFormOpen && (
+            { !sectionFormOpen && (
               <button
-                onClick={() => setSectionFormOpen(!sectionFormOpen)}
+                onClick={ () => setSectionFormOpen(!sectionFormOpen) }
                 className="p-3 w-full flex cursor-pointer justify-center items-center rounded-md gap-2 font-semibold transition duration-300"
-                style={{
+                style={ {
                   backgroundColor: theme.background,
                   color: theme.primary,
                   borderColor: theme.primary,
                   borderWidth: "1px",
-                }}
-                onMouseOver={(e) => {
+                } }
+                onMouseOver={ (e) => {
                   e.currentTarget.style.backgroundColor = `${theme.primary}20`;
-                }}
-                onMouseOut={(e) => {
+                } }
+                onMouseOut={ (e) => {
                   e.currentTarget.style.backgroundColor = theme.background;
-                }}
+                } }
               >
-                <FaPlus style={{ color: theme.secondary }} /> Add Section
+                <FaPlus style={ { color: theme.secondary } } /> Add Section
               </button>
-            )}
-            {sectionFormOpen && (
+            ) }
+            { sectionFormOpen && (
               <AddSectionForm
-                setSectionFormOpen={setSectionFormOpen}
-                theme={theme}
+                setSectionFormOpen={ setSectionFormOpen }
+                theme={ theme }
               />
-            )}
+            ) }
           </div>
           <div className="w-full flex items-center justify-end">
             <button
-              onClick={() => handleCreateCourse()}
-              className={`
+              onClick={ () => handleCreateCourse() }
+              className={ `
                           px-4 py-1.5 rounded-md  font-medium cursor-pointer h-12 w-full 
                           transition-all duration-300 transform flex items-center justify-center 
                           hover:-translate-y-[1px]
                         `}
-              style={{
+              style={ {
                 backgroundColor: theme.primary,
                 color: theme.cardBg,
                 boxShadow: `0 2px 6px ${theme.primary}30`,
-              }}
-              onMouseOver={(e) => {
+              } }
+              onMouseOver={ (e) => {
                 e.currentTarget.style.backgroundColor = `${theme.primary}e0`;
                 e.currentTarget.style.boxShadow = `0 4px 10px ${theme.primary}50`;
-              }}
-              onMouseOut={(e) => {
+              } }
+              onMouseOut={ (e) => {
                 e.currentTarget.style.backgroundColor = theme.primary;
                 e.currentTarget.style.boxShadow = `0 2px 6px ${theme.primary}30`;
-              }}
+              } }
             >
               Create
             </button>

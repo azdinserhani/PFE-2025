@@ -61,7 +61,12 @@ const courseController = {
   deleteCourse: async (req, res) => {
     try {
       const courseId = req.params.id;
+      console.log("courseId", courseId);
+      
+      
       const instructorId = req.user.id;
+      
+      
       const course = await courseService.getCourseById(courseId);
 
       if (course.instructor_id != instructorId) {
@@ -76,7 +81,7 @@ const courseController = {
         message: "Course deleted successfully",
       });
     } catch (error) {
-      const status = error.status || 500;
+   const status = error.status || 500;
       const message =
         error.message || "An error occurred during deleting the course";
 

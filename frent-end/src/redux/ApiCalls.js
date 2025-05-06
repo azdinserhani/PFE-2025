@@ -14,7 +14,7 @@ import {
 } from "./features/userSlice";
 export const createSection = async (dispatch, section) => {
   try {
-    const res = await userRequest.post("/api/v1/course/module/create", section);
+    // const res = await userRequest.post("/api/v1/course/module/create", section);
 
     dispatch(addSection(section));
   } catch (error) {}
@@ -79,8 +79,9 @@ export const loginUser = async (dispatch, user) => {
       dispatch(loginFailure(data.message));
     }
   } catch (error) {
-
-    dispatch(loginFailure(error.message));
+    console.log("error", error.response.data.message);
+    
+    dispatch(loginFailure(error.response.data.message));
   }
 };
 
@@ -197,3 +198,24 @@ const storeLecture = async (lecture) => {
     throw error;
   }
 };
+
+export const deleteCourse = async (id) => { 
+  try {
+    const res = await userRequest.delete(`/api/v1/course/delete/${id}`);
+    return res.data.data;
+  } catch (error) {
+    console.error(`Error deleting course "${id}":`, error);
+    throw error;
+  }
+}
+
+export const getCourseById = async (id) => {
+  try {
+    const res = await publicRequest.get(`/api/v1/course/course/${id}`);
+    return res.data.data;
+  } catch (error) {
+    console.error(`Error getting course "${id}":`, error);
+    throw error;
+  }
+}
+

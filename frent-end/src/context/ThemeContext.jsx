@@ -11,6 +11,7 @@ export const themes = {
     text: "#212529",
     cardBg: "#f8f9fa",
     border: "#dee2e6",
+    error: "#dc3545",
   },
   dark: {
     name: "Dark",
@@ -20,6 +21,7 @@ export const themes = {
     text: "#f8f9fa",
     cardBg: "#343a40",
     border: "#495057",
+    error: "#dc3545",
   },
   nature: {
     name: "Nature",
@@ -29,6 +31,7 @@ export const themes = {
     text: "#2c3e50",
     cardBg: "#ffffff",
     border: "#d1e7dd",
+    error: "#dc3545",
   },
   ocean: {
     name: "Ocean",
@@ -38,6 +41,7 @@ export const themes = {
     text: "#0a3622",
     cardBg: "#ffffff",
     border: "#cff4fc",
+    error: "#dc3545",
   },
   orange: {
     name: "Orange",
@@ -47,6 +51,7 @@ export const themes = {
     text: "#2c1810",
     cardBg: "#ffffff",
     border: "#ffe5cc",
+    error: "#dc3545",
   },
   purple: {
     name: "Purple",
@@ -56,6 +61,7 @@ export const themes = {
     text: "#2d1b4d",
     cardBg: "#ffffff",
     border: "#e2d9f3",
+    error: "#dc3545",
   },
   rose: {
     name: "Rose",
@@ -65,6 +71,7 @@ export const themes = {
     text: "#1a1a1a",
     cardBg: "#ffffff",
     border: "#ffdeeb",
+    error: "#dc3545",
   },
   mint: {
     name: "Mint",
@@ -74,6 +81,7 @@ export const themes = {
     text: "#0f392e",
     cardBg: "#ffffff",
     border: "#d1f2ea",
+    error: "#dc3545",
   },
   sunset: {
     name: "Sunset",
@@ -83,6 +91,7 @@ export const themes = {
     text: "#4b2e2e",
     cardBg: "#ffffff",
     border: "#ffcccb",
+    error: "#dc3545",
   },
   forest: {
     name: "Forest",
@@ -92,6 +101,7 @@ export const themes = {
     text: "#2e4e2e",
     cardBg: "#ffffff",
     border: "#d0f0c0",
+    error: "#dc3545",
   },
   twilight: {
     name: "Twilight",
@@ -101,6 +111,7 @@ export const themes = {
     text: "#3e2c4d",
     cardBg: "#ffffff",
     border: "#e6d5f7",
+    error: "#dc3545",
   },
   sand: {
     name: "Sand",
@@ -110,6 +121,7 @@ export const themes = {
     text: "#5a4a3b",
     cardBg: "#ffffff",
     border: "#f5deb3",
+    error: "#dc3545",
   },
 };
 
@@ -145,6 +157,10 @@ export const ThemeProvider = ({ children }) => {
       "--border-color",
       themes[currentTheme].border
     );
+    document.documentElement.style.setProperty(
+      "--error-color",
+      themes[currentTheme].error
+    );
   }, [currentTheme]);
 
   const changeTheme = (themeName) => {
@@ -152,8 +168,8 @@ export const ThemeProvider = ({ children }) => {
   };
 
   return (
-    <ThemeContext.Provider value={{ currentTheme, changeTheme, themes }}>
-      {children}
+    <ThemeContext.Provider value={ { currentTheme, changeTheme, themes } }>
+      { children }
     </ThemeContext.Provider>
   );
 };

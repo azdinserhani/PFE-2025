@@ -6,7 +6,85 @@ import { FaSort } from "react-icons/fa";
 import { IoIosMore } from "react-icons/io";
 import { useTheme } from "../../context/ThemeContext";
 import { useSelector } from "react-redux";
-import { getCourseByInstructor } from "../../redux/ApiCalls";
+import { deleteCourse, getCourseByInstructor } from "../../redux/ApiCalls";
+
+// Confirmation Dialog Component
+const ConfirmationDialog = ({ isOpen, onClose, onConfirm, courseTitle, theme }) => {
+  if (!isOpen) return null;
+
+  return (
+    <div className="fixed inset-0 z-50 flex items-center justify-center">
+      {/* Backdrop */ }
+      <div
+        className="absolute inset-0 bg-black opacity-50 transition-opacity"
+        onClick={ onClose }
+      />
+
+      {/* Dialog */ }
+      <div
+        className="relative rounded-lg p-6 max-w-md w-full mx-4 transform transition-all"
+        style={ {
+          backgroundColor: theme.cardBg,
+          boxShadow: `0 4px 20px ${theme.primary}20`,
+          border: `1px solid ${theme.border}`
+        } }
+      >
+        <div className="flex flex-col gap-4">
+          <h3
+            className="text-xl font-semibold"
+            style={ { color: theme.text } }
+          >
+            Delete Course
+          </h3>
+
+          <p
+            className="text-base"
+            style={ { color: theme.secondary } }
+          >
+            Are you sure you want to delete "{ courseTitle }"? This action cannot be undone.
+          </p>
+
+          <div className="flex justify-end gap-3 mt-4">
+            <button
+              onClick={ onClose }
+              className="px-4 py-2 rounded-md font-medium transition-all duration-300"
+              style={ {
+                backgroundColor: `${theme.primary}20`,
+                color: theme.primary,
+              } }
+              onMouseOver={ (e) => {
+                e.currentTarget.style.backgroundColor = `${theme.primary}30`;
+              } }
+              onMouseOut={ (e) => {
+                e.currentTarget.style.backgroundColor = `${theme.primary}20`;
+              } }
+            >
+              Cancel
+            </button>
+
+            <button
+              onClick={ onConfirm }
+              className="px-4 py-2 rounded-md font-medium transition-all duration-300"
+              style={ {
+                backgroundColor: "#ef4444",
+                color: "white",
+              } }
+              onMouseOver={ (e) => {
+                e.currentTarget.style.backgroundColor = "#f87171";
+              } }
+              onMouseOut={ (e) => {
+                e.currentTarget.style.backgroundColor = "#ef4444";
+              } }
+            >
+              Delete
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
 const CoursesTable = () => {
   const [rows, setCourseRows] = useState([]);
   const { currentTheme, themes } = useTheme();
@@ -14,6 +92,8 @@ const CoursesTable = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [showFilters, setShowFilters] = useState(false);
   const { user } = useSelector((state) => state.user);
+  const [deleteConfirmation, setDeleteConfirmation] = useState({ open: false, courseId: null, courseTitle: "" });
+
   useEffect(() => {
     const fetchCourses = async () => {
       try {
@@ -27,11 +107,19 @@ const CoursesTable = () => {
     };
     fetchCourses();
     try {
-    } catch (error) {}
+    } catch (error) { }
   }, [user]);
-  const handleDelete = (id) => {
-    console.log(`Delete course with ID: ${id}`);
+
+  const handleDelete = async (id) => {
+    try {
+      await deleteCourse(id);
+      setCourseRows(rows.filter((row) => row.id !== id));
+      setDeleteConfirmation({ open: false, courseId: null, courseTitle: "" });
+    } catch (error) {
+      console.error("Error deleting course:", error);
+    }
   };
+
   console.log("rows", rows);
 
   const handleSearch = (e) => {
@@ -58,15 +146,15 @@ const CoursesTable = () => {
       renderHeader: (params) => (
         <div
           className="flex items-center font-semibold"
-          style={{ color: theme.text }}
+          style={ { color: theme.text } }
         >
-          {params.colDef.headerName}
+          { params.colDef.headerName }
           <FaSort className="ml-2 text-xs opacity-70" />
         </div>
       ),
       renderCell: (params) => (
-        <div className="font-medium" style={{ color: theme.text }}>
-          {params.row.title}
+        <div className="font-medium" style={ { color: theme.text } }>
+          { params.row.title }
         </div>
       ),
     },
@@ -79,18 +167,18 @@ const CoursesTable = () => {
       renderHeader: (params) => (
         <div
           className="flex items-center font-semibold"
-          style={{ color: theme.text }}
+          style={ { color: theme.text } }
         >
-          {params.colDef.headerName}
+          { params.colDef.headerName }
           <FaSort className="ml-2 text-xs opacity-70" />
         </div>
       ),
       renderCell: (params) => (
         <div
           className="font-bold "
-          style={{ color: theme.primary }}
+          style={ { color: theme.primary } }
         >
-          {params.row.price} $
+          { params.row.price } $
         </div>
       ),
     },
@@ -103,38 +191,38 @@ const CoursesTable = () => {
       renderHeader: (params) => (
         <div
           className="flex items-center font-semibold"
-          style={{ color: theme.text }}
+          style={ { color: theme.text } }
         >
-          {params.colDef.headerName}
+          { params.colDef.headerName }
           <FaSort className="ml-2 text-xs opacity-70" />
         </div>
       ),
       renderCell: (params) => {
         return (
           <div className="flex items-center">
-            {params.row.status === "Active" ? (
+            { params.row.status === "Active" ? (
               <span
                 className="px-3 py-1.5 rounded-full text-sm font-medium w-24 text-center transition-all duration-300"
-                style={{
+                style={ {
                   backgroundColor: `${theme.primary}`,
                   color: theme.cardBg,
                   boxShadow: `0 2px 8px ${theme.primary}40`,
-                }}
+                } }
               >
                 Active
               </span>
             ) : (
               <span
                 className="px-3 py-1.5 rounded-full text-sm font-medium w-24 text-center transition-all duration-300"
-                style={{
+                style={ {
                   backgroundColor: theme.border,
                   color: theme.text,
                   opacity: 0.8,
-                }}
+                } }
               >
                 Inactive
               </span>
-            )}
+            ) }
           </div>
         );
       },
@@ -148,56 +236,60 @@ const CoursesTable = () => {
       renderHeader: (params) => (
         <div
           className="flex items-center font-semibold justify-center"
-          style={{ color: theme.text }}
+          style={ { color: theme.text } }
         >
-          {params.colDef.headerName}
+          { params.colDef.headerName }
         </div>
       ),
       renderCell: (params) => {
         return (
           <div className="flex gap-3 mx-auto">
-            <Link to={"/course/" + params.row.id}>
+            <Link to={ "/course/" + params.row.id }>
               <button
                 className="px-4 py-1.5 rounded-md text-sm font-medium cursor-pointer transition-all duration-300 flex items-center justify-center"
-                style={{
+                style={ {
                   backgroundColor: theme.primary,
                   color: theme.cardBg,
                   boxShadow: `0 2px 6px ${theme.primary}30`,
-                }}
-                onMouseOver={(e) => {
+                } }
+                onMouseOver={ (e) => {
                   e.currentTarget.style.backgroundColor = `${theme.primary}e0`;
                   e.currentTarget.style.boxShadow = `0 4px 10px ${theme.primary}50`;
                   e.currentTarget.style.transform = "translateY(-1px)";
-                }}
-                onMouseOut={(e) => {
+                } }
+                onMouseOut={ (e) => {
                   e.currentTarget.style.backgroundColor = theme.primary;
                   e.currentTarget.style.boxShadow = `0 2px 6px ${theme.primary}30`;
                   e.currentTarget.style.transform = "translateY(0)";
-                }}
+                } }
               >
                 Edit
               </button>
             </Link>
             <button
               className="px-4 py-1.5 rounded-md text-sm font-medium cursor-pointer transition-all duration-300 flex items-center justify-center"
-              style={{
+              style={ {
                 backgroundColor: "#ef4444",
                 color: "white",
                 boxShadow: "0 2px 6px rgba(239, 68, 68, 0.3)",
-              }}
-              onMouseOver={(e) => {
+              } }
+              onMouseOver={ (e) => {
                 e.currentTarget.style.backgroundColor = "#f87171";
                 e.currentTarget.style.boxShadow =
                   "0 4px 10px rgba(239, 68, 68, 0.5)";
                 e.currentTarget.style.transform = "translateY(-1px)";
-              }}
-              onMouseOut={(e) => {
+              } }
+              onMouseOut={ (e) => {
                 e.currentTarget.style.backgroundColor = "#ef4444";
                 e.currentTarget.style.boxShadow =
                   "0 2px 6px rgba(239, 68, 68, 0.3)";
                 e.currentTarget.style.transform = "translateY(0)";
-              }}
-              onClick={() => handleDelete(params.row.id)}
+              } }
+              onClick={ () => setDeleteConfirmation({
+                open: true,
+                courseId: params.row.id,
+                courseTitle: params.row.title
+              }) }
             >
               Delete
             </button>
@@ -273,16 +365,16 @@ const CoursesTable = () => {
   return (
     <div
       className="flex flex-col w-full rounded-lg overflow-hidden shadow-lg transition-all duration-300"
-      style={{ backgroundColor: theme.cardBg }}
+      style={ { backgroundColor: theme.cardBg } }
     >
-      {/* Header with search and filters */}
+      {/* Header with search and filters */ }
       <div
         className="flex flex-col sm:flex-row items-center justify-between p-4 border-b"
-        style={{ borderColor: `${theme.border}40` }}
+        style={ { borderColor: `${theme.border}40` } }
       >
         <h2
           className="text-xl font-bold mb-3 sm:mb-0"
-          style={{ color: theme.text }}
+          style={ { color: theme.text } }
         >
           Your Courses
         </h2>
@@ -290,62 +382,62 @@ const CoursesTable = () => {
         <div className="flex flex-col sm:flex-row gap-3 w-full sm:w-auto">
           <div
             className="relative rounded-md flex-1 sm:flex-none"
-            style={{
+            style={ {
               backgroundColor: `${theme.border}30`,
               minWidth: 220,
-            }}
+            } }
           >
             <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-              <MdSearch size={18} style={{ color: theme.text }} />
+              <MdSearch size={ 18 } style={ { color: theme.text } } />
             </div>
             <input
               type="text"
               placeholder="Search courses..."
-              value={searchTerm}
-              onChange={handleSearch}
+              value={ searchTerm }
+              onChange={ handleSearch }
               className="block w-full py-2 pl-10 pr-3 rounded-md focus:outline-none transition-all duration-300"
-              style={{
+              style={ {
                 backgroundColor: "transparent",
                 color: theme.text,
                 caretColor: theme.primary,
-              }}
+              } }
             />
           </div>
 
           <div className="flex items-center gap-2">
             <button
               className="p-2 rounded-md transition-all duration-300"
-              style={{
+              style={ {
                 backgroundColor: showFilters
                   ? `${theme.primary}20`
                   : "transparent",
                 color: theme.text,
-              }}
-              onClick={() => setShowFilters(!showFilters)}
+              } }
+              onClick={ () => setShowFilters(!showFilters) }
             >
-              <MdFilterList size={20} style={{ color: theme.primary }} />
+              <MdFilterList size={ 20 } style={ { color: theme.primary } } />
             </button>
 
             <Link to="/instructor/create-course">
               <button
                 className="px-4 py-2 rounded-md font-medium transition-all duration-300 flex items-center gap-1 cursor-pointer"
-                style={{
+                style={ {
                   backgroundColor: theme.primary,
                   color: theme.cardBg,
                   boxShadow: `0 2px 6px ${theme.primary}40`,
-                }}
-                onMouseOver={(e) => {
+                } }
+                onMouseOver={ (e) => {
                   e.currentTarget.style.backgroundColor = `${theme.primary}e0`;
                   e.currentTarget.style.boxShadow = `0 4px 10px ${theme.primary}60`;
                   e.currentTarget.style.transform = "translateY(-1px)";
-                }}
-                onMouseOut={(e) => {
+                } }
+                onMouseOut={ (e) => {
                   e.currentTarget.style.backgroundColor = theme.primary;
                   e.currentTarget.style.boxShadow = `0 2px 6px ${theme.primary}40`;
                   e.currentTarget.style.transform = "translateY(0)";
-                }}
+                } }
               >
-                <MdAdd size={18} />
+                <MdAdd size={ 18 } />
                 New Course
               </button>
             </Link>
@@ -353,27 +445,27 @@ const CoursesTable = () => {
         </div>
       </div>
 
-      {/* Filter panel (collapsible) */}
-      {showFilters && (
+      {/* Filter panel (collapsible) */ }
+      { showFilters && (
         <div
           className="p-4 border-b transition-all duration-300"
-          style={{
+          style={ {
             backgroundColor: `${theme.primary}10`,
             borderColor: `${theme.border}40`,
-          }}
+          } }
         >
           <div className="flex flex-wrap gap-4">
             <div className="flex flex-col gap-1">
-              <label style={{ color: theme.text, fontSize: "0.875rem" }}>
+              <label style={ { color: theme.text, fontSize: "0.875rem" } }>
                 Status
               </label>
               <select
                 className="py-2 px-3 rounded-md border focus:outline-none"
-                style={{
+                style={ {
                   borderColor: `${theme.border}80`,
                   backgroundColor: theme.cardBg,
                   color: theme.text,
-                }}
+                } }
               >
                 <option value="">All</option>
                 <option value="active">Active</option>
@@ -382,16 +474,16 @@ const CoursesTable = () => {
             </div>
 
             <div className="flex flex-col gap-1">
-              <label style={{ color: theme.text, fontSize: "0.875rem" }}>
+              <label style={ { color: theme.text, fontSize: "0.875rem" } }>
                 Price Range
               </label>
               <select
                 className="py-2 px-3 rounded-md border focus:outline-none"
-                style={{
+                style={ {
                   borderColor: `${theme.border}80`,
                   backgroundColor: theme.cardBg,
                   color: theme.text,
-                }}
+                } }
               >
                 <option value="">All</option>
                 <option value="0-50">$0 - $50</option>
@@ -401,12 +493,12 @@ const CoursesTable = () => {
             </div>
           </div>
         </div>
-      )}
+      ) }
 
-      {/* DataGrid */}
+      {/* DataGrid */ }
       <div className="flex flex-col items-center w-full">
         <DataGrid
-          sx={{
+          sx={ {
             flex: 1,
             height: "auto",
             minHeight: "800px",
@@ -473,27 +565,27 @@ const CoursesTable = () => {
             "& .MuiDataGrid-row--borderBottom": {
               backgroundColor: "transparent !important",
             },
-          }}
+          } }
           className="border-none"
-          rows={getFilteredRows()}
-          getRowId={(row) => row.id}
-          columns={columns}
-          initialState={{
+          rows={ getFilteredRows() }
+          getRowId={ (row) => row.id }
+          columns={ columns }
+          initialState={ {
             pagination: {
               paginationModel: {
                 pageSize: 8,
               },
             },
-          }}
-          pageSizeOptions={[8, 16, 24]}
+          } }
+          pageSizeOptions={ [8, 16, 24] }
           disableRowSelectionOnClick
           checkboxSelection
-          loading={false}
-          components={{
+          loading={ false }
+          components={ {
             NoRowsOverlay: () => (
               <div
                 className="flex flex-col items-center justify-center h-full p-10"
-                style={{ color: `${theme.text}80` }}
+                style={ { color: `${theme.text}80` } }
               >
                 <p className="text-lg font-medium mb-2">No courses found</p>
                 <p className="text-sm">
@@ -501,9 +593,18 @@ const CoursesTable = () => {
                 </p>
               </div>
             ),
-          }}
+          } }
         />
       </div>
+
+      {/* Confirmation Dialog */ }
+      <ConfirmationDialog
+        isOpen={ deleteConfirmation.open }
+        onClose={ () => setDeleteConfirmation({ open: false, courseId: null, courseTitle: "" }) }
+        onConfirm={ () => handleDelete(deleteConfirmation.courseId) }
+        courseTitle={ deleteConfirmation.courseTitle }
+        theme={ theme }
+      />
     </div>
   );
 };
