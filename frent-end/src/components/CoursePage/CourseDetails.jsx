@@ -23,7 +23,7 @@ const CourseDetails = () => {
   const theme = themes[currentTheme];
   const [themeMenuOpen, setThemeMenuOpen] = useState(false);
   const [course, setCourse] = useState(null);
-  console.log(course);
+
 
   useEffect(() => {
     const fetchCourse = async () => {
@@ -92,12 +92,12 @@ const CourseDetails = () => {
           className="text-2xl md:text-3xl font-bold text-center mb-6"
           style={ { color: theme.text } }
         >
-          Spoken English Popular Course
+          { course?.title }
         </h1>
         <div className="flex flex-col md:flex-row items-center justify-between">
           <div className="flex items-center gap-3 mb-4 md:mb-0">
             <img
-              src="/instu1.jpg"
+              src={ course?.instructor?.profile_pic }
               alt="Calvin Carlo"
               className="h-12 w-12 rounded-full object-cover shadow-sm"
               style={ { border: `2px solid ${theme.primary}` } }
@@ -105,7 +105,7 @@ const CourseDetails = () => {
             <div className="flex flex-col md:flex-row md:items-center gap-2">
               <Link to="/instructor/1" className="flex items-center gap-2">
                 <span style={ { color: theme.text } } className="font-medium">
-                  Calvin Carlo
+                  { course?.instructor?.userName }
                 </span>
               </Link>
               <motion.button
@@ -132,7 +132,7 @@ const CourseDetails = () => {
               className="text-2xl font-bold mr-4"
               style={ { color: theme.primary } }
             >
-              $29
+              ${ course?.price }
             </span>
             <motion.button
               onClick={ handleAddToCart }
@@ -228,7 +228,7 @@ const CourseDetails = () => {
               Lessons
             </p>
             <p className="font-medium" style={ { color: theme.text } }>
-              16 Lessons
+              { course?.modules?.length } Lessons
             </p>
           </div>
         </motion.div>
@@ -280,7 +280,7 @@ const CourseDetails = () => {
               Students
             </p>
             <p className="font-medium" style={ { color: theme.text } }>
-              5 Students
+              { course?.enrollment_stats?.total_students } Students
             </p>
           </div>
         </motion.div>
@@ -294,7 +294,7 @@ const CourseDetails = () => {
         transition={ { duration: 0.5 } }
       >
         <img
-          src="/Info2.jpg"
+          src={ course?.thumbnail }
           alt="Course cover"
           className="h-[400px] md:h-[500px] w-full object-cover transform hover:scale-105 transition-transform duration-700"
         />
@@ -321,24 +321,7 @@ const CourseDetails = () => {
           Overview
         </h2>
         <p className="leading-relaxed" style={ { color: theme.text } }>
-          Ooh, name it after me! Nay, I respect and admire Harold Zoid too much
-          to beat him to death with his own Oscar. Why would I want to know
-          that? What's with you kids? Every other day it's food, food, food.
-          Alright, I'll get you some stupid food. It's a T. It goes "tuh". You
-          seem malnourished. Are you suffering from intestinal parasites? I
-          suppose I could part with 'one' and still be feared… And I'd do it
-          again! And perhaps a third time! But that would be it. I'm just glad
-          my fat, ugly mama isn't alive to see this day. I can explain. It's
-          very valuable. I barely knew Philip, but as a clergyman I have no
-          problem telling his most intimate friends all about him. Bender, we're
-          trying our best. Kif might! You can crush me but you can't crush my
-          spirit! Kif, I have mated with a woman. Inform the men. I'm Santa
-          Claus! What are you hacking off? Is it my torso?! 'It is!' My precious
-          torso! You, a bobsleder!? That I'd like to see! And I'd do it again!
-          And perhaps a third time! But that would be it. My fellow Earthicans,
-          as I have explained in my book 'Earth in the Balance", and the much
-          more popular "Harry Potter and the Balance of Earth', we need to
-          defend our planet against pollution. Also dark wizards.
+          { course?.description }
         </p>
       </motion.div>
 
@@ -363,9 +346,9 @@ const CourseDetails = () => {
           Curriculum
         </h2>
         <div className="space-y-4">
-          <CourseSections />
-          <CourseSections />
-          <CourseSections />
+          { course?.modules?.map((module) => (
+            <CourseSections key={ module.id } module={ module } />
+          )) }
         </div>
       </motion.div>
     </div>

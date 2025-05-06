@@ -211,7 +211,7 @@ export const deleteCourse = async (id) => {
 
 export const getCourseById = async (id) => {
   try {
-    const res = await publicRequest.get(`/api/v1/course/course/${id}`);
+    const res = await publicRequest.get(`/api/v1/course/course/content/${id}`);
     return res.data.data;
   } catch (error) {
     console.error(`Error getting course "${id}":`, error);
