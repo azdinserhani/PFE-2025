@@ -123,9 +123,9 @@ const CourseCard = ({ item, index }) => {
             animate={ { opacity: 1, x: 0 } }
             transition={ { delay: 0.4 } }
           >
-            <span style={ { color: theme.text } }>{ item.lessons } lessons</span>
+            <span style={ { color: theme.text } }>{ item.lessonsCount } lessons</span>
             <span style={ { color: theme.secondary } }>•</span>
-            <span style={ { color: theme.text } }>{ item.students } students</span>
+            <span style={ { color: theme.text } }>{ item.student_count } students</span>
           </motion.div>
           <motion.span
             className="text-lg font-semibold"

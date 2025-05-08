@@ -93,11 +93,28 @@ const courseController = {
   },
   getAllCourses: async (req, res) => {
     try {
-      const courses = await courseService.getAllCourses();
+      const page = parseInt(req.query.page) || 1;
+      const limit = parseInt(req.query.limit) || 10;
+      const skip = (page - 1) * limit;
+
+      // Extract filter parameters
+      const filters = {
+        category: req.query.category,
+        search: req.query.search,
+        level: req.query.level,
+        maxPrice: req.query.maxPrice ? parseFloat(req.query.maxPrice) : undefined,
+        sort: req.query.sort
+      };
+
+      const { courses, total } = await courseService.getAllCourses(skip, limit, filters);
+      
       res.status(200).json({
         success: true,
         message: "Courses retrieved successfully",
         result: courses.length,
+        total,
+        currentPage: page,
+        totalPages: Math.ceil(total / limit),
         data: courses,
       });
     } catch (error) {

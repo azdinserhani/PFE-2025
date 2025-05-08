@@ -5,7 +5,7 @@ const Settings = () => {
   const { currentTheme, changeTheme, themes } = useTheme();
 
   return (
-    <div className="container mx-auto px-4 py-8">
+    <div className="container mx-auto px-4 py-8 "   >
       <h2 className="text-2xl font-bold mb-6">Settings</h2>
 
       <div className=" rounded-lg shadow-md overflow-hidden mb-6" style={ { backgroundColor: themes.cardBg } }>
@@ -18,8 +18,8 @@ const Settings = () => {
               <div
                 key={ themeKey }
                 className={ `rounded-lg overflow-hidden border-2 transition-all ${currentTheme === themeKey
-                    ? 'border-blue-500 shadow-lg'
-                    : 'border-gray-200 hover:border-blue-300'
+                  ? 'border-blue-500 shadow-lg'
+                  : 'border-gray-200 hover:border-blue-300'
                   }` }
                 style={ {
                   backgroundColor: theme.cardBg,
@@ -57,8 +57,8 @@ const Settings = () => {
                   <h5 className="text-lg font-medium text-center mb-4 text-gray-300">{ theme.name }</h5>
                   <button
                     className={ `w-full py-2 px-4 rounded-md transition-colors ${currentTheme === themeKey
-                        ? 'bg-blue-500 text-white hover:bg-blue-600'
-                        : 'border border-blue-500 text-blue-500 hover:bg-blue-50'
+                      ? 'bg-blue-500 text-white hover:bg-blue-600'
+                      : 'border border-blue-500 text-blue-500 hover:bg-blue-50'
                       }` }
                     onClick={ () => changeTheme(themeKey) }
                   >
@@ -70,7 +70,7 @@ const Settings = () => {
           </div>
         </div>
       </div>
-    </div>
+    </div >
   );
 };
 

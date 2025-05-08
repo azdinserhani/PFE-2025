@@ -104,11 +104,25 @@ export const registerUser = async (dispatch, user) => {
 };
 
 //course api calls
-export const getAllCourses = async (course) => {
+export const getAllCourses = async (params = {}) => {
   try {
-    const res = await publicRequest.get("/api/v1/course/courses");
-    console.log(res.data.data);
-    return res.data.data;
+    const { page = 1, limit = 8, category, search, level, maxPrice, sort } = params;
+    const queryParams = new URLSearchParams({
+      page,
+      limit,
+      ...(category && { category }),
+      ...(search && { search }),
+      ...(level && { level }),
+      ...(maxPrice && { maxPrice }),
+      ...(sort && { sort })
+    });
+
+    const res = await publicRequest.get(`/api/v1/course/courses?${queryParams}`);
+    return {
+      courses: res.data.data,
+      totalPages: res.data.totalPages,
+      currentPage: res.data.currentPage
+    };
   } catch (error) {
     console.error(`Error getting courses:`, error);
     throw error;

@@ -24,10 +24,93 @@ const courseQueries = {
     return result.rows[0];
   },
 
-  getAllCourses: async () => {
-    const query = `SELECT * FROM course`;
-    const result = await db.query(query);
-    return result.rows;
+  getAllCourses: async (skip = 0, limit = 10, filters = {}) => {
+    const { category, search, level, maxPrice, sort } = filters;
+    let whereClause = [];
+    let values = [];
+    let paramCount = 1;
+
+    // Build WHERE clause based on filters
+    if (category) {
+      whereClause.push(`c.category_id = $${paramCount}`);
+      values.push(category);
+      paramCount++;
+    }
+
+    if (search) {
+      whereClause.push(`(c.title ILIKE $${paramCount} OR c.description ILIKE $${paramCount})`);
+      values.push(`%${search}%`);
+      paramCount++;
+    }
+
+    if (level) {
+      whereClause.push(`c.level = $${paramCount}`);
+      values.push(level);
+      paramCount++;
+    }
+
+    if (maxPrice) {
+      whereClause.push(`c.price <= $${paramCount}`);
+      values.push(maxPrice);
+      paramCount++;
+    }
+
+    // Build the WHERE clause string
+    const whereClauseStr = whereClause.length > 0 ? `WHERE ${whereClause.join(' AND ')}` : '';
+
+    // Add sorting
+    let orderByClause = 'ORDER BY c.created_at DESC';
+    if (sort) {
+      switch (sort) {
+        case 'price_asc':
+          orderByClause = 'ORDER BY c.price ASC';
+          break;
+        case 'price_desc':
+          orderByClause = 'ORDER BY c.price DESC';
+          break;
+        case 'popular':
+          orderByClause = 'ORDER BY student_count DESC';
+          break;
+        case 'newest':
+          orderByClause = 'ORDER BY c.created_at DESC';
+          break;
+        default:
+          orderByClause = 'ORDER BY c.created_at DESC';
+      }
+    }
+
+    // Count total with filters
+    const countQuery = `
+      SELECT COUNT(*) 
+      FROM course c
+      ${whereClauseStr}
+    `;
+    const countResult = await db.query(countQuery, values);
+    const total = parseInt(countResult.rows[0].count);
+
+    // Get courses with filters
+    const query = `
+      SELECT 
+        c.*,
+        (SELECT COUNT(*) FROM module m WHERE m.course_id = c.id) as module_count,
+        (SELECT COUNT(*) FROM enrolment e WHERE e.course_id = c.id) as student_count,
+        cat.name as category_name,
+        u.username as instructor_name
+      FROM course c
+      LEFT JOIN category cat ON c.category_id = cat.id
+      LEFT JOIN user_acount u ON c.instructor_id = u.id
+      ${whereClauseStr}
+      ${orderByClause}
+      LIMIT $${paramCount} OFFSET $${paramCount + 1}
+    `;
+    
+    values.push(limit, skip);
+    const result = await db.query(query, values);
+
+    return {
+      courses: result.rows,
+      total
+    };
   },
   getCourseById: async (course_id) => {
     const query = `SELECT * FROM course WHERE id = $1`;
@@ -197,6 +280,17 @@ const courseQueries = {
     const values = [course_id];
     const result = await db.query(query, values);
     return result.rows.map((row) => row.student);
+  },
+  getCourseLessonsCount: async (course_id) => {
+    const query = `
+      SELECT l.* 
+      FROM lesson l
+      JOIN module m ON l.module_id = m.id
+      WHERE m.course_id = $1
+    `;
+    const values = [course_id];
+    const result = await db.query(query, values);
+    return result.rows;
   },
 };
 

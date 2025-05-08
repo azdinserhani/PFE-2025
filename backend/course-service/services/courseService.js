@@ -19,9 +19,29 @@ const courseService = {
 
     return course;
   },
-  getAllCourses: async () => {
-    const courses = await courseQueries.getAllCourses();
-    return courses;
+  getAllCourses: async (skip = 0, limit = 10, filters = {}) => {
+    const { courses, total } = await courseQueries.getAllCourses(skip, limit, filters);
+    
+    // Get additional statistics for each course
+    const coursesWithStats = await Promise.all(
+      courses.map(async (course) => {
+        const [lessons, students] = await Promise.all([
+          courseQueries.getCourseLessonsCount(course.id),
+          courseQueries.getEnrollStudentsByCourseId(course.id)
+        ]);
+        
+        return {
+          ...course,
+          lessonsCount: lessons.length,
+          studentsCount: students.length
+        };
+      })
+    );
+
+    return {
+      courses: coursesWithStats,
+      total
+    };
   },
   getCourseById: async (course_id) => {
     const course = await courseQueries.getCourseById(course_id);
