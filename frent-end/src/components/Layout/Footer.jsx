@@ -72,19 +72,19 @@ const Footer = () => {
   return (
     <motion.footer
       className="relative overflow-hidden text-white"
-      variants={backgroundVariants}
-      animate={currentTheme === "dark" ? "dark" : "light"}
+      variants={ backgroundVariants }
+      animate={ currentTheme === "dark" ? "dark" : "light" }
     >
-      {/* Decorative background elements */}
+      {/* Decorative background elements */ }
       <div className="absolute inset-0">
         <motion.div
-          variants={decorationVariants}
+          variants={ decorationVariants }
           initial="initial"
           animate="animate"
           className="absolute top-0 left-1/4 w-96 h-96 bg-purple-600/10 rounded-full filter blur-3xl"
         />
         <motion.div
-          variants={decorationVariants}
+          variants={ decorationVariants }
           initial="initial"
           animate="animate"
           className="absolute bottom-0 right-1/4 w-96 h-96 bg-purple-800/10 rounded-full filter blur-3xl"
@@ -93,226 +93,226 @@ const Footer = () => {
 
       <div className="container relative mx-auto px-4 pt-20 pb-12">
         <motion.div
-          variants={staggerChildren}
+          variants={ staggerChildren }
           initial="initial"
           animate="animate"
           className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12"
         >
-          {/* Company Info */}
-          <motion.div variants={childVariants} className="space-y-8">
+          {/* Company Info */ }
+          <motion.div variants={ childVariants } className="space-y-8">
             <motion.h3
               className="font-bold text-2xl text-white relative inline-block"
-              whileHover={{ x: 5 }}
+              whileHover={ { x: 5 } }
             >
               Logo
               <motion.span
                 className="absolute left-0 bottom-0 w-12 h-1 bg-gradient-to-r from-purple-600 to-purple-400"
-                initial={{ scaleX: 0 }}
-                animate={{ scaleX: 1 }}
-                transition={{ delay: 0.5, duration: 0.8 }}
+                initial={ { scaleX: 0 } }
+                animate={ { scaleX: 1 } }
+                transition={ { delay: 0.5, duration: 0.8 } }
               />
             </motion.h3>
             <motion.p
               className="text-gray-300 leading-relaxed text-sm"
-              variants={childVariants}
+              variants={ childVariants }
             >
-              {t("footer.company_info.description")}
+              { t("footer.company_info.description") }
             </motion.p>
-            <motion.div className="space-y-4" variants={staggerChildren}>
+            <motion.div className="space-y-4" variants={ staggerChildren }>
               <motion.div
                 className="flex items-center gap-4 group cursor-pointer"
-                whileHover={{ x: 10 }}
+                whileHover={ { x: 10 } }
               >
                 <motion.div
                   className="bg-gray-800/50 backdrop-blur-sm p-3 rounded-lg transition-all duration-300 shadow-lg"
-                  whileHover={{
+                  whileHover={ {
                     backgroundColor: "rgba(147, 51, 234, 0.9)",
                     scale: 1.1,
-                  }}
+                  } }
                 >
                   <FaLocationDot className="size-5" />
                 </motion.div>
                 <span className="font-medium text-gray-300 group-hover:text-white transition-colors">
-                  {t("footer.company_info.location")}
+                  { t("footer.company_info.location") }
                 </span>
               </motion.div>
               <motion.div
                 className="flex items-center gap-4 group cursor-pointer"
-                whileHover={{ x: 10 }}
+                whileHover={ { x: 10 } }
               >
                 <motion.div
                   className="bg-gray-800/50 backdrop-blur-sm p-3 rounded-lg transition-all duration-300 shadow-lg"
-                  whileHover={{
+                  whileHover={ {
                     backgroundColor: "rgba(147, 51, 234, 0.9)",
                     scale: 1.1,
-                  }}
+                  } }
                 >
                   <FaPhoneVolume className="size-5" />
                 </motion.div>
                 <span className="font-medium text-gray-300 group-hover:text-white transition-colors">
-                  {t("footer.company_info.phone")}
+                  { t("footer.company_info.phone") }
                 </span>
               </motion.div>
             </motion.div>
           </motion.div>
 
-          {/* Useful Links */}
-          <motion.div variants={childVariants} className="space-y-8">
+          {/* Useful Links */ }
+          <motion.div variants={ childVariants } className="space-y-8">
             <motion.h3
               className="font-bold text-xl text-white relative inline-block"
-              whileHover={{ x: 5 }}
+              whileHover={ { x: 5 } }
             >
-              {t("footer.useful_links.title")}
+              { t("footer.useful_links.title") }
               <motion.span
                 className="absolute left-0 bottom-0 w-12 h-1 bg-gradient-to-r from-purple-600 to-purple-400"
-                initial={{ scaleX: 0 }}
-                animate={{ scaleX: 1 }}
-                transition={{ delay: 0.6, duration: 0.8 }}
+                initial={ { scaleX: 0 } }
+                animate={ { scaleX: 1 } }
+                transition={ { delay: 0.6, duration: 0.8 } }
               />
             </motion.h3>
             <motion.ul
               className="flex flex-col gap-3 text-gray-300"
-              variants={staggerChildren}
+              variants={ staggerChildren }
             >
-              {t("footer.useful_links.items", { returnObjects: true }).map((item, index) => (
-                <motion.li key={index} variants={childVariants}>
+              { t("footer.useful_links.items", { returnObjects: true }).map((item, index) => (
+                <motion.li key={ index } variants={ childVariants }>
                   <motion.a
                     href="#"
                     className="hover:text-white transition-all duration-300 flex items-center gap-3 group"
-                    whileHover={{ x: 10 }}
+                    whileHover={ { x: 10 } }
                   >
                     <motion.span
                       className="h-[2px] w-0 group-hover:w-4 bg-purple-500 transition-all duration-300"
-                      initial={{ width: 0 }}
-                      whileHover={{ width: "1rem" }}
+                      initial={ { width: 0 } }
+                      whileHover={ { width: "1rem" } }
                     />
-                    {item}
+                    { item }
                   </motion.a>
                 </motion.li>
-              ))}
+              )) }
             </motion.ul>
           </motion.div>
 
-          {/* Our Institute */}
-          <motion.div variants={childVariants} className="space-y-8">
+          {/* Our Institute */ }
+          <motion.div variants={ childVariants } className="space-y-8">
             <motion.h3
               className="font-bold text-xl text-white relative inline-block"
-              whileHover={{ x: 5 }}
+              whileHover={ { x: 5 } }
             >
-              {t("footer.our_institute.title")}
+              { t("footer.our_institute.title") }
               <motion.span
                 className="absolute left-0 bottom-0 w-12 h-1 bg-gradient-to-r from-purple-600 to-purple-400"
-                initial={{ scaleX: 0 }}
-                animate={{ scaleX: 1 }}
-                transition={{ delay: 0.7, duration: 0.8 }}
+                initial={ { scaleX: 0 } }
+                animate={ { scaleX: 1 } }
+                transition={ { delay: 0.7, duration: 0.8 } }
               />
             </motion.h3>
             <motion.ul
               className="flex flex-col gap-3 text-gray-300"
-              variants={staggerChildren}
+              variants={ staggerChildren }
             >
-              {t("footer.our_institute.items", { returnObjects: true }).map((item, index) => (
-                <motion.li key={index} variants={childVariants}>
+              { t("footer.our_institute.items", { returnObjects: true }).map((item, index) => (
+                <motion.li key={ index } variants={ childVariants }>
                   <motion.a
                     href="#"
                     className="hover:text-white transition-all duration-300 flex items-center gap-3 group"
-                    whileHover={{ x: 10 }}
+                    whileHover={ { x: 10 } }
                   >
                     <motion.span
                       className="h-[2px] w-0 group-hover:w-4 bg-purple-500 transition-all duration-300"
-                      initial={{ width: 0 }}
-                      whileHover={{ width: "1rem" }}
+                      initial={ { width: 0 } }
+                      whileHover={ { width: "1rem" } }
                     />
-                    {item}
+                    { item }
                   </motion.a>
                 </motion.li>
-              ))}
+              )) }
             </motion.ul>
           </motion.div>
 
-          {/* Get In Touch */}
-          <motion.div variants={childVariants} className="space-y-8">
+          {/* Get In Touch */ }
+          <motion.div variants={ childVariants } className="space-y-8">
             <motion.h3
               className="font-bold text-xl text-white relative inline-block"
-              whileHover={{ x: 5 }}
+              whileHover={ { x: 5 } }
             >
-              {t("footer.get_in_touch.title")}
+              { t("footer.get_in_touch.title") }
               <motion.span
                 className="absolute left-0 bottom-0 w-12 h-1 bg-gradient-to-r from-purple-600 to-purple-400"
-                initial={{ scaleX: 0 }}
-                animate={{ scaleX: 1 }}
-                transition={{ delay: 0.8, duration: 0.8 }}
+                initial={ { scaleX: 0 } }
+                animate={ { scaleX: 1 } }
+                transition={ { delay: 0.8, duration: 0.8 } }
               />
             </motion.h3>
             <motion.div
               className="flex flex-col gap-5 mb-8"
-              variants={staggerChildren}
+              variants={ staggerChildren }
             >
               <motion.a
                 href="#"
                 className="transform transition-all duration-300"
-                whileHover={{ scale: 1.05, y: -5 }}
-                aria-label={t("footer.get_in_touch.app_store")}
+                whileHover={ { scale: 1.05, y: -5 } }
+                aria-label={ t("footer.get_in_touch.app_store") }
               >
                 <img
                   src="/AppStore.png"
-                  alt={t("footer.get_in_touch.app_store")}
+                  alt={ t("footer.get_in_touch.app_store") }
                   className="rounded-xl shadow-md"
                 />
               </motion.a>
               <motion.a
                 href="#"
                 className="transform transition-all duration-300"
-                whileHover={{ scale: 1.05, y: -5 }}
-                aria-label={t("footer.get_in_touch.play_store")}
+                whileHover={ { scale: 1.05, y: -5 } }
+                aria-label={ t("footer.get_in_touch.play_store") }
               >
                 <img
                   src="/PlayStore.png"
-                  alt={t("footer.get_in_touch.play_store")}
+                  alt={ t("footer.get_in_touch.play_store") }
                   className="rounded-xl shadow-md"
                 />
               </motion.a>
             </motion.div>
             <motion.div
               className="flex flex-wrap gap-4"
-              variants={staggerChildren}
+              variants={ staggerChildren }
             >
-              {socialLinks.map((social, index) => (
+              { socialLinks.map((social, index) => (
                 <motion.a
-                  key={index}
+                  key={ index }
                   href="#"
-                  aria-label={social.label}
+                  aria-label={ social.label }
                   className="bg-gray-800/50 backdrop-blur-sm p-3 rounded-lg transition-all duration-300"
-                  variants={childVariants}
-                  whileHover={{
+                  variants={ childVariants }
+                  whileHover={ {
                     scale: 1.1,
                     backgroundColor: "rgba(147, 51, 234, 0.9)",
                     y: -5,
-                  }}
+                  } }
                 >
-                  {social.icon}
+                  { social.icon }
                 </motion.a>
-              ))}
+              )) }
             </motion.div>
           </motion.div>
         </motion.div>
 
-        {/* Divider */}
+        {/* Divider */ }
         <motion.div
           className="border-t border-gray-800/60 my-12"
-          initial={{ scaleX: 0 }}
-          animate={{ scaleX: 1 }}
-          transition={{ delay: 1, duration: 0.8 }}
+          initial={ { scaleX: 0 } }
+          animate={ { scaleX: 1 } }
+          transition={ { delay: 1, duration: 0.8 } }
         />
 
-        {/* Copyright */}
+        {/* Copyright */ }
         <motion.div
           className="text-center text-gray-400 text-sm"
-          variants={childVariants}
+          variants={ childVariants }
           initial="initial"
           animate="animate"
         >
-          <p>{t("footer.copyright", { year: new Date().getFullYear() })}</p>
+          <p>{ t("footer.copyright", { year: new Date().getFullYear() }) }</p>
         </motion.div>
       </div>
     </motion.footer>

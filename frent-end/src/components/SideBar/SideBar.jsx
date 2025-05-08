@@ -31,9 +31,7 @@ const SideBar = () => {
     setSelectedItem(item);
   };
 
-  const changeLanguage = (lng) => {
-    i18n.changeLanguage(lng);
-  };
+  
 
   const mainNavItems = [
     {
@@ -186,28 +184,6 @@ const SideBar = () => {
           </Link>
         </motion.div>
 
-        {/* Language Switcher */}
-        {open && (
-          <motion.div
-            variants={itemVariants}
-            className="flex items-center gap-2 px-6 py-2"
-            style={{ color: theme.text }}
-          >
-            <MdLanguage size={20} />
-            <select
-              onChange={(e) => changeLanguage(e.target.value)}
-              value={i18n.language}
-              className="bg-transparent outline-none"
-              style={{ color: theme.text }}
-            >
-              <option value="en">English</option>
-              <option value="fr">Français</option>
-              <option value="ar">العربية</option>
-              <option value="es">Español</option>
-              <option value="de">Deutsch</option>
-            </select>
-          </motion.div>
-        )}
 
         {/* Main Navigation */}
         <motion.nav className={`mt-10 ${open ? (isRTL ? "mr-6" : "ml-6") : (isRTL ? "mr-1" : "ml-1")}`}>
