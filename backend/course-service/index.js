@@ -4,6 +4,7 @@ import dotenv from "dotenv";
 import courseRoute from "./routes/courseRoute.js";
 import moduleRoute from "./routes/moduleRoute.js";
 import lectureRoute from "./routes/lectureRoute.js";
+import categoryRoute from "./routes/categoryRoute.js";
 dotenv.config();
 
 // Initialize express app
@@ -18,6 +19,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use("/", courseRoute);
 app.use("/module", moduleRoute);
 app.use("/lecture", lectureRoute);
+app.use("/", categoryRoute);
 
 // Root route
 app.get("/", (req, res) => {
@@ -45,7 +47,7 @@ app.use((req, res) => {
 });
 
 // Start server
-const PORT = process.env.PORT ;
+const PORT = process.env.PORT;
 app.listen(PORT, () => {
   console.log(`Course service running on port ${PORT}`);
 });

@@ -25,9 +25,11 @@ import {
   resetCourse,
 } from "../../redux/features/courseSlice";
 import { MdDragIndicator } from "react-icons/md";
-import { uploadFile, createCourseWithContent } from "../../redux/ApiCalls";
+import { uploadFile, createCourseWithContent, getCategories } from "../../redux/ApiCalls";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router";
+import { AiOutlineLoading3Quarters } from "react-icons/ai";
+
 const CreateCourse = () => {
   const navigate = useNavigate();
   const [courseId, setCourseId] = useState(null);
@@ -38,6 +40,8 @@ const CreateCourse = () => {
   const [description, setDescription] = useState("");
   const [price, setPrice] = useState("");
   const [category, setCategory] = useState("");
+  const [categoryId, setCategoryId] = useState(null);
+  const [categories, setCategories] = useState([]);
   const [progress, setProgress] = useState(0);
   const { course, sec } = useSelector((stat) => ({
     sec: stat.course.sections,
@@ -49,7 +53,22 @@ const CreateCourse = () => {
   const dispatch = useDispatch();
   const { currentTheme, themes } = useTheme();
   const theme = themes[currentTheme];
+  const [isLoading, setIsLoading] = useState(false);
+  const [errors, setErrors] = useState({
+    title: "",
+    description: "",
+    price: "",
+    categoryId: "",
+    thumbnail: ""
+  });
 
+  useEffect(() => {
+    const fetchCategories = async () => {
+      const categories = await getCategories();
+      setCategories(categories);
+    };
+    fetchCategories();
+  }, []);
   useEffect(() => {
     const handleBeforeUnload = (e) => {
       e.preventDefault();
@@ -62,23 +81,102 @@ const CreateCourse = () => {
       window.removeEventListener("beforeunload", handleBeforeUnload);
     };
   }, []);
-  // Handle course creation
-  const handleCreateCourse = async () => {
-    const courseInfo = { title, description, price, category, image: imgUrl };
-    dispatch(setCourseInfo(courseInfo));
-    await createCourseWithContent({
-      ...courseInfo,
-      sections: sec,
-    });
-    dispatch(resetCourse());
-    setTitle("");
-    setDescription("");
-    setPrice("");
-    setCategory("");
-    setImg(null);
-    setImgUrl(null);
-    setFileName("");
+
+  const validateForm = () => {
+    const newErrors = {
+      title: "",
+      description: "",
+      price: "",
+      categoryId: "",
+      thumbnail: ""
+    };
+    let isValid = true;
+
+    // Title validation
+    if (!title) {
+      newErrors.title = "Title is required";
+      isValid = false;
+    } else if (title.length < 3) {
+      newErrors.title = "Title must be at least 3 characters long";
+      isValid = false;
+    } else if (title.length > 100) {
+      newErrors.title = "Title cannot exceed 100 characters";
+      isValid = false;
+    }
+
+    // Description validation
+    if (!description) {
+      newErrors.description = "Description is required";
+      isValid = false;
+    } else if (description.length < 10) {
+      newErrors.description = "Description must be at least 10 characters long";
+      isValid = false;
+    } else if (description.length > 500) {
+      newErrors.description = "Description cannot exceed 500 characters";
+      isValid = false;
+    }
+
+    // Price validation
+    if (!price) {
+      newErrors.price = "Price is required";
+      isValid = false;
+    } else if (isNaN(price) || Number(price) < 0) {
+      newErrors.price = "Price must be a positive number";
+      isValid = false;
+    }
+
+    // Category validation
+    if (!categoryId) {
+      newErrors.categoryId = "Category is required";
+      isValid = false;
+    }
+
+    // Image validation
+    if (!imgUrl) {
+      newErrors.thumbnail = "Course image is required";
+      isValid = false;
+    }
+
+    setErrors(newErrors);
+    return isValid;
   };
+
+  const handleCreateCourse = async () => {
+    if (!validateForm()) {
+      return;
+    }
+    try {
+      setIsLoading(true);
+      const courseInfo = { title, description, price, categoryId, image: imgUrl };
+      dispatch(setCourseInfo(courseInfo));
+      await createCourseWithContent({
+        ...courseInfo,
+        sections: sec,
+      });
+      dispatch(resetCourse());
+      setTitle("");
+      setDescription("");
+      setPrice("");
+      setCategory("");
+      setCategoryId(null);
+      setImg(null);
+      setImgUrl(null);
+      setFileName("");
+      setErrors({
+        title: "",
+        description: "",
+        price: "",
+        categoryId: "",
+        thumbnail: ""
+      });
+    } catch (error) {
+      console.error("Error creating course:", error);
+      alert("Failed to create course. Please try again.");
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
   // DnD sensors configuration
   const sensors = useSensors(
     useSensor(PointerSensor, {
@@ -133,7 +231,7 @@ const CreateCourse = () => {
   const activeSectionIndex = sec.findIndex(
     (section) => section.id === activeId
   );
-
+  console.log(categoryId);
   return (
     <div
       className="container mx-auto p-6 h-screen flex flex-col gap-6 "
@@ -182,14 +280,18 @@ const CreateCourse = () => {
               value={ title }
               onChange={ (e) => setTitle(e.target.value) }
               placeholder="Enter course title"
-              className="mt-2 rounded-md p-3 w-full focus:outline-none focus:ring-2"
+              className={ `mt-2 rounded-md p-3 w-full focus:outline-none focus:ring-2 ${errors.title ? "border-red-500" : ""
+                }` }
               style={ {
                 backgroundColor: theme.background,
                 color: theme.text,
-                borderColor: theme.border,
+                borderColor: errors.title ? "#ef4444" : theme.border,
                 borderWidth: "1px",
               } }
             />
+            { errors.title && (
+              <p className="text-red-500 text-sm mt-1">{ errors.title }</p>
+            ) }
           </div>
           <div
             className="shadow-md p-6 rounded-lg"
@@ -203,14 +305,18 @@ const CreateCourse = () => {
               value={ description }
               onChange={ (e) => setDescription(e.target.value) }
               placeholder="Enter course description"
-              className="mt-2 rounded-md p-3 w-full focus:outline-none focus:ring-2"
+              className={ `mt-2 rounded-md p-3 w-full focus:outline-none focus:ring-2 ${errors.description ? "border-red-500" : ""
+                }` }
               style={ {
                 backgroundColor: theme.background,
                 color: theme.text,
-                borderColor: theme.border,
+                borderColor: errors.description ? "#ef4444" : theme.border,
                 borderWidth: "1px",
               } }
             />
+            { errors.description && (
+              <p className="text-red-500 text-sm mt-1">{ errors.description }</p>
+            ) }
           </div>
           <div
             className="shadow-md p-6 rounded-lg"
@@ -228,9 +334,10 @@ const CreateCourse = () => {
             />
             <label
               htmlFor="image"
-              className="mt-2 w-full h-52 flex justify-center items-center cursor-pointer border-dashed rounded-md overflow-hidden"
+              className={ `mt-2 w-full h-52 flex justify-center items-center cursor-pointer border-dashed rounded-md overflow-hidden ${errors.thumbnail ? "border-red-500" : ""
+                }` }
               style={ {
-                borderColor: theme.border,
+                borderColor: errors.thumbnail ? "#ef4444" : theme.border,
                 borderWidth: "1px",
                 backgroundColor: theme.background,
               } }
@@ -245,6 +352,9 @@ const CreateCourse = () => {
                 <FaImage style={ { color: theme.secondary, fontSize: "3rem" } } />
               ) }
             </label>
+            { errors.thumbnail && (
+              <p className="text-red-500 text-sm mt-1">{ errors.thumbnail }</p>
+            ) }
           </div>
           <div className="flex gap-2">
             <div
@@ -279,7 +389,10 @@ const CreateCourse = () => {
               <div className="relative">
                 <select
                   value={ category }
-                  onChange={ (e) => setCategory(e.target.value) }
+                  onChange={ (e) => {
+                    setCategory(e.target.value);
+                    setCategoryId(e.target.value);
+                  } }
                   className="appearance-auto mt-2 px-2 rounded-md p-3 w-full focus:outline-none focus:ring-2"
                   style={ {
                     backgroundColor: theme.background,
@@ -289,10 +402,11 @@ const CreateCourse = () => {
                   } }
                 >
                   <option value="">Select a category</option>
-                  <option value="Programming">Programming</option>
-                  <option value="Design">Design</option>
-                  <option value="Marketing">Marketing</option>
-                  <option value="Business">Business</option>
+                  { categories?.map((category) => (
+                    <option key={ category.id } value={ category.id }>
+                      { category.name }
+                    </option>
+                  )) }
                 </select>
               </div>
             </div>
@@ -429,26 +543,38 @@ const CreateCourse = () => {
           <div className="w-full flex items-center justify-end">
             <button
               onClick={ () => handleCreateCourse() }
+              disabled={ isLoading }
               className={ `
-                          px-4 py-1.5 rounded-md  font-medium cursor-pointer h-12 w-full 
-                          transition-all duration-300 transform flex items-center justify-center 
-                          hover:-translate-y-[1px]
-                        `}
+                px-4 py-1.5 rounded-md font-medium cursor-pointer h-12 w-full 
+                transition-all duration-300 transform flex items-center justify-center 
+                hover:-translate-y-[1px] ${isLoading ? 'opacity-70 cursor-not-allowed' : ''}
+              `}
               style={ {
                 backgroundColor: theme.primary,
                 color: theme.cardBg,
                 boxShadow: `0 2px 6px ${theme.primary}30`,
               } }
               onMouseOver={ (e) => {
-                e.currentTarget.style.backgroundColor = `${theme.primary}e0`;
-                e.currentTarget.style.boxShadow = `0 4px 10px ${theme.primary}50`;
+                if (!isLoading) {
+                  e.currentTarget.style.backgroundColor = `${theme.primary}e0`;
+                  e.currentTarget.style.boxShadow = `0 4px 10px ${theme.primary}50`;
+                }
               } }
               onMouseOut={ (e) => {
-                e.currentTarget.style.backgroundColor = theme.primary;
-                e.currentTarget.style.boxShadow = `0 2px 6px ${theme.primary}30`;
+                if (!isLoading) {
+                  e.currentTarget.style.backgroundColor = theme.primary;
+                  e.currentTarget.style.boxShadow = `0 2px 6px ${theme.primary}30`;
+                }
               } }
             >
-              Create
+              { isLoading ? (
+                <div className="flex items-center gap-2">
+                  <AiOutlineLoading3Quarters className="animate-spin" size={ 20 } />
+                  Creating...
+                </div>
+              ) : (
+                'Create'
+              ) }
             </button>
           </div>
         </div>

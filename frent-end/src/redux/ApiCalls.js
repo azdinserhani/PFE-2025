@@ -104,15 +104,25 @@ export const registerUser = async (dispatch, user) => {
 };
 
 //course api calls
+export const getAllCourses = async (course) => {
+  try {
+    const res = await publicRequest.get("/api/v1/course/courses");
+    console.log(res.data.data);
+    return res.data.data;
+  } catch (error) {
+    console.error(`Error getting courses:`, error);
+    throw error;
+  }
+};
 export const createCourseWithContent = async (course) => {
   try {
-    const { title, description, price, category, image } = course;
+    const { title, description, price, categoryId, image } = course;
 
     const res = await userRequest.post("/api/v1/course/create", {
       title,
       description,
       price,
-      categoryId: 1,
+      categoryId,
       thumbnail: image,
     });
 
@@ -218,4 +228,32 @@ export const getCourseById = async (id) => {
     throw error;
   }
 }
+
+
+//category api calls
+export const createCategory = async (category) => {
+  try {
+    const res = await userRequest.post("/api/v1/course/categories", category);
+    return res.data.data;
+  } catch (error) {
+    console.error(`Error creating category "${category.name}":`, error);
+    throw error;
+  }
+}
+
+export const getCategories = async () => {
+  try {
+    const res = await publicRequest.get("/api/v1/course/categories/stats");
+
+    return res.data.data;
+  } catch (error) { 
+    console.error(`Error getting categories:`, error);
+    throw error;
+  }
+}
+
+
+
+
+
 

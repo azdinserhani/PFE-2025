@@ -65,7 +65,7 @@ const CourseCard = ({ item, index }) => {
       whileInView="visible"
       whileHover="hover"
       viewport={ { once: true, amount: 0.25 } }
-      className="relative p-6 rounded-2xl shadow-lg transition-all duration-300 cursor-pointer group overflow-hidden min-w-[400px] backdrop-blur-sm"
+      className="relative p-6 rounded-2xl shadow-lg transition-all duration-300 cursor-pointer group overflow-hidden min-w-[400px] backdrop-blur-sm h-[500px]"
       style={ {
         backgroundColor: theme.cardBg,
         borderColor: theme.border,
@@ -74,7 +74,7 @@ const CourseCard = ({ item, index }) => {
     >
       <div className="relative overflow-hidden rounded-xl mb-4">
         <motion.img
-          src={ item.image || "/Info1.jpg" }
+          src={ item?.thumbnail }
           alt={ item.title }
           className="w-full h-48 object-cover"
           variants={ imageVariants }
@@ -139,7 +139,7 @@ const CourseCard = ({ item, index }) => {
         </div>
 
         <motion.div
-          className="flex items-center justify-between gap-4 pt-4 border-t"
+          className="flex items-center justify-between gap-4 pt-4 border-t absolute bottom-5 left-0 right-0 mx-5"
           style={ { borderColor: theme.border } }
           initial={ { opacity: 0, y: 20 } }
           animate={ { opacity: 1, y: 0 } }
@@ -149,7 +149,7 @@ const CourseCard = ({ item, index }) => {
             to={
               item.isEnrolled
                 ? `/course/learn/${item.id}`
-                : `/course/22`
+                : `/course/${item.id}`
             }
             className="flex-1"
           >

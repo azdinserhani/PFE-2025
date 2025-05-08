@@ -197,3 +197,21 @@ DROP CONSTRAINT IF EXISTS fk_course;
 ALTER TABLE module
 ADD CONSTRAINT fk_course
 FOREIGN KEY (cours_ID) REFERENCES course(ID) ON DELETE CASCADE;
+
+-- Modify role column constraints if needed
+ALTER TABLE user_acount
+DROP COLUMN IF EXISTS role;
+
+ALTER TABLE user_acount
+ADD COLUMN role VARCHAR(10) CHECK (role IN ('student', 'teacher', 'admin')) DEFAULT 'student' NOT NULL;
+
+-- Create index on role column for faster queries (if it doesn't exist)
+DO $$ 
+BEGIN
+    IF NOT EXISTS (SELECT 1 FROM pg_indexes WHERE indexname = 'idx_user_role') THEN
+        CREATE INDEX idx_user_role ON user_acount(role);
+    END IF;
+END $$;
+
+-- Add comment to explain the role column
+COMMENT ON COLUMN user_acount.role IS 'User role: student, teacher, or admin';

@@ -15,8 +15,7 @@ const categoryQueries = {
 
     return result.rows;
   },
-  createCategory: async (category) => {
-    const { name } = category;
+  createCategory: async (name) => {
     const query = `INSERT INTO category (name) 
                     VALUES ($1) 
                     RETURNING *`;
@@ -43,7 +42,11 @@ const categoryQueries = {
     return result.rows[0];
   },
   getCategoryStats: async () => {
-    const query = `SELECT c.id, c.name, COUNT(co.id) AS course_count
+    const query = `SELECT 
+                     c.id, 
+                     c.name, 
+                     COUNT(co.id) AS course_count, 
+                     COUNT(DISTINCT co.instructor_id) AS unique_instructors
                    FROM category c
                    LEFT JOIN course co ON c.id = co.category_id
                    GROUP BY c.id`;
