@@ -11,18 +11,17 @@ dotenv.config();
 const app = express();
 app.use(cors());
 // Create uploads folder if not exists
-const uploadDir = path.join(__dirname, "uploads");
+const uploadDir = path.join("E:", "media-uploads");
 if (!fs.existsSync(uploadDir)) {
-  fs.mkdirSync(uploadDir);
+  fs.mkdirSync(uploadDir, { recursive: true });
 }
 
 // Set up storage config for multer
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
-    cb(null, "uploads/"); // Local storage
+    cb(null, uploadDir); // Store on E: drive
   },
   filename: (req, file, cb) => {
-    // Keep original name, or you can rename here
     const uniqueName = `${Date.now()}-${file.originalname}`;
     cb(null, uniqueName);
   },
@@ -31,7 +30,7 @@ const storage = multer.diskStorage({
 const upload = multer({ storage });
 
 // Serve uploaded files statically
-app.use("/media", express.static(path.join(__dirname, "uploads")));
+app.use("/media", express.static(uploadDir));
 
 // Upload endpoint
 app.post("/upload", upload.single("file"), (req, res) => {
