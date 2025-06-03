@@ -11,4 +11,8 @@ export const services = [
     route: "/api/v1/media",
     target: process.env.MEDIA_SERVICE_URL,
   },
+  {
+    route: "/api/v1/admin",
+    target: process.env.ADMIN_SERVICE_URL,
+  },
 ];

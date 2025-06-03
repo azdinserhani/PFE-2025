@@ -50,7 +50,7 @@ const SideBar = ({ onFilterChange, isLoading }) => {
   };
 
   const handleKeyPress = (e) => {
-    if (e.key === 'Enter') {
+    if (e.key === "Enter") {
       handleSearch();
     }
   };
@@ -90,7 +90,7 @@ const SideBar = ({ onFilterChange, isLoading }) => {
       category: "",
       level: "",
       maxPrice: "",
-      sort: ""
+      sort: "",
     });
   };
 
@@ -123,330 +123,376 @@ const SideBar = ({ onFilterChange, isLoading }) => {
 
   return (
     <div className="relative">
-      {/* Toggle Button */ }
+      {/* Toggle Button */}
       <motion.button
         className="absolute -right-3 top-0 z-20 cursor-pointer p-2 rounded-full transition-all duration-300"
-        style={ {
+        style={{
           backgroundColor: theme.cardBg,
           border: `1px solid ${theme.border}`,
           boxShadow: `0 2px 8px ${theme.primary}20`,
-        } }
-        onClick={ () => setIsOpen(!isOpen) }
-        whileHover={ { scale: 1.1 } }
-        whileTap={ { scale: 0.9 } }
+        }}
+        onClick={() => setIsOpen(!isOpen)}
+        whileHover={{ scale: 1.1 }}
+        whileTap={{ scale: 0.9 }}
       >
         <motion.div
-          animate={ { rotate: isOpen ? 180 : 0 } }
-          transition={ { duration: 0.3 } }
+          animate={{ rotate: isOpen ? 180 : 0 }}
+          transition={{ duration: 0.3 }}
         >
-          <IoFilterOutline size={ 20 } style={ { color: theme.primary } } />
+          <IoFilterOutline size={20} style={{ color: theme.primary }} />
         </motion.div>
       </motion.button>
 
-      {/* Sidebar Content */ }
+      {/* Sidebar Content */}
       <AnimatePresence>
-        { isOpen && (
+        {isOpen && (
           <motion.div
             className="p-5 rounded-lg shadow-sm"
-            style={ {
+            style={{
               backgroundColor: theme.cardBg,
               border: `1px solid ${theme.border}`,
               opacity: isLoading ? 0.7 : 1,
-              pointerEvents: isLoading ? 'none' : 'auto'
-            } }
-            initial={ { width: 0, opacity: 0 } }
-            animate={ {
+              pointerEvents: isLoading ? "none" : "auto",
+            }}
+            initial={{ width: 0, opacity: 0 }}
+            animate={{
               width: "auto",
               opacity: 1,
               transition: {
                 duration: 0.3,
                 ease: "easeInOut",
               },
-            } }
-            exit={ {
+            }}
+            exit={{
               width: 0,
               opacity: 0,
               transition: {
                 duration: 0.3,
                 ease: "easeInOut",
               },
-            } }
+            }}
           >
             <motion.div
-              variants={ containerVariants }
+              variants={containerVariants}
               initial="hidden"
               animate="visible"
             >
-              {/* Search */ }
-              <motion.div className="mb-6" variants={ itemVariants }>
+              {/* Search */}
+              <motion.div className="mb-6" variants={itemVariants}>
                 <motion.div
                   className="flex items-center px-4 py-3 gap-3 rounded-lg border-2 hover:border-opacity-100 transition-all duration-300"
-                  style={ {
+                  style={{
                     borderColor: theme.border,
-                    backgroundColor: `${theme.cardBg === "#ffffff" ? "#f9f9f9" : theme.background}`,
+                    backgroundColor: `${
+                      theme.cardBg === "#ffffff" ? "#f9f9f9" : theme.background
+                    }`,
                     opacity: isLoading ? 0.7 : 1,
-                  } }
-                  whileHover={ {
+                  }}
+                  whileHover={{
                     boxShadow: `0 4px 15px ${theme.primary}20`,
                     borderColor: theme.primary,
-                  } }
+                  }}
                 >
                   <BiSearch
-                    fontSize={ 20 }
-                    style={ { color: theme.secondary, cursor: 'pointer' } }
-                    onClick={ handleSearch }
+                    fontSize={20}
+                    style={{ color: theme.secondary, cursor: "pointer" }}
+                    onClick={handleSearch}
                   />
                   <motion.input
                     type="text"
-                    placeholder={ isLoading ? "Loading..." : "Search courses..." }
+                    placeholder={isLoading ? "Loading..." : "Search courses..."}
                     className="w-full outline-none text-sm"
-                    style={ {
+                    style={{
                       backgroundColor: "transparent",
                       color: theme.text,
                       caretColor: theme.primary,
-                    } }
-                    value={ searchQuery }
-                    onChange={ handleSearchChange }
-                    onKeyPress={ handleKeyPress }
-                    disabled={ isLoading }
-                    whileFocus={ {
+                    }}
+                    value={searchQuery}
+                    onChange={handleSearchChange}
+                    onKeyPress={handleKeyPress}
+                    disabled={isLoading}
+                    whileFocus={{
                       scale: 1.01,
-                    } }
+                    }}
                   />
                 </motion.div>
               </motion.div>
 
-              {/* Categories */ }
-              <motion.div className="mb-6" variants={ itemVariants }>
+              {/* Categories */}
+              <motion.div className="mb-6" variants={itemVariants}>
                 <motion.div
                   className="flex items-center justify-between cursor-pointer"
-                  onClick={ () => toggleSection("categories") }
-                  whileHover={ { x: 3 } }
-                  whileTap={ { scale: 0.98 } }
+                  onClick={() => toggleSection("categories")}
+                  whileHover={{ x: 3 }}
+                  whileTap={{ scale: 0.98 }}
                 >
-                  <h4 className="font-semibold mb-3" style={ { color: theme.text } }>
+                  <h4
+                    className="font-semibold mb-3"
+                    style={{ color: theme.text }}
+                  >
                     Categories
                   </h4>
                   <motion.div
-                    animate={ {
+                    animate={{
                       rotate: expandedSections.categories ? 0 : -90,
-                      color: expandedSections.categories ? theme.primary : theme.secondary,
-                    } }
-                    transition={ { duration: 0.3 } }
+                      color: expandedSections.categories
+                        ? theme.primary
+                        : theme.secondary,
+                    }}
+                    transition={{ duration: 0.3 }}
                   >
-                    <MdOutlineKeyboardArrowDown size={ 20 } />
+                    <MdOutlineKeyboardArrowDown size={20} />
                   </motion.div>
                 </motion.div>
 
                 <AnimatePresence>
-                  { expandedSections.categories && (
+                  {expandedSections.categories && (
                     <motion.div
                       className="mt-3 space-y-3 pl-1"
-                      initial={ { height: 0, opacity: 0 } }
-                      animate={ { height: "auto", opacity: 1 } }
-                      exit={ { height: 0, opacity: 0 } }
-                      transition={ { duration: 0.3, ease: "easeInOut" } }
+                      initial={{ height: 0, opacity: 0 }}
+                      animate={{ height: "auto", opacity: 1 }}
+                      exit={{ height: 0, opacity: 0 }}
+                      transition={{ duration: 0.3, ease: "easeInOut" }}
                     >
-                      { categories?.map((category, index) => (
+                      {categories?.map((category, index) => (
                         <motion.div
-                          key={ index }
+                          key={index}
                           className="flex items-center justify-between group"
-                          variants={ itemVariants }
-                          whileHover={ { x: 3 } }
+                          variants={itemVariants}
+                          whileHover={{ x: 3 }}
                         >
                           <div className="flex items-center">
                             <motion.input
                               type="checkbox"
-                              id={ `check${index}` }
+                              id={`check${index}`}
                               className="w-4 h-4 mr-3 cursor-pointer rounded"
-                              style={ {
+                              style={{
                                 accentColor: theme.primary,
-                              } }
-                              checked={ selectedCategory === category.id }
-                              onChange={ () => handleCategoryChange(category.id) }
-                              whileHover={ { scale: 1.1 } }
-                              whileTap={ { scale: 0.9 } }
+                              }}
+                              checked={selectedCategory === category.id}
+                              onChange={() => handleCategoryChange(category.id)}
+                              whileHover={{ scale: 1.1 }}
+                              whileTap={{ scale: 0.9 }}
                             />
                             <motion.label
-                              htmlFor={ `check${index}` }
+                              htmlFor={`check${index}`}
                               className="cursor-pointer text-sm group-hover:font-medium"
-                              style={ { color: theme.secondary } }
-                              whileHover={ { color: theme.primary } }
+                              style={{ color: theme.secondary }}
+                              whileHover={{ color: theme.primary }}
                             >
-                              { category.name }
+                              {category.name}
                             </motion.label>
                           </div>
                           <motion.span
                             className="text-xs px-2 py-1 rounded-full text-center min-w-[30px]"
-                            style={ {
+                            style={{
                               color: theme.primary,
                               backgroundColor: `${theme.primary}15`,
-                            } }
-                            whileHover={ {
+                            }}
+                            whileHover={{
                               backgroundColor: `${theme.primary}25`,
                               scale: 1.05,
-                            } }
+                            }}
                           >
-                            { category.course_count }
+                            {category.course_count}
                           </motion.span>
                         </motion.div>
-                      )) }
+                      ))}
                     </motion.div>
-                  ) }
+                  )}
                 </AnimatePresence>
               </motion.div>
 
-              {/* Pricing */ }
-              <motion.div className="mb-6" variants={ itemVariants }>
+              {/* Pricing */}
+              <motion.div className="mb-6" variants={itemVariants}>
                 <motion.div
                   className="flex items-center justify-between cursor-pointer"
-                  onClick={ () => toggleSection("pricing") }
-                  whileHover={ { x: 3 } }
-                  whileTap={ { scale: 0.98 } }
+                  onClick={() => toggleSection("pricing")}
+                  whileHover={{ x: 3 }}
+                  whileTap={{ scale: 0.98 }}
                 >
-                  <h4 className="font-semibold mb-3" style={ { color: theme.text } }>
+                  <h4
+                    className="font-semibold mb-3"
+                    style={{ color: theme.text }}
+                  >
                     Pricing
                   </h4>
                   <motion.div
-                    animate={ {
+                    animate={{
                       rotate: expandedSections.pricing ? 0 : -90,
-                      color: expandedSections.pricing ? theme.primary : theme.secondary,
-                    } }
-                    transition={ { duration: 0.3 } }
+                      color: expandedSections.pricing
+                        ? theme.primary
+                        : theme.secondary,
+                    }}
+                    transition={{ duration: 0.3 }}
                   >
-                    <MdOutlineKeyboardArrowDown size={ 20 } />
+                    <MdOutlineKeyboardArrowDown size={20} />
                   </motion.div>
                 </motion.div>
 
                 <AnimatePresence>
-                  { expandedSections.pricing && (
+                  {expandedSections.pricing && (
                     <motion.div
                       className="mt-3 px-1"
-                      initial={ { height: 0, opacity: 0 } }
-                      animate={ { height: "auto", opacity: 1 } }
-                      exit={ { height: 0, opacity: 0 } }
-                      transition={ { duration: 0.3, ease: "easeInOut" } }
+                      initial={{ height: 0, opacity: 0 }}
+                      animate={{ height: "auto", opacity: 1 }}
+                      exit={{ height: 0, opacity: 0 }}
+                      transition={{ duration: 0.3, ease: "easeInOut" }}
                     >
-                      <div className="flex items-center justify-between mb-3">
-                        <motion.span
+                      <div className="flex items-center justify-between mb-3 gap-2">
+                        <motion.input
+                          type="number"
+                          min="0"
+                          max="1000"
+                          value={price[0]}
+                          onChange={(e) => {
+                            const min = Math.max(0, Number(e.target.value));
+                            setPrice([min, price[1]]);
+                            onFilterChange({
+                              minPrice: min,
+                              maxPrice: price[1],
+                            });
+                          }}
+                          className="w-24 px-3 py-2 rounded-lg border text-sm focus:outline-none focus:ring-2 focus:ring-primary transition-all duration-200 shadow-sm bg-opacity-80"
+                          style={{
+                            borderColor: theme.primary,
+                            color: theme.text,
+                            background: theme.cardBg,
+                            boxShadow: `0 1px 4px ${theme.primary}10`,
+                          }}
+                          placeholder="Min"
+                          disabled={isLoading}
+                        />
+                        <span
                           className="text-sm font-medium px-2"
-                          style={ { color: theme.text } }
-                          whileHover={ { scale: 1.05 } }
+                          style={{ color: theme.text }}
                         >
-                          $0
-                        </motion.span>
-                        <motion.span
-                          className="text-sm font-medium px-2"
-                          style={ { color: theme.primary } }
-                          whileHover={ { scale: 1.05 } }
-                        >
-                          ${ price[1] }
-                        </motion.span>
+                          to
+                        </span>
+                        <motion.input
+                          type="number"
+                          min={price[0]}
+                          max="1000"
+                          value={price[1]}
+                          onChange={(e) => {
+                            const max = Math.max(
+                              price[0],
+                              Number(e.target.value)
+                            );
+                            setPrice([price[0], max]);
+                            onFilterChange({
+                              minPrice: price[0],
+                              maxPrice: max,
+                            });
+                          }}
+                          className="w-24 px-3 py-2 rounded-lg border text-sm focus:outline-none focus:ring-2 focus:ring-primary transition-all duration-200 shadow-sm bg-opacity-80"
+                          style={{
+                            borderColor: theme.primary,
+                            color: theme.text,
+                            background: theme.cardBg,
+                            boxShadow: `0 1px 4px ${theme.primary}10`,
+                          }}
+                          placeholder="Max"
+                          disabled={isLoading}
+                        />  
                       </div>
-                      <motion.input
-                        type="range"
-                        className="w-full h-2 appearance-none rounded-lg cursor-pointer"
-                        style={ {
-                          accentColor: theme.primary,
-                          background: `linear-gradient(to right, ${theme.primary} 0%, ${theme.primary} ${price[0] / 2}%, ${theme.border} ${price[0] / 2}%, ${theme.border} 100%)`,
-                        } }
-                        min="0"
-                        max="1000"
-                        value={ price[0] }
-                        onChange={ (event) => handlePriceChange(event, event.target.value) }
-                        whileHover={ { scale: 1.02 } }
-                        whileTap={ { scale: 0.98 } }
-                      />
                     </motion.div>
-                  ) }
+                  )}
                 </AnimatePresence>
               </motion.div>
 
-              {/* Levels */ }
-              <motion.div className="mb-4" variants={ itemVariants }>
+              {/* Levels */}
+              <motion.div className="mb-4" variants={itemVariants}>
                 <motion.div
                   className="flex items-center justify-between cursor-pointer"
-                  onClick={ () => toggleSection("levels") }
-                  whileHover={ { x: 3 } }
-                  whileTap={ { scale: 0.98 } }
+                  onClick={() => toggleSection("levels")}
+                  whileHover={{ x: 3 }}
+                  whileTap={{ scale: 0.98 }}
                 >
-                  <h4 className="font-semibold mb-3" style={ { color: theme.text } }>
+                  <h4
+                    className="font-semibold mb-3"
+                    style={{ color: theme.text }}
+                  >
                     Levels
                   </h4>
                   <motion.div
-                    animate={ {
+                    animate={{
                       rotate: expandedSections.levels ? 0 : -90,
-                      color: expandedSections.levels ? theme.primary : theme.secondary,
-                    } }
-                    transition={ { duration: 0.3 } }
+                      color: expandedSections.levels
+                        ? theme.primary
+                        : theme.secondary,
+                    }}
+                    transition={{ duration: 0.3 }}
                   >
-                    <MdOutlineKeyboardArrowDown size={ 20 } />
+                    <MdOutlineKeyboardArrowDown size={20} />
                   </motion.div>
                 </motion.div>
 
                 <AnimatePresence>
-                  { expandedSections.levels && (
+                  {expandedSections.levels && (
                     <motion.div
                       className="mt-3 space-y-3 pl-1"
-                      initial={ { height: 0, opacity: 0 } }
-                      animate={ { height: "auto", opacity: 1 } }
-                      exit={ { height: 0, opacity: 0 } }
-                      transition={ { duration: 0.3, ease: "easeInOut" } }
+                      initial={{ height: 0, opacity: 0 }}
+                      animate={{ height: "auto", opacity: 1 }}
+                      exit={{ height: 0, opacity: 0 }}
+                      transition={{ duration: 0.3, ease: "easeInOut" }}
                     >
-                      { ["Beginner", "Intermediate", "Expert"].map((level, index) => (
-                        <motion.div
-                          key={ index }
-                          className="flex items-center group"
-                          variants={ itemVariants }
-                          whileHover={ { x: 3 } }
-                        >
-                          <motion.input
-                            type="checkbox"
-                            id={ `level${index}` }
-                            className="w-4 h-4 mr-3 cursor-pointer rounded"
-                            style={ {
-                              accentColor: theme.primary,
-                            } }
-                            checked={ selectedLevel === level }
-                            onChange={ () => handleLevelChange(level) }
-                            whileHover={ { scale: 1.1 } }
-                            whileTap={ { scale: 0.9 } }
-                          />
-                          <motion.label
-                            htmlFor={ `level${index}` }
-                            className="cursor-pointer text-sm group-hover:font-medium"
-                            style={ { color: theme.secondary } }
-                            whileHover={ { color: theme.primary } }
+                      {["Beginner", "Intermediate", "Expert"].map(
+                        (level, index) => (
+                          <motion.div
+                            key={index}
+                            className="flex items-center group"
+                            variants={itemVariants}
+                            whileHover={{ x: 3 }}
                           >
-                            { level }
-                          </motion.label>
-                        </motion.div>
-                      )) }
+                            <motion.input
+                              type="checkbox"
+                              id={`level${index}`}
+                              className="w-4 h-4 mr-3 cursor-pointer rounded"
+                              style={{
+                                accentColor: theme.primary,
+                              }}
+                              checked={selectedLevel === level}
+                              onChange={() => handleLevelChange(level)}
+                              whileHover={{ scale: 1.1 }}
+                              whileTap={{ scale: 0.9 }}
+                            />
+                            <motion.label
+                              htmlFor={`level${index}`}
+                              className="cursor-pointer text-sm group-hover:font-medium"
+                              style={{ color: theme.secondary }}
+                              whileHover={{ color: theme.primary }}
+                            >
+                              {level}
+                            </motion.label>
+                          </motion.div>
+                        )
+                      )}
                     </motion.div>
-                  ) }
+                  )}
                 </AnimatePresence>
               </motion.div>
 
-              {/* Clear filters button */ }
+              {/* Clear filters button */}
               <motion.button
                 className="w-full py-2 mt-4 text-sm font-medium rounded-lg transition-all duration-300"
-                style={ {
+                style={{
                   backgroundColor: `${theme.primary}20`,
                   color: theme.primary,
                   border: `1px solid ${theme.primary}50`,
-                } }
-                onClick={ clearFilters }
-                whileHover={ {
+                }}
+                onClick={clearFilters}
+                whileHover={{
                   scale: 1.02,
                   backgroundColor: `${theme.primary}30`,
-                } }
-                whileTap={ { scale: 0.98 } }
+                }}
+                whileTap={{ scale: 0.98 }}
               >
                 Clear All Filters
               </motion.button>
             </motion.div>
           </motion.div>
-        ) }
+        )}
       </AnimatePresence>
     </div>
   );

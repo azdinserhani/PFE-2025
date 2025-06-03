@@ -2,10 +2,14 @@ import express from "express";
 import adminController from "../controllers/adminController.js";
 import validateRequest from "../middleware/validateRequest.js";
 import { authenticate, authorizeAdmin } from "../middleware/authAdmin.js";
-import { createUserSchema, updateUserSchema } from "../validators/userValidators.js";
+import {
+  createUserSchema,
+  updateUserSchema,
+} from "../validators/userValidators.js";
 
 const router = express.Router();
 
+// Create user (admin only)
 router.post(
   "/create",
   authenticate,
@@ -14,6 +18,7 @@ router.post(
   adminController.createUser
 );
 
+// Update user (admin only)
 router.put(
   "/update/:id",
   authenticate,
@@ -22,6 +27,7 @@ router.put(
   adminController.updateUser
 );
 
+// Delete user (admin only)
 router.delete(
   "/delete/:id",
   authenticate,
@@ -29,8 +35,23 @@ router.delete(
   adminController.deleteUser
 );
 
-router.get("/users", adminController.getAllUsers);
-router.get("/user/:id", adminController.getUserById);
-router.get("/users/username/:username", adminController.getUserByUsername);
+// Get all users (admin only)
+router.get("/users", authenticate, authorizeAdmin, adminController.getAllUsers);
+
+// Get user by id (admin only)
+router.get(
+  "/user/:id",
+  authenticate,
+  authorizeAdmin,
+  adminController.getUserById
+);
+
+// Get user by username (admin only)
+router.get(
+  "/users/username/:username",
+  authenticate,
+  authorizeAdmin,
+  adminController.getUserByUsername
+);
 
 export default router;

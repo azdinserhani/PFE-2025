@@ -14,9 +14,10 @@ import { useTranslation } from "react-i18next";
 const Cart = () => {
   const dispatch = useDispatch();
   const { items, total } = useSelector((state) => state.cart);
+  console.log("Cart items:", items);
   const itemCount = items.length;
   const { t } = useTranslation();
-  // Load cart from localStorage on initial render
+
   useEffect(() => {
     const savedCart = localStorage.getItem("cart");
     if (savedCart) {

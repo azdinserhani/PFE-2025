@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+  import React, { useEffect, useState } from "react";
 import Header from "../components/Coursespage/Header";
 import CourseCard from "../components/LandingPage/CourseCard";
 import SideBar from "../components/Coursespage/SideBar";
