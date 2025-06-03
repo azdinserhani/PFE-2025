@@ -28,6 +28,11 @@ router.delete(
   authorize(["admin", "teacher"]),
   courseController.deleteCourse
 );
+router.get(
+  "/course/enrollmentsByUserId",
+  authenticate,
+  courseController.getEnrollmentsByUserId
+);
 router.get("/courses", courseController.getAllCourses);
 router.get("/course/:id", courseController.getCourseById);
 router.get("/courses/search", courseController.searchCourseByTitle);
@@ -44,4 +49,5 @@ router.get(
   "/course/enroll-students/:course_id",
   courseController.getEnrollStudentsByCourseId
 );
+
 export default router;

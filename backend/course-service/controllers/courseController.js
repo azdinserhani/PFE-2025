@@ -62,11 +62,9 @@ const courseController = {
     try {
       const courseId = req.params.id;
       console.log("courseId", courseId);
-      
-      
+
       const instructorId = req.user.id;
-      
-      
+
       const course = await courseService.getCourseById(courseId);
 
       if (course.instructor_id != instructorId) {
@@ -81,7 +79,7 @@ const courseController = {
         message: "Course deleted successfully",
       });
     } catch (error) {
-   const status = error.status || 500;
+      const status = error.status || 500;
       const message =
         error.message || "An error occurred during deleting the course";
 
@@ -102,12 +100,18 @@ const courseController = {
         category: req.query.category,
         search: req.query.search,
         level: req.query.level,
-        maxPrice: req.query.maxPrice ? parseFloat(req.query.maxPrice) : undefined,
-        sort: req.query.sort
+        maxPrice: req.query.maxPrice
+          ? parseFloat(req.query.maxPrice)
+          : undefined,
+        sort: req.query.sort,
       };
 
-      const { courses, total } = await courseService.getAllCourses(skip, limit, filters);
-      
+      const { courses, total } = await courseService.getAllCourses(
+        skip,
+        limit,
+        filters
+      );
+
       res.status(200).json({
         success: true,
         message: "Courses retrieved successfully",
@@ -255,5 +259,31 @@ const courseController = {
       });
     }
   },
+  getEnrollmentsByUserId: async (req, res) => {
+    console.log("getEnrollmentsByUserId called");
+    
+    try {
+      const userId = req.user.id;
+     
+      
+      const enrollments = await courseService.getEnrollmentsByUserId(userId);
+      res.status(200).json({
+        success: true,
+        message: "Enrollments retrieved successfully",
+        data: enrollments,
+      });
+    } catch (error) {
+      console.log("Error in getEnrollmentsByUserId:", error);
+      
+      const status = error.status || 500;
+      const message =
+        error.message || "An error occurred during retrieving the enrollments";
+
+      res.status(status).json({
+        success: false,
+        message,
+      });
+    }
+  }
 };
 export default courseController;

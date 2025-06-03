@@ -20,27 +20,31 @@ const courseService = {
     return course;
   },
   getAllCourses: async (skip = 0, limit = 10, filters = {}) => {
-    const { courses, total } = await courseQueries.getAllCourses(skip, limit, filters);
-    
+    const { courses, total } = await courseQueries.getAllCourses(
+      skip,
+      limit,
+      filters
+    );
+
     // Get additional statistics for each course
     const coursesWithStats = await Promise.all(
       courses.map(async (course) => {
         const [lessons, students] = await Promise.all([
           courseQueries.getCourseLessonsCount(course.id),
-          courseQueries.getEnrollStudentsByCourseId(course.id)
+          courseQueries.getEnrollStudentsByCourseId(course.id),
         ]);
-        
+
         return {
           ...course,
           lessonsCount: lessons.length,
-          studentsCount: students.length
+          studentsCount: students.length,
         };
       })
     );
 
     return {
       courses: coursesWithStats,
-      total
+      total,
     };
   },
   getCourseById: async (course_id) => {
@@ -55,7 +59,7 @@ const courseService = {
     if (!courseExists) {
       throw new Error("Course not found");
     }
-    
+
     const updatedCourse = await courseQueries.updateCourse(
       course_id,
       courseData
@@ -94,6 +98,13 @@ const courseService = {
     );
     return enrollStudents;
   },
+  getEnrollmentsByUserId: async (user_id) => { 
+    const enrollments = await courseQueries.getEnrollmentsByUserId(user_id);
+    if (!enrollments) {
+      throw new Error("No enrollments found for this user");
+    }
+    return enrollments;
+  }
 };
 
 export default courseService;

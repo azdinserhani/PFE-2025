@@ -38,7 +38,9 @@ const courseQueries = {
     }
 
     if (search) {
-      whereClause.push(`(c.title ILIKE $${paramCount} OR c.description ILIKE $${paramCount})`);
+      whereClause.push(
+        `(c.title ILIKE $${paramCount} OR c.description ILIKE $${paramCount})`
+      );
       values.push(`%${search}%`);
       paramCount++;
     }
@@ -56,26 +58,27 @@ const courseQueries = {
     }
 
     // Build the WHERE clause string
-    const whereClauseStr = whereClause.length > 0 ? `WHERE ${whereClause.join(' AND ')}` : '';
+    const whereClauseStr =
+      whereClause.length > 0 ? `WHERE ${whereClause.join(" AND ")}` : "";
 
     // Add sorting
-    let orderByClause = 'ORDER BY c.created_at DESC';
+    let orderByClause = "ORDER BY c.created_at DESC";
     if (sort) {
       switch (sort) {
-        case 'price_asc':
-          orderByClause = 'ORDER BY c.price ASC';
+        case "price_asc":
+          orderByClause = "ORDER BY c.price ASC";
           break;
-        case 'price_desc':
-          orderByClause = 'ORDER BY c.price DESC';
+        case "price_desc":
+          orderByClause = "ORDER BY c.price DESC";
           break;
-        case 'popular':
-          orderByClause = 'ORDER BY student_count DESC';
+        case "popular":
+          orderByClause = "ORDER BY student_count DESC";
           break;
-        case 'newest':
-          orderByClause = 'ORDER BY c.created_at DESC';
+        case "newest":
+          orderByClause = "ORDER BY c.created_at DESC";
           break;
         default:
-          orderByClause = 'ORDER BY c.created_at DESC';
+          orderByClause = "ORDER BY c.created_at DESC";
       }
     }
 
@@ -103,13 +106,13 @@ const courseQueries = {
       ${orderByClause}
       LIMIT $${paramCount} OFFSET $${paramCount + 1}
     `;
-    
+
     values.push(limit, skip);
     const result = await db.query(query, values);
 
     return {
       courses: result.rows,
-      total
+      total,
     };
   },
   getCourseById: async (course_id) => {
@@ -292,6 +295,24 @@ const courseQueries = {
     const result = await db.query(query, values);
     return result.rows;
   },
+  getEnrollmentsByUserId: async (user_id) => {
+    const query = `
+      SELECT 
+        e.id,
+        e.course_id,
+        c.title AS course_title,
+        c.thumbnail AS course_thumbnail,
+        e.enrolled_date,
+        e.completed_date
+      FROM enrolment e
+      JOIN course c ON e.course_id = c.id
+      WHERE e.user_id = $1
+      ORDER BY e.enrolled_date DESC
+    `;
+    const values = [user_id];
+    const result = await db.query(query, values);
+    return result.rows;
+  }
 };
 
 export default courseQueries;
