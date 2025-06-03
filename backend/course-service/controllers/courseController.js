@@ -260,8 +260,7 @@ const courseController = {
     }
   },
   getEnrollmentsByUserId: async (req, res) => {
-    console.log("getEnrollmentsByUserId called");
-    
+        
     try {
       const userId = req.user.id;
      

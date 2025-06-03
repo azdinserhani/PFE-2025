@@ -1,15 +1,29 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import StatCard from "../components/MyLearning/StatCard";
 import CourseCard from "../components/LandingPage/CourseCard";
 import { motion } from "framer-motion";
 import { useTheme } from "../context/ThemeContext";
-
+import { userRequest } from "../utils/axios";
 
 const MyLearning = () => {
+  const [enrolledCourses, setEnrolledCourses] = useState([]);
   const { currentTheme, themes } = useTheme();
   const theme = themes[currentTheme];
+  useEffect(() => {
+    const getEnroolledCourses = async () => {
+      try {
+        const courseEnroled = await userRequest.get(
+          "/api/v1/course/course/enrollmentsByUserId"
+        );
+        console.log("Enrolled Courses:", courseEnroled.data.data);
+        setEnrolledCourses(courseEnroled.data.data);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    getEnroolledCourses();
+  }, []);
 
-  
   const cards = [
     {
       title: "Enrolled Courses",
@@ -269,7 +283,7 @@ const MyLearning = () => {
               color: theme.primary,
             }}
           >
-            {courses.length} Total Courses
+            {enrolledCourses.length} Total Courses
           </div>
         </motion.div>
 
@@ -280,7 +294,7 @@ const MyLearning = () => {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, delay: 0.5 }}
         >
-          {courses.map((item, index) => (
+          {enrolledCourses?.map((item, index) => (
             <motion.div
               key={index}
               initial={{ opacity: 0, y: 20 }}

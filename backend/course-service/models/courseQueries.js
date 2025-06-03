@@ -298,12 +298,8 @@ const courseQueries = {
   getEnrollmentsByUserId: async (user_id) => {
     const query = `
       SELECT 
-        e.id,
-        e.course_id,
-        c.title AS course_title,
-        c.thumbnail AS course_thumbnail,
-        e.enrolled_date,
-        e.completed_date
+      c.*,
+      true AS isEnroled
       FROM enrolment e
       JOIN course c ON e.course_id = c.id
       WHERE e.user_id = $1
@@ -312,7 +308,7 @@ const courseQueries = {
     const values = [user_id];
     const result = await db.query(query, values);
     return result.rows;
-  }
+  },
 };
 
 export default courseQueries;
