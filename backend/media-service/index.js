@@ -11,7 +11,7 @@ dotenv.config();
 const app = express();
 app.use(cors());
 // Create uploads folder if not exists
-const uploadDir = path.join("E:", "media-uploads");
+const uploadDir = path.join("F:", "media-uploads");
 if (!fs.existsSync(uploadDir)) {
   fs.mkdirSync(uploadDir, { recursive: true });
 }

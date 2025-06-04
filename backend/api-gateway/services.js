@@ -12,7 +12,7 @@ export const services = [
     target: process.env.MEDIA_SERVICE_URL,
   },
   {
-    route: "/api/v1/admin",
+    route: "/api/v1/user",
     target: process.env.ADMIN_SERVICE_URL,
   },
 ];
