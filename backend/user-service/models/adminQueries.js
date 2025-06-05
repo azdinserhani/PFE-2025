@@ -82,7 +82,7 @@ const adminQueries = {
     query = query.slice(0, -2);
 
     // Add WHERE clause and RETURNING clause
-    query += ` WHERE id = $${counter} RETURNING id, username, email, profile_pic`;
+    query += ` WHERE id = $${counter} RETURNING id, username, email, profile_pic,role`;
     values.push(id);
 
     // Execute the query

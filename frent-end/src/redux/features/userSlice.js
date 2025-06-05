@@ -34,10 +34,13 @@ const userSlice = createSlice({
       state.error = null;
       state.loading = false;
     },
+    updateUser: (state, action) => {
+      state.user = { ...state.user, ...action.payload };
+    },
   },
 });
 
-export const { loginRequest, loginSuccess, loginFailure, logout } =
+export const { loginRequest, loginSuccess, loginFailure, logout ,updateUser} =
   userSlice.actions;
 
 export default userSlice.reducer;

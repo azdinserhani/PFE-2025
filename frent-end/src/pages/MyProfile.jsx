@@ -5,23 +5,57 @@ import ButtonAuth from "../components/Auth/Button";
 import { useState } from "react";
 import { motion } from "framer-motion";
 import { useTheme } from "../context/ThemeContext";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useTranslation } from "react-i18next";
-
+import { updateUserMe, uploadFile } from "../redux/ApiCalls";
+import { toast, ToastContainer } from "react-toastify";
 const MyProfile = () => {
+  const { user } = useSelector((state) => state.user);
+  const [updateSucuss, setUpdateSuccess] = useState(false);
+
+  const [userData, setUserData] = useState({
+    username: user.username || "",
+    email: user.email || "",
+    profile_pic: user.profile_pic || null,
+  });
   const [profile, setProfile] = useState(null);
+
   const [fileName, setFileName] = useState("");
   const { currentTheme, themes } = useTheme();
   const theme = themes[currentTheme];
-  const { user } = useSelector((state) => state.user);
   const { t } = useTranslation();
-
-  const handleFileChange = (event) => {
+  const dispatch = useDispatch();
+  const handleFileChange = async (event) => {
     const file = event.target.files[0];
     if (file) {
       setFileName(file.name);
       setProfile(URL.createObjectURL(file));
+      const img = await uploadFile(file);
+      console.log("image uploaded:", img.url);
+
+      setUserData((prev) => ({
+        ...prev,
+        profile_pic: img.url,
+      }));
     }
+  };
+  const handleUpdate = async (e) => {
+    e.preventDefault();
+    try {
+      await updateUserMe(dispatch, userData);
+      toast.success(
+        t("profile.update_success", "Profile updated successfully!")
+      );
+    } catch (error) {
+      console.log("Error updating profile:", error);
+    }
+  };
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setUserData((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
   };
 
   return (
@@ -29,6 +63,16 @@ const MyProfile = () => {
       className="flex flex-col min-h-screen p-10 w-full mx-auto"
       style={{ backgroundColor: theme.background }}
     >
+      {updateSucuss && (
+        <motion.div
+          initial={{ opacity: 0, y: -20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5 }}
+          className="bg-green-100 text-green-800 p-4 rounded-lg mb-6"
+        >
+          {t("profile.update_success", "Profile updated successfully!")}
+        </motion.div>
+      )}
       {/* Header */}
       <motion.div
         initial={{ opacity: 0, y: -20 }}
@@ -40,7 +84,10 @@ const MyProfile = () => {
           {t("profile_menu.my_profile")}
         </h1>
         <p style={{ color: theme.secondary }}>
-          {t("profile.menu.description", "Manage your personal information and account settings")}
+          {t(
+            "profile.menu.description",
+            "Manage your personal information and account settings"
+          )}
         </p>
       </motion.div>
 
@@ -82,9 +129,9 @@ const MyProfile = () => {
                     border: `2px dashed ${theme.border}`,
                   }}
                 >
-                  {profile ? (
+                  {userData.profile_pic ? (
                     <img
-                      src={profile}
+                      src={userData.profile_pic}
                       alt={t("alt_text.profile_photo", "Profile Photo")}
                       className="w-full h-full object-cover"
                     />
@@ -192,7 +239,9 @@ const MyProfile = () => {
                     />
                     <input
                       type="text"
-                      value={user.username || ""}
+                      name="username"
+                      onChange={(e) => handleInputChange(e)}
+                      value={userData.username || ""}
                       placeholder={t("form.placeholders.name")}
                       className="w-full pl-10 pr-4 py-2 rounded-lg focus:outline-none focus:ring-2 transition-all"
                       style={{
@@ -218,8 +267,10 @@ const MyProfile = () => {
                       style={{ color: theme.secondary }}
                     />
                     <input
+                      name="email"
+                      onChange={(e) => handleInputChange(e)}
                       type="email"
-                      value={user.email || ""}
+                      value={userData.email || ""}
                       placeholder={t("form.placeholders.email")}
                       className="w-full pl-10 pr-4 py-2 rounded-lg focus:outline-none focus:ring-2 transition-all"
                       style={{
@@ -275,7 +326,10 @@ const MyProfile = () => {
                     </span>
                     <input
                       type="tel"
-                      placeholder={t("profile.phone_placeholder", "Enter your phone number")}
+                      placeholder={t(
+                        "profile.phone_placeholder",
+                        "Enter your phone number"
+                      )}
                       className="w-full pl-10 pr-4 py-2 rounded-lg focus:outline-none focus:ring-2 transition-all"
                       style={{
                         backgroundColor: theme.background,
@@ -306,6 +360,8 @@ const MyProfile = () => {
                   {t("profile.cancel", "Cancel")}
                 </button>
                 <button
+                  onClick={(e) => handleUpdate(e)}
+                  disabled={!userData.username || !userData.email}
                   type="submit"
                   className="px-6 py-2 rounded-lg font-medium transition-all duration-300"
                   style={{
@@ -326,6 +382,18 @@ const MyProfile = () => {
           </div>
         </motion.div>
       </div>
+      <ToastContainer
+        position="top-right"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="light"
+      />
     </div>
   );
 };

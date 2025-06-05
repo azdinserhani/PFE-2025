@@ -38,6 +38,7 @@ const ProtectedRoute = ({ children }) => {
   const { user } = useSelector((state) => ({
     user: state.user,
   }));
+  
 
   // Check if the user is authenticated
   if (user == null) {

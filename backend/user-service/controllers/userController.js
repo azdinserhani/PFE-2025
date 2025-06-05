@@ -19,7 +19,9 @@ const userController = {
     res.status(200).json({
       success: true,
       message: "User profile updated successfully",
-      data: updatedUser,
+      data: {
+        user: updatedUser,
+      },
     });
   },
 };

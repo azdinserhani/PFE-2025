@@ -11,6 +11,7 @@ import {
   loginRequest,
   loginSuccess,
   logout,
+  updateUser,
 } from "./features/userSlice";
 export const createSection = async (dispatch, section) => {
   try {
@@ -80,8 +81,31 @@ export const loginUser = async (dispatch, user) => {
     }
   } catch (error) {
     console.log("error", error.response.data.message);
-    
+
     dispatch(loginFailure(error.response.data.message));
+  }
+};
+export const updateUserMe = async (dispatch, user) => {
+  
+  
+
+  try {
+    // Only send allowed fields to backend
+    const payload = {
+      username: user.username,
+      email: user.email,
+      profile_pic: user.profile_pic,
+    };
+    const res = await userRequest.patch("/api/v1/user/userMe", payload);
+    if (res.data && res.data.data && res.data.data.user) {
+      dispatch(updateUser(res.data.data.user));
+    } else {
+      console.error("Unexpected response structure:", res.data);
+    }
+  } catch (error) {
+    const errMsg =
+      error?.response?.data?.message || error.message || "Unknown error";
+    console.log("error", errMsg);
   }
 };
 
@@ -106,7 +130,15 @@ export const registerUser = async (dispatch, user) => {
 //course api calls
 export const getAllCourses = async (params = {}) => {
   try {
-    const { page = 1, limit = 8, category, search, level, maxPrice, sort } = params;
+    const {
+      page = 1,
+      limit = 8,
+      category,
+      search,
+      level,
+      maxPrice,
+      sort,
+    } = params;
     const queryParams = new URLSearchParams({
       page,
       limit,
@@ -114,14 +146,16 @@ export const getAllCourses = async (params = {}) => {
       ...(search && { search }),
       ...(level && { level }),
       ...(maxPrice && { maxPrice }),
-      ...(sort && { sort })
+      ...(sort && { sort }),
     });
 
-    const res = await publicRequest.get(`/api/v1/course/courses?${queryParams}`);
+    const res = await publicRequest.get(
+      `/api/v1/course/courses?${queryParams}`
+    );
     return {
       courses: res.data.data,
       totalPages: res.data.totalPages,
-      currentPage: res.data.currentPage
+      currentPage: res.data.currentPage,
     };
   } catch (error) {
     console.error(`Error getting courses:`, error);
@@ -157,19 +191,19 @@ export const createCourseWithContent = async (course) => {
     // Store lectures for each section
     for (const section of sectionsWithIds) {
       const lecturePromises = section.lectures.map(async (lecture, index) => {
-        if (lecture.type === 'lecture') {
+        if (lecture.type === "lecture") {
           return storeLecture({
             module_id: section.id,
             name: lecture.title,
             number: index + 1,
             video_url: lecture.video_url,
             lessons_details: "Lecture content",
-            is_free: index === 0 // Make first lecture free
+            is_free: index === 0, // Make first lecture free
           });
         }
         return null; // Skip non-lecture content (like quizzes)
       });
-      await Promise.all(lecturePromises.filter(p => p !== null));
+      await Promise.all(lecturePromises.filter((p) => p !== null));
     }
 
     return res.data.data;
@@ -183,8 +217,7 @@ export const getCourseByInstructor = async (id) => {
   try {
     const res = await publicRequest.get(`/api/v1/course/instructor/${id}`);
     return res.data.data;
-  } catch (error) {
-  }
+  } catch (error) {}
 };
 
 export const uploadFile = async (file) => {
@@ -199,14 +232,13 @@ export const uploadFile = async (file) => {
     });
 
     return res.data;
-  } catch (error) {
-  }
+  } catch (error) {}
 };
 
 const storeSection = async (section) => {
   try {
     const res = await userRequest.post("/api/v1/course/module/create", section);
-    
+
     return res.data.data;
   } catch (error) {
     console.error(`Error storing section "${section.name}":`, error);
@@ -223,7 +255,7 @@ const storeLecture = async (lecture) => {
   }
 };
 
-export const deleteCourse = async (id) => { 
+export const deleteCourse = async (id) => {
   try {
     const res = await userRequest.delete(`/api/v1/course/delete/${id}`);
     return res.data.data;
@@ -231,7 +263,7 @@ export const deleteCourse = async (id) => {
     console.error(`Error deleting course "${id}":`, error);
     throw error;
   }
-}
+};
 
 export const getCourseById = async (id) => {
   try {
@@ -241,8 +273,7 @@ export const getCourseById = async (id) => {
     console.error(`Error getting course "${id}":`, error);
     throw error;
   }
-}
-
+};
 
 //category api calls
 export const createCategory = async (category) => {
@@ -253,21 +284,15 @@ export const createCategory = async (category) => {
     console.error(`Error creating category "${category.name}":`, error);
     throw error;
   }
-}
+};
 
 export const getCategories = async () => {
   try {
     const res = await publicRequest.get("/api/v1/course/categories/stats");
 
     return res.data.data;
-  } catch (error) { 
+  } catch (error) {
     console.error(`Error getting categories:`, error);
     throw error;
   }
-}
-
-
-
-
-
-
+};
