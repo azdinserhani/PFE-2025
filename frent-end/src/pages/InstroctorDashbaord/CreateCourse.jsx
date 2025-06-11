@@ -1,5 +1,5 @@
 import { TbCategory } from "react-icons/tb";
-import { FaUserAlt, FaImage, FaPlus } from "react-icons/fa";
+import { FaUserAlt, FaImage, FaPlus, FaFileAlt } from "react-icons/fa";
 import { LuListTodo } from "react-icons/lu";
 import AddSectionForm from "./AddSectionForm";
 import SectionItem from "./SectionItem";
@@ -514,24 +514,47 @@ const CreateCourse = () => {
               ) }
             </div>
             { !sectionFormOpen && (
-              <button
-                onClick={ () => setSectionFormOpen(!sectionFormOpen) }
-                className="p-3 w-full flex cursor-pointer justify-center items-center rounded-md gap-2 font-semibold transition duration-300"
-                style={ {
-                  backgroundColor: theme.background,
-                  color: theme.primary,
-                  borderColor: theme.primary,
-                  borderWidth: "1px",
-                } }
-                onMouseOver={ (e) => {
-                  e.currentTarget.style.backgroundColor = `${theme.primary}20`;
-                } }
-                onMouseOut={ (e) => {
-                  e.currentTarget.style.backgroundColor = theme.background;
-                } }
-              >
-                <FaPlus style={ { color: theme.secondary } } /> Add Section
-              </button>
+              <div className="flex flex-col gap-3">
+                <button
+                  onClick={ () => setSectionFormOpen(!sectionFormOpen) }
+                  className="p-3 w-full flex cursor-pointer justify-center items-center rounded-md gap-2 font-semibold transition duration-300"
+                  style={ {
+                    backgroundColor: theme.background,
+                    color: theme.primary,
+                    borderColor: theme.primary,
+                    borderWidth: "1px",
+                  } }
+                  onMouseOver={ (e) => {
+                    e.currentTarget.style.backgroundColor = `${theme.primary}20`;
+                  } }
+                  onMouseOut={ (e) => {
+                    e.currentTarget.style.backgroundColor = theme.background;
+                  } }
+                >
+                  <FaPlus style={ { color: theme.secondary } } /> Add Section
+                </button>
+                
+                {sec && sec.length > 0 && (
+                  <button
+                    onClick={() => navigate(`/create-exam/20`)}
+                    className="p-3 w-full flex cursor-pointer justify-center items-center rounded-md gap-2 font-semibold transition duration-300"
+                    style={{
+                      backgroundColor: theme.background,
+                      color: theme.secondary,
+                      borderColor: theme.secondary,
+                      borderWidth: "1px",
+                    }}
+                    onMouseOver={(e) => {
+                      e.currentTarget.style.backgroundColor = `${theme.secondary}20`;
+                    }}
+                    onMouseOut={(e) => {
+                      e.currentTarget.style.backgroundColor = theme.background;
+                    }}
+                  >
+                    <FaFileAlt /> Create Course Exam
+                  </button>
+                )}
+              </div>
             ) }
             { sectionFormOpen && (
               <AddSectionForm

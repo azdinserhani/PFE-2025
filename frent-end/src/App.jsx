@@ -31,6 +31,7 @@ import ScrollToTop from "./components/Layout/ScrollToTop";
 import { useEffect } from "react";
 import { useNavigate, Navigate } from "react-router";
 import { useTranslation } from "react-i18next";
+import CreateExam from "./pages/InstroctorDashbaord/CreateExam";
 import './i18n';
 import './styles/rtl.css';
 
@@ -87,6 +88,7 @@ function AnimatedRoutes() {
             <Route path="/contact" element={<ContactPage />} />
             <Route path="/instructor/:id" element={<InstructorPageInfo />} />
             <Route path="/cart" element={<Cart />} />
+            <Route path="/create-exam/:id" element={<CreateExam />} />
           </Route>
 
           <Route
