@@ -46,6 +46,27 @@ export const addVideoToLectureAction = async (
   );
 };
 
+export const createQuiz = async (
+  dispatch,
+  quizData,
+  sectionIndex,
+  position
+) => {
+  try {
+    dispatch(
+      addQuizToSection({
+        sectionIndex,
+        title: quizData.title,
+        position,
+      })
+    );
+
+    return true;
+  } catch (error) {
+    console.error("Error creating quiz:", error);
+    return false;
+  }
+};
 
 // auth api calls
 export const loginUser = async (dispatch, user) => {
@@ -65,9 +86,6 @@ export const loginUser = async (dispatch, user) => {
   }
 };
 export const updateUserMe = async (dispatch, user) => {
-  
-  
-
   try {
     // Only send allowed fields to backend
     const payload = {
@@ -94,7 +112,6 @@ export const logoutUser = async (dispatch) => {
 export const registerUser = async (dispatch, user) => {
   dispatch(loginRequest());
   try {
-    const { username, email, password, profile_pic } = user;
     const res = await publicRequest.post("/api/v1/auth/register", user);
 
     if (res.status === 201) {
@@ -103,8 +120,6 @@ export const registerUser = async (dispatch, user) => {
       dispatch(loginFailure(data.message));
     }
   } catch (error) {
-    console.log("error", error);
-    
     dispatch(loginFailure(error.message));
   }
 };

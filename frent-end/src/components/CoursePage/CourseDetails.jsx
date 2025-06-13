@@ -27,6 +27,7 @@ const CourseDetails = () => {
   useEffect(() => {
     const fetchCourse = async () => {
       const res = await getCourseById(id);
+
       setCourse(res);
     };
     fetchCourse();
@@ -244,7 +245,7 @@ const CourseDetails = () => {
               Quizzes
             </p>
             <p className="font-medium" style={{ color: theme.text }}>
-              0 Quiz
+              {course?.modules[0].exams[0].questions.length} Quiz
             </p>
           </div>
         </motion.div>
