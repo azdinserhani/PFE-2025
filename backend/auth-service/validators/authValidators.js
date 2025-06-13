@@ -2,9 +2,8 @@ import Joi from "joi";
 
 // Registration validation schema
 const registerSchema = Joi.object({
-  username: Joi.string().alphanum().min(3).max(20).required().messages({
+  username: Joi.string().min(3).max(20).required().messages({
     "string.base": "Username must be a text",
-    "string.alphanum": "Username must only contain alphanumeric characters",
     "string.min": "Username must be at least 3 characters long",
     "string.max": "Username cannot exceed 20 characters",
     "any.required": "Username is required",
@@ -27,10 +26,7 @@ const registerSchema = Joi.object({
       "any.required": "Password is required",
     }),
 
-  role: Joi.string().valid("student", "teacher").required().messages({
-    "any.only": "Role must be either student or teacher",
-    "any.required": "Role is required",
-  }),
+  
 
   profile_pic: Joi.string(),
 });

@@ -33,8 +33,6 @@ const authService = {
       username: userData.username,
       email: userData.email,
       password_hash,
-      role: userData.role,
-      profile_pic: userData.profile_pic || "default.jpg",
     };
 
     // Create user in database
@@ -84,7 +82,7 @@ const authService = {
     // Generate JWT token
     const token = jwt.sign(
       { id: user.id, username: user.username, role: user.role },
-      process.env.JWT_SECRET ,
+      process.env.JWT_SECRET,
       { expiresIn: "100d" }
     );
 

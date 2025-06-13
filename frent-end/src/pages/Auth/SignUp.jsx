@@ -7,7 +7,7 @@ import {
   FiEyeOff,
   FiArrowRight,
   FiAlertCircle,
-  FiUser
+  FiUser,
 } from "react-icons/fi";
 import { useTheme } from "../../context/ThemeContext";
 import { FaBookOpen } from "react-icons/fa";
@@ -51,14 +51,12 @@ const SignUp = () => {
   const theme = themes[currentTheme];
   const { error } = useSelector((state) => state.user);
   const [user, setUser] = useState({
-    firstName: "",
-    lastName: "",
+    username: "",
     email: "",
     password: "",
   });
   const [errors, setErrors] = useState({
-    firstName: "",
-    lastName: "",
+    username: "",
     email: "",
     password: "",
     terms: "",
@@ -68,21 +66,12 @@ const SignUp = () => {
     let tempErrors = {};
     let isValid = true;
 
-    // First Name validation
-    if (!user.firstName.trim()) {
-      tempErrors.firstName = "First name is required";
+    // Username validation
+    if (!user.username.trim()) {
+      tempErrors.username = "Username is required";
       isValid = false;
-    } else if (user.firstName.length < 2) {
-      tempErrors.firstName = "First name is too short";
-      isValid = false;
-    }
-
-    // Last Name validation
-    if (!user.lastName.trim()) {
-      tempErrors.lastName = "Last name is required";
-      isValid = false;
-    } else if (user.lastName.length < 2) {
-      tempErrors.lastName = "Last name is too short";
+    } else if (user.username.length < 2) {
+      tempErrors.username = "Username is too short";
       isValid = false;
     }
 
@@ -140,45 +129,45 @@ const SignUp = () => {
     return (
       <div
         className="flex items-center gap-1 mt-1 text-sm field-error-animation"
-        style={ { color: theme.error } }
+        style={{ color: theme.error }}
       >
-        <FiAlertCircle size={ 14 } />
-        <span>{ error }</span>
+        <FiAlertCircle size={14} />
+        <span>{error}</span>
       </div>
     );
   };
 
   return (
     <>
-      <style>{ errorAnimation }</style>
+      <style>{errorAnimation}</style>
       <div
         className="min-h-screen flex"
-        style={ { backgroundColor: theme.background } }
+        style={{ backgroundColor: theme.background }}
       >
-        {/* Left side - Theme colored background with image */ }
+        {/* Left side - Theme colored background with image */}
         <div
           className="hidden md:flex md:flex-col md:w-1/2 text-white p-10 relative overflow-hidden"
-          style={ {
+          style={{
             background: `linear-gradient(to bottom, ${theme.primary}dd, ${theme.primary}ff)`,
-          } }
+          }}
         >
           <div className="flex flex-col h-full justify-between z-10 relative">
-            {/* Top section */ }
+            {/* Top section */}
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-2">
-                <FaBookOpen size={ 40 } color={ theme.primary } />
+                <FaBookOpen size={40} color={theme.primary} />
                 <h1 className="text-3xl font-bold tracking-widest">EdClub</h1>
               </div>
               <Link
                 to="/"
                 className="flex items-center gap-2 px-4 py-2 rounded-full text-sm transition duration-300"
-                style={ { backgroundColor: `${theme.cardBg}20` } }
+                style={{ backgroundColor: `${theme.cardBg}20` }}
               >
-                Back to website <FiArrowRight size={ 14 } />
+                Back to website <FiArrowRight size={14} />
               </Link>
             </div>
 
-            {/* Bottom section */ }
+            {/* Bottom section */}
             <div>
               <h2 className="text-3xl font-bold leading-tight mb-6">
                 Capturing Moments,
@@ -186,253 +175,253 @@ const SignUp = () => {
                 Creating Memories
               </h2>
 
-              {/* Pagination dots */ }
+              {/* Pagination dots */}
               <div className="flex gap-2 mt-4">
                 <div
                   className="w-6 h-1 rounded-full"
-                  style={ { backgroundColor: `${theme.cardBg}40` } }
+                  style={{ backgroundColor: `${theme.cardBg}40` }}
                 ></div>
                 <div
                   className="w-6 h-1 rounded-full"
-                  style={ { backgroundColor: `${theme.cardBg}40` } }
+                  style={{ backgroundColor: `${theme.cardBg}40` }}
                 ></div>
                 <div
                   className="w-6 h-1 rounded-full"
-                  style={ { backgroundColor: theme.cardBg } }
+                  style={{ backgroundColor: theme.cardBg }}
                 ></div>
               </div>
             </div>
           </div>
 
-          {/* Background image overlay */ }
+          {/* Background image overlay */}
           <div
             className="absolute inset-0 bg-center bg-cover bg-no-repeat opacity-40"
-            style={ { backgroundImage: "url('/auth-bg.jpg')" } }
+            style={{ backgroundImage: "url('/auth-bg.jpg')" }}
           ></div>
         </div>
 
-        {/* Right side - Form */ }
+        {/* Right side - Form */}
         <div className="w-full md:w-1/2 flex items-center justify-center px-4 py-10 md:p-10">
           <div className="w-full max-w-md">
             <div className="mb-8">
               <h1
                 className="text-4xl font-bold mb-3"
-                style={ { color: theme.text } }
+                style={{ color: theme.text }}
               >
                 Create an account
               </h1>
-              <p style={ { color: theme.secondary } }>
+              <p style={{ color: theme.secondary }}>
                 Already have an account?
                 <Link
                   to="/signin"
                   className="hover:underline ml-1 font-medium"
-                  style={ { color: theme.primary } }
+                  style={{ color: theme.primary }}
                 >
                   Log in
                 </Link>
               </p>
             </div>
 
-            <form onSubmit={ handleSubmit } className="space-y-5">
-              { error && (
+            <form onSubmit={handleSubmit} className="space-y-5">
+              {error && (
                 <div
                   className="p-4 rounded-md text-sm flex items-center gap-2 error-animation"
-                  style={ {
+                  style={{
                     backgroundColor: `${theme.error}15`,
                     color: theme.error,
                     border: `1px solid ${theme.error}30`,
                     boxShadow: `0 2px 4px ${theme.error}10`,
-                  } }
+                  }}
                 >
-                  <FiAlertCircle size={ 18 } />
-                  <span className="font-medium">{ error }</span>
+                  <FiAlertCircle size={18} />
+                  <span className="font-medium">{error}</span>
                 </div>
-              ) }
+              )}
 
-              {/* Name fields side by side */ }
-              <div className="flex gap-4">
-                <div className="w-1/2">
-                  <div className="relative">
-                    <input
-                      type="text"
-                      name="firstName"
-                      value={ user.firstName }
-                      onChange={ handleChange }
-                      placeholder="First name"
-                      className={ `w-full rounded-md py-3 px-4 pr-10 focus:outline-none focus:ring-1 transition duration-300 ${errors.firstName ? "border-2 error-animation" : ""
-                        }` }
-                      style={ {
-                        backgroundColor: theme.cardBg,
-                        color: theme.text,
-                        borderColor: errors.firstName ? theme.error : theme.border,
-                      } }
-                    />
-                    <FiUser
-                      className={ `absolute right-3 top-1/2 transform -translate-y-1/2 transition-colors duration-300 ${errors.firstName ? "error-animation" : ""}` }
-                      size={ 20 }
-                      style={ { color: errors.firstName ? theme.error : theme.secondary } }
-                    />
-                  </div>
-                  { renderFieldError(errors.firstName) }
+              {/* Username field */}
+              <div>
+                <div className="relative">
+                  <input
+                    type="text"
+                    name="username"
+                    value={user.username}
+                    onChange={handleChange}
+                    placeholder="Username"
+                    className={`w-full rounded-md py-3 px-4 pr-10 focus:outline-none focus:ring-1 transition duration-300 ${
+                      errors.username ? "border-2 error-animation" : ""
+                    }`}
+                    style={{
+                      backgroundColor: theme.cardBg,
+                      color: theme.text,
+                      borderColor: errors.username ? theme.error : theme.border,
+                    }}
+                  />
+                  <FiUser
+                    className={`absolute right-3 top-1/2 transform -translate-y-1/2 transition-colors duration-300 ${
+                      errors.username ? "error-animation" : ""
+                    }`}
+                    size={20}
+                    style={{
+                      color: errors.username ? theme.error : theme.secondary,
+                    }}
+                  />
                 </div>
-                <div className="w-1/2">
-                  <div className="relative">
-                    <input
-                      type="text"
-                      name="lastName"
-                      value={ user.lastName }
-                      onChange={ handleChange }
-                      placeholder="Last name"
-                      className={ `w-full rounded-md py-3 px-4 pr-10 focus:outline-none focus:ring-1 transition duration-300 ${errors.lastName ? "border-2 error-animation" : ""
-                        }` }
-                      style={ {
-                        backgroundColor: theme.cardBg,
-                        color: theme.text,
-                        borderColor: errors.lastName ? theme.error : theme.border,
-                      } }
-                    />
-                    <FiUser
-                      className={ `absolute right-3 top-1/2 transform -translate-y-1/2 transition-colors duration-300 ${errors.lastName ? "error-animation" : ""}` }
-                      size={ 20 }
-                      style={ { color: errors.lastName ? theme.error : theme.secondary } }
-                    />
-                  </div>
-                  { renderFieldError(errors.lastName) }
-                </div>
+                {renderFieldError(errors.username)}
               </div>
 
-              {/* Email field */ }
+              {/* Email field */}
               <div>
                 <div className="relative">
                   <input
                     type="email"
                     name="email"
-                    value={ user.email }
-                    onChange={ handleChange }
+                    value={user.email}
+                    onChange={handleChange}
                     placeholder="Email"
-                    className={ `w-full rounded-md py-3 px-4 pr-10 focus:outline-none focus:ring-1 transition duration-300 ${errors.email ? "border-2 error-animation" : ""
-                      }` }
-                    style={ {
+                    className={`w-full rounded-md py-3 px-4 pr-10 focus:outline-none focus:ring-1 transition duration-300 ${
+                      errors.email ? "border-2 error-animation" : ""
+                    }`}
+                    style={{
                       backgroundColor: theme.cardBg,
                       color: theme.text,
                       borderColor: errors.email ? theme.error : theme.border,
-                    } }
+                    }}
                   />
                   <FiMail
-                    className={ `absolute right-3 top-1/2 transform -translate-y-1/2 transition-colors duration-300 ${errors.email ? "error-animation" : ""}` }
-                    size={ 20 }
-                    style={ { color: errors.email ? theme.error : theme.secondary } }
+                    className={`absolute right-3 top-1/2 transform -translate-y-1/2 transition-colors duration-300 ${
+                      errors.email ? "error-animation" : ""
+                    }`}
+                    size={20}
+                    style={{
+                      color: errors.email ? theme.error : theme.secondary,
+                    }}
                   />
                 </div>
-                { renderFieldError(errors.email) }
+                {renderFieldError(errors.email)}
               </div>
 
-              {/* Password field with visibility toggle */ }
+              {/* Password field with visibility toggle */}
               <div>
                 <div className="relative">
                   <input
-                    type={ showPassword ? "text" : "password" }
+                    type={showPassword ? "text" : "password"}
                     name="password"
-                    value={ user.password }
-                    onChange={ handleChange }
+                    value={user.password}
+                    onChange={handleChange}
                     placeholder="Create a password"
-                    className={ `w-full rounded-md py-3 px-4 pr-10 focus:outline-none focus:ring-1 transition duration-300 ${errors.password ? "border-2 error-animation" : ""
-                      }` }
-                    style={ {
+                    className={`w-full rounded-md py-3 px-4 pr-10 focus:outline-none focus:ring-1 transition duration-300 ${
+                      errors.password ? "border-2 error-animation" : ""
+                    }`}
+                    style={{
                       backgroundColor: theme.cardBg,
                       color: theme.text,
                       borderColor: errors.password ? theme.error : theme.border,
-                    } }
+                    }}
                   />
                   <button
                     type="button"
-                    onClick={ () => setShowPassword(!showPassword) }
-                    className={ `absolute right-3 top-1/2 transform -translate-y-1/2 transition-colors duration-300 ${errors.password ? "error-animation" : ""}` }
-                    style={ { color: errors.password ? theme.error : theme.secondary } }
+                    onClick={() => setShowPassword(!showPassword)}
+                    className={`absolute right-3 top-1/2 transform -translate-y-1/2 transition-colors duration-300 ${
+                      errors.password ? "error-animation" : ""
+                    }`}
+                    style={{
+                      color: errors.password ? theme.error : theme.secondary,
+                    }}
                   >
-                    { showPassword ? <FiEyeOff size={ 20 } /> : <FiEye size={ 20 } /> }
+                    {showPassword ? (
+                      <FiEyeOff size={20} />
+                    ) : (
+                      <FiEye size={20} />
+                    )}
                   </button>
                 </div>
-                { renderFieldError(errors.password) }
+                {renderFieldError(errors.password)}
               </div>
 
-              {/* Terms checkbox */ }
+              {/* Terms checkbox */}
               <div className="flex items-start">
                 <div className="flex items-center h-5">
                   <input
                     type="checkbox"
                     id="terms"
-                    checked={ acceptTerms }
-                    onChange={ () => {
+                    checked={acceptTerms}
+                    onChange={() => {
                       setAcceptTerms(!acceptTerms);
                       if (errors.terms) {
                         setErrors({ ...errors, terms: "" });
                       }
-                    } }
-                    className={ `w-4 h-4 rounded border focus:ring-offset-0 ${errors.terms ? "error-animation" : ""}` }
-                    style={ {
+                    }}
+                    className={`w-4 h-4 rounded border focus:ring-offset-0 ${
+                      errors.terms ? "error-animation" : ""
+                    }`}
+                    style={{
                       borderColor: errors.terms ? theme.error : theme.border,
-                      backgroundColor: acceptTerms ? theme.primary : theme.cardBg,
-                    } }
+                      backgroundColor: acceptTerms
+                        ? theme.primary
+                        : theme.cardBg,
+                    }}
                   />
                 </div>
                 <div className="ml-2">
                   <label
                     htmlFor="terms"
                     className="text-sm"
-                    style={ { color: errors.terms ? theme.error : theme.text } }
+                    style={{ color: errors.terms ? theme.error : theme.text }}
                   >
-                    I agree to the{ " " }
+                    I agree to the{" "}
                     <a
                       href="#"
                       className="hover:underline"
-                      style={ { color: theme.primary } }
+                      style={{ color: theme.primary }}
                     >
                       Terms & Conditions
                     </a>
                   </label>
-                  { renderFieldError(errors.terms) }
+                  {renderFieldError(errors.terms)}
                 </div>
               </div>
 
-              {/* Submit button */ }
+              {/* Submit button */}
               <button
                 type="submit"
-                disabled={ loading }
+                disabled={loading}
                 className="w-full py-3 rounded-md font-medium transition duration-300"
-                style={ {
+                style={{
                   backgroundColor: theme.primary,
                   color: theme.cardBg,
                   opacity: loading ? 0.7 : 1,
-                } }
+                }}
               >
-                { loading ? "Creating account..." : "Create account" }
+                {loading ? "Creating account..." : "Create account"}
               </button>
 
-              {/* Social login divider */ }
+              {/* Social login divider */}
               <div className="flex items-center my-6">
                 <div
                   className="flex-grow h-px"
-                  style={ { backgroundColor: theme.border } }
+                  style={{ backgroundColor: theme.border }}
                 ></div>
-                <span className="px-3 text-sm" style={ { color: theme.secondary } }>
+                <span
+                  className="px-3 text-sm"
+                  style={{ color: theme.secondary }}
+                >
                   Or register with
                 </span>
                 <div
                   className="flex-grow h-px"
-                  style={ { backgroundColor: theme.border } }
+                  style={{ backgroundColor: theme.border }}
                 ></div>
               </div>
 
-              {/* Social login buttons */ }
+              {/* Social login buttons */}
               <div className="grid grid-cols-2 gap-4">
                 <button
                   type="button"
                   className="flex items-center justify-center gap-2 py-2.5 px-4 rounded-md transition duration-300"
-                  style={ {
+                  style={{
                     border: `1px solid ${theme.border}`,
                     color: theme.text,
-                  } }
+                  }}
                 >
                   <svg
                     viewBox="0 0 24 24"
@@ -464,17 +453,17 @@ const SignUp = () => {
                 <button
                   type="button"
                   className="flex items-center justify-center gap-2 py-2.5 px-4 rounded-md transition duration-300"
-                  style={ {
+                  style={{
                     border: `1px solid ${theme.border}`,
                     color: theme.text,
-                  } }
+                  }}
                 >
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     width="20"
                     height="20"
                     viewBox="0 0 384 512"
-                    style={ { fill: theme.text } }
+                    style={{ fill: theme.text }}
                   >
                     <path d="M318.7 268.7c-.2-36.7 16.4-64.4 50-84.8-18.8-26.9-47.2-41.7-84.7-44.6-35.5-2.8-74.3 20.7-88.5 20.7-15 0-49.4-19.7-76.4-19.7C63.3 141.2 4 184.8 4 273.5q0 39.3 14.4 81.2c12.8 36.7 59 126.7 107.2 125.2 25.2-.6 43-17.9 75.8-17.9 31.8 0 48.3 17.9 76.4 17.9 48.6-.7 90.4-82.5 102.6-119.3-65.2-30.7-61.7-90-61.7-91.9zm-56.6-164.2c27.3-32.4 24.8-61.9 24-72.5-24.1 1.4-52 16.4-67.9 34.9-17.5 19.8-27.8 44.3-25.6 71.9 26.1 2 49.9-11.4 69.5-34.3z" />
                   </svg>
