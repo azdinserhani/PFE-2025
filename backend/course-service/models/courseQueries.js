@@ -162,108 +162,121 @@ const courseQueries = {
     return result.rows;
   },
   getCourseContentByCourseId: async (course_id) => {
-    const query = `SELECT 
-        json_build_object(
-          'id', course.id,
-          'title', course.title,
-          'description', course.description,
-          'thumbnail', course.thumbnail,
-          'price', course.price,
-          'created_at', course.created_at,
-          'updated_at', course.updated_at,
-          'category', (
-            SELECT json_build_object(
-              'id', category.id,
-              'name', category.name
-            )
-            FROM category
-            WHERE category.id = course.category_id
-          ),
-          'instructor', (
-            SELECT json_build_object(
-              'id', u.id,
-              'userName', u.username,
-              'email', u.email,
-              'profile_pic', u.profile_pic
-            )
-            FROM "user_acount" u
-            WHERE u.id = course.instructor_id
-          ),
-          'enrollment_stats', (
-            SELECT json_build_object(
-              'total_students', COUNT(e.id),
-              'completed_count', COUNT(CASE WHEN e.completed_date IS NOT NULL THEN 1 END)
-            )
-            FROM enrolment e
-            WHERE e.course_id = course.id
-          ),
-          'modules', (
-            SELECT json_agg(
-              json_build_object(
-                'id', module.id,
-                'title', module.name,
-                'order_index', module.number,
-                'lessons', (
-                  SELECT json_agg(
-                    json_build_object(
-                      'id', lesson.id,
-                      'title', lesson.name,
-                      'content', lesson.video_url,
-                      'order_index', lesson.number,
-                      'lesson_details', lesson.lessons_details,
-                      'is_free', lesson.is_free,
-                      'completion_stats', (
-                        SELECT json_build_object(
-                          'completed_count', COUNT(sl.id)
-                        )
-                        FROM student_lesson sl
-                        WHERE sl.lesson_id = lesson.id AND sl.is_completed = true
-                      )
-                    ) ORDER BY lesson.number
+    const query = `SELECT
+    json_build_object(
+      'id', course.id,
+      'title', course.title,
+      'description', course.description,
+      'thumbnail', course.thumbnail,
+      'price', course.price,
+      'created_at', course.created_at,
+      'updated_at', course.updated_at,
+      'category', (
+        SELECT json_build_object(
+          'id', category.id,
+          'name', category.name
+        )
+        FROM category
+        WHERE category.id = course.category_id
+      ),
+      'instructor', (
+        SELECT json_build_object(
+          'id', u.id,
+          'userName', u.userName,
+          'email', u.email,
+          'profile_pic', u.profile_pic
+        )
+        FROM user_acount u
+        WHERE u.id = course.instructor_id
+      ),
+      'enrollment_stats', (
+        SELECT json_build_object(
+          'total_students', COUNT(e.id),
+          'completed_count', COUNT(CASE WHEN e.completed_date IS NOT NULL THEN 1 END)
+        )
+        FROM enrolment e
+        WHERE e.course_id = course.id
+      ),
+      'modules', (
+        SELECT json_agg(
+          json_build_object(
+            'id', module.id,
+            'title', module.name,
+            'order_index', module.number,
+            'lessons', (
+              SELECT json_agg(
+                json_build_object(
+                  'id', lesson.id,
+                  'title', lesson.name,
+                  'content', lesson.video_url,
+                  'order_index', lesson.number,
+                  'lesson_details', lesson.lessons_details,
+                  'is_free', lesson.is_free,
+                  'completion_stats', (
+                    SELECT json_build_object(
+                      'completed_count', COUNT(sl.id)
+                    )
+                    FROM student_lesson sl
+                    WHERE sl.lesson_id = lesson.id AND sl.is_completed = true
                   )
-                  FROM lesson 
-                  WHERE lesson.module_id = module.id
-                ),
-                'quizzes', (
-                  SELECT json_agg(
-                    json_build_object(
-                      'id', quiz.id,
-                      'name', quiz.name,
-                      'min_pass_score', quiz.min_pass_score,
-                      'questions', (
-                        SELECT json_agg(
-                          json_build_object(
-                            'id', qq.id,
-                            'title', qq.question_title,
-                            'answers', (
-                              SELECT json_agg(
-                                json_build_object(
-                                  'id', qa.id,
-                                  'text', qa.answer_text,
-                                  'is_correct', qa.is_correct
-                                )
-                              )
-                              FROM quiz_answer qa
-                              WHERE qa.question_id = qq.quiz_id
+                ) ORDER BY lesson.number
+              )
+              FROM lesson
+              WHERE lesson.module_id = module.id
+            ),
+            'exams', (
+              SELECT json_agg(
+                json_build_object(
+                  'id', exam.id,
+                  'title', exam.title,
+                  'description', exam.description,
+                  'created_at', exam.created_at,
+                  'updated_at', exam.updated_at,
+                  'questions', (
+                    SELECT json_agg(
+                      json_build_object(
+                        'id', q.id,
+                        'text', q.text,
+                        'number', q.number,
+                        'choices', (
+                          SELECT json_agg(
+                            json_build_object(
+                              'id', c.id,
+                              'text', c.text,
+                              'is_correct', c.is_correct
                             )
                           )
+                          FROM choice c
+                          WHERE c.question_id = q.id
                         )
-                        FROM quiz_question qq
-                        WHERE qq.quiz_id = quiz.id
-                      )
+                      ) ORDER BY q.number
                     )
+                    FROM question q
+                    WHERE q.exam_id = exam.id
+                  ),
+                  'attempt_stats', (
+                    SELECT json_build_object(
+                      'total_attempts', COUNT(se.id),
+                      'average_score', ROUND(AVG(se.score), 2),
+                      'highest_score', MAX(se.score),
+                      'lowest_score', MIN(se.score)
+                    )
+                    FROM student_exam se
+                    WHERE se.exam_id = exam.id
                   )
-                  FROM quiz
-                  WHERE quiz.course_id = course.id
                 )
-              ) ORDER BY module.number
+              )
+              FROM exam
+              WHERE exam.course_id = course.id
             )
-            FROM module 
-            WHERE module.course_id = course.id
-          )
-        ) as course_content
-      FROM course
-      WHERE course.id = $1`;
+          ) ORDER BY module.number
+        )
+        FROM module
+        WHERE module.course_id = course.id
+      )
+    ) as course_content
+FROM course
+WHERE course.id = $1;`;
     const values = [course_id];
     const result = await db.query(query, values);
 

@@ -87,6 +87,10 @@ const courseService = {
     return courses;
   },
   getCourseContentByCourseId: async (course_id) => {
+    const findCourse = await courseQueries.getCourseById(course_id);
+    if (!findCourse) {
+      throw new Error("no course found with this id");
+    }
     const courseContent = await courseQueries.getCourseContentByCourseId(
       course_id
     );
@@ -98,13 +102,13 @@ const courseService = {
     );
     return enrollStudents;
   },
-  getEnrollmentsByUserId: async (user_id) => { 
+  getEnrollmentsByUserId: async (user_id) => {
     const enrollments = await courseQueries.getEnrollmentsByUserId(user_id);
     if (!enrollments) {
       throw new Error("No enrollments found for this user");
     }
     return enrollments;
-  }
+  },
 };
 
 export default courseService;
