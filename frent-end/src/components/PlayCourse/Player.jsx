@@ -1,6 +1,10 @@
 import Plyr from "plyr-react";
 import "plyr-react/plyr.css"; // Import styles
-const Player = () => {
+
+const Player = ({ lesson }) => {
+  console.log(lesson);
+  
+  const videoSrc = lesson?.content;
   return (
     <div className="">
       <Plyr
@@ -8,7 +12,7 @@ const Player = () => {
           type: "video",
           sources: [
             {
-              src: "http://localhost:3003/media/1746106457823-2%20-%20Meet%20Your%20Hosts%20Brad.mp4", // Replace with your video URL
+              src: videoSrc,
               type: "video/mp4",
             },
           ],
@@ -32,6 +36,9 @@ const Player = () => {
           seekTime: 10,
         }}
       />
+      <div className="mt-2 text-lg font-semibold">
+        {lesson?.title || "Select a lesson to start"}
+      </div>
     </div>
   );
 };

@@ -23,13 +23,30 @@ const PlayCourse = () => {
   const { currentTheme, themes } = useTheme();
   const theme = themes[currentTheme];
   const [course, setCourse] = useState({});
+  const [selectedLesson, setSelectedLesson] = useState(null);
+
   useEffect(() => {
     const fetchCourse = async () => {
       const res = await getCourseById(id);
-      console.log(res);
+      setCourse(res);
+      // Set first unlocked lesson as default
+      if (res?.modules) {
+        for (const module of res.modules) {
+          const firstUnlocked = module.lessons?.find((l) => !l.locked);
+          if (firstUnlocked) {
+            setSelectedLesson(firstUnlocked);
+            break;
+          }
+        }
+      }
     };
     fetchCourse();
   }, [id]);
+
+  const handleLessonClick = (lesson) => {
+    setSelectedLesson(lesson);
+  };
+
   return (
     <div className="flex p-5 gap-4 h-screen">
       {/* Left Side */}
@@ -38,7 +55,7 @@ const PlayCourse = () => {
           isSidebarOpen ? "flex-2/3" : "flex-[95%]"
         } overflow-y-scroll p-6`}
       >
-        <Player />
+        <Player lesson={selectedLesson} />
 
         <span
           onClick={() => setContentTab("overview")}
@@ -55,7 +72,7 @@ const PlayCourse = () => {
 
         {/* Content for Overview or IDE */}
         <div className="mt-4">
-          {contentTab === "overview" ? <CourseOverview /> : <LiveIde />}
+          <CourseOverview course={course} />
         </div>
       </div>
 
@@ -111,9 +128,14 @@ const PlayCourse = () => {
             <div className="flex-1 overflow-y-auto">
               {activeTab === "sections" ? (
                 <div className="flex flex-col gap-3">
-                  <CourseSections />
-                  <CourseSections />
-                  <CourseSections />
+                  {course?.modules?.map((module, index) => (
+                    <CourseSections
+                      key={index}
+                      module={module}
+                      onLessonClick={handleLessonClick}
+                      selectedLesson={selectedLesson}
+                    />
+                  ))}
                 </div>
               ) : (
                 <div

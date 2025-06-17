@@ -5,7 +5,7 @@ import { AiOutlineInbox } from "react-icons/ai";
 import { useTheme } from "../../context/ThemeContext";
 import { motion } from "framer-motion";
 
-const CourseOverview = () => {
+const CourseOverview = ({ course }) => {
   const { currentTheme, themes } = useTheme();
   const theme = themes[currentTheme];
 
@@ -33,22 +33,23 @@ const CourseOverview = () => {
               className="text-2xl font-bold mb-2"
               style={{ color: theme.text }}
             >
-              Spoken English Popular Course
+              {course?.title}
             </h2>
             <div
               className="flex items-center gap-2"
               style={{ color: theme.primary }}
             >
-              <div className="flex items-center">
+              {/* <div className="flex items-center">
                 <FaStar />
                 <FaStar />
                 <FaStar />
                 <FaStar />
                 <FaStar className="opacity-40" />
               </div>
+              //TODO: Add dynamic rating
               <span className="text-sm" style={{ color: theme.secondary }}>
                 (4.0)
-              </span>
+              </span> */}
             </div>
           </div>
 
@@ -57,14 +58,17 @@ const CourseOverview = () => {
             style={{ backgroundColor: `${theme.primary}10` }}
           >
             <img
-              src="/instu1.jpg"
+              src={
+                course?.instructor?.profile_pic ||
+                "https://via.placeholder.com/150"
+              }
               alt="Instructor"
               className="h-12 w-12 rounded-full object-cover border-2"
               style={{ borderColor: theme.primary }}
             />
             <div className="flex flex-col">
               <span className="font-medium" style={{ color: theme.text }}>
-                Calvin Carlo
+                {course?.instructor?.userName || "Instructor Name"}
               </span>
               <span className="text-sm" style={{ color: theme.secondary }}>
                 Course Instructor
@@ -104,18 +108,7 @@ const CourseOverview = () => {
               border: `1px solid ${theme.border}`,
             }}
           >
-            <p>
-              Ooh, name it after me! Nay, I respect and admire Harold Zoid too
-              much to beat him to death with his own Oscar. Why would I want to
-              know that? What's with you kids? Every other day it's food, food,
-              food. Alright, I'll get you some stupid food.
-            </p>
-            <p className="mt-4">
-              It's a T. It goes "tuh". You seem malnourished. Are you suffering
-              from intestinal parasites? I suppose I could part with 'one' and
-              still be feared… And I'd do it again! And perhaps a third time!
-              But that would be it.
-            </p>
+            <p>{course?.description}</p>
           </div>
         </div>
       </div>
