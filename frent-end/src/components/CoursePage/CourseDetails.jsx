@@ -61,6 +61,7 @@ const CourseDetails = () => {
       document.removeEventListener("click", handleClickOutside);
     };
   }, []);
+  console.log(course);
 
   return (
     <div className="flex flex-col justify-center items-center gap-8 my-10 px-4 md:px-8 max-w-7xl mx-auto">
@@ -245,7 +246,9 @@ const CourseDetails = () => {
               Quizzes
             </p>
             <p className="font-medium" style={{ color: theme.text }}>
-              {course?.modules[0].exams[0].questions.length} Quiz
+              {/* {course?.modules[0].exams[0].questions.length} Quiz */}{" "}
+              {/* //TODO: this will be changed to be number of quizzes in exam of */}
+              5 Quizzes 
             </p>
           </div>
         </motion.div>
