@@ -202,7 +202,7 @@ export const createCourseWithContent = async (course) => {
       });
       await Promise.all(lecturePromises.filter((p) => p !== null));
     }
-
+    await createExam(courseId);
     return res.data.data;
   } catch (error) {
     console.error("Error creating course with content:", error);
@@ -290,6 +290,24 @@ export const getCategories = async () => {
     return res.data.data;
   } catch (error) {
     console.error(`Error getting categories:`, error);
+    throw error;
+  }
+};
+
+export const createExam = async (courseId) => {
+  try {
+    const exam = JSON.parse(localStorage.getItem("exams"));
+    console.log(exam);
+    const examData ={
+      course_id: courseId,
+      title: exam.title,
+      description: exam.description,
+    };
+    console.log(examData);
+    const res = await userRequest.post("/api/v1/course/exam/create", examData);
+    return res.data.data;
+  } catch (error) {
+    console.error(`Error creating exam "${courseId}":`, error);
     throw error;
   }
 };

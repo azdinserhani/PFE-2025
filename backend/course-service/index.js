@@ -5,6 +5,7 @@ import courseRoute from "./routes/courseRoute.js";
 import moduleRoute from "./routes/moduleRoute.js";
 import lectureRoute from "./routes/lectureRoute.js";
 import categoryRoute from "./routes/categoryRoute.js";
+import examRoute from "./routes/examRoute.js";
 dotenv.config();
 
 // Initialize express app
@@ -19,6 +20,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use("/", courseRoute);
 app.use("/module", moduleRoute);
 app.use("/lecture", lectureRoute);
+app.use("/exam", examRoute);
 app.use("/", categoryRoute);
 
 // Root route

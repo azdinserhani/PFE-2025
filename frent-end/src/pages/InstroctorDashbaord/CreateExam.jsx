@@ -109,8 +109,11 @@ const CreateExam = () => {
 
       // Add your API call here
       // await createExam(examData);
+      console.log(examData);
+      // Store exam data in localStorage
+      localStorage.setItem('exams', JSON.stringify(examData));
       
-      navigate(`/course/${courseId}`);
+      // navigate(`/course/${courseId}`);
     } catch (error) {
       console.error("Error creating exam:", error);
       alert("Failed to create exam. Please try again.");

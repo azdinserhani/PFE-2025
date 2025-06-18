@@ -16,7 +16,7 @@ services.forEach(({ route, target }) => {
   };
 
   // Apply rate limiting and timeout middleware before proxying
-  app.use(route, limiter, createProxyMiddleware(proxyOptions));
+  app.use(route, createProxyMiddleware(proxyOptions));
 });
 
 // Middleware
