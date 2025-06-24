@@ -14,7 +14,6 @@ import { useTranslation } from "react-i18next";
 const Cart = () => {
   const dispatch = useDispatch();
   const { items, total } = useSelector((state) => state.cart);
-  console.log("Cart items:", items);
   const itemCount = items.length;
   const { t } = useTranslation();
 
@@ -64,7 +63,7 @@ const Cart = () => {
           </div>
 
           <div className="lg:col-span-1">
-            <CartSummary total={total} itemCount={itemCount} />
+              <CartSummary total={ total } itemCount={ itemCount } items={items } />
           </div>
         </div>
       )}

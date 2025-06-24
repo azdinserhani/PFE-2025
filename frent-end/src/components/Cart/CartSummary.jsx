@@ -1,12 +1,29 @@
-import React from 'react';
-import { Link } from 'react-router';
-import { useTheme } from '../../context/ThemeContext';
+import React from "react";
+import { Link } from "react-router";
+import { useTheme } from "../../context/ThemeContext";
 import { useTranslation } from "react-i18next";
+import { useSelector } from "react-redux";
 
-const CartSummary = ({ total, itemCount }) => {
+const CartSummary = ({ total, itemCount, items }) => {
   const { currentTheme, themes } = useTheme();
   const theme = themes[currentTheme];
-  const { t } = useTranslation();  
+  console.log("Cart items:", items);
+
+
+  const { t } = useTranslation();
+  const handleCheckout = async () => {
+    const response = await fetch("/api/create-checkout-session", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${userToken}`,
+      },
+      body: JSON.stringify({ cartItems }),
+    });
+    const data = await response.json();
+    window.location.href = data.url;
+  };
+
   return (
     <div
       className="p-6 rounded-lg shadow-md transition-all duration-300"
@@ -81,4 +98,4 @@ const CartSummary = ({ total, itemCount }) => {
   );
 };
 
-export default CartSummary; 
+export default CartSummary;

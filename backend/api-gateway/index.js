@@ -20,7 +20,13 @@ services.forEach(({ route, target }) => {
 });
 
 // Middleware
-app.use(cors());
+app.use(cors(
+  {
+    origin: "*", // Allow all origins, adjust as needed
+    methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
+    preflightContinue: false,
+  }
+));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 

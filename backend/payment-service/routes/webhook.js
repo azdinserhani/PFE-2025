@@ -23,19 +23,21 @@ router.post(
     if (event.type === "checkout.session.completed") {
       const session = event.data.object;
       const userId = session.metadata.userId;
-      const courseId = session.metadata.courseId;
+      const cartIds = JSON.parse(session.metadata.cart); // e.g., [101, 102]
 
       try {
-        // Save enrollment in database
-        await db.query(
-          "INSERT INTO enrolment (course_id, user_id) VALUES ($1, $2)",
-          [courseId, userId]
-        );
-        console.log(`✅ User ${userId} enrolled in course ${courseId}`);
+        for (const courseId of cartIds) {
+          await db.query(
+            "INSERT INTO enrolment (course_id, user_id) VALUES ($1, $2)",
+            [courseId, userId]
+          );
+          console.log(`✅ User ${userId} enrolled in course ${courseId}`);
+        }
       } catch (err) {
         console.error("Error saving enrollment:", err.message);
       }
     }
+    
 
     res.status(200).send("Webhook received");
   }
