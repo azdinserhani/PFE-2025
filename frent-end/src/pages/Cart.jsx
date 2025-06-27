@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { useSelector, useDispatch } from "react-redux";
 import CartItem from "../components/Cart/CartItem";
 import CartSummary from "../components/Cart/CartSummary";
@@ -7,36 +7,25 @@ import CartActions from "../components/Cart/CartActions";
 import {
   removeFromCart,
   clearCart,
-  setCartItems,
 } from "../redux/features/cartSlice";
 import { useTranslation } from "react-i18next";
 
 const Cart = () => {
-  const dispatch = useDispatch();
   const { items, total } = useSelector((state) => state.cart);
-  const itemCount = items.length;
+  const dispatch = useDispatch();
   const { t } = useTranslation();
 
-  useEffect(() => {
-    const savedCart = localStorage.getItem("cart");
-    if (savedCart) {
-      const parsedCart = JSON.parse(savedCart);
-      dispatch(setCartItems(parsedCart));
-    }
-  }, [dispatch]);
-
-  // Save cart to localStorage whenever it changes
-  useEffect(() => {
-    localStorage.setItem("cart", JSON.stringify(items));
-  }, [items]);
-
   const handleRemoveFromCart = (courseId) => {
-    dispatch(removeFromCart(courseId));
+    if (courseId) {
+      dispatch(removeFromCart(courseId));
+    }
   };
 
   const handleClearCart = () => {
     dispatch(clearCart());
   };
+
+  const itemCount = items?.length || 0;
 
   return (
     <div className="container mx-auto py-8 px-4">
@@ -56,14 +45,14 @@ const Cart = () => {
                 <CartItem
                   key={item.id}
                   item={item}
-                  onRemove={handleRemoveFromCart}
+                  onRemove={() => handleRemoveFromCart(item.id)}
                 />
               ))}
             </div>
           </div>
 
           <div className="lg:col-span-1">
-              <CartSummary total={ total } itemCount={ itemCount } items={items } />
+            <CartSummary total={total} itemCount={itemCount} items={items} />
           </div>
         </div>
       )}

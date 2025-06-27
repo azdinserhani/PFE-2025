@@ -1,11 +1,14 @@
 {
-  "name": "backend-services",
+  "name": "backend",
   "version": "1.0.0",
+  "main": "index.js",
   "scripts": {
-    "start:services": "concurrently \"npm start --prefix api-gateway\" \"npm start --prefix auth-service\" \"npm start --prefix course-service\" \"npm start --prefix media-service\" \"npm start --prefix user-service\""
-  },
+  "start:all": "concurrently \"npm start --prefix api-gateway\" \"npm start --prefix auth-service\" \"npm start --prefix course-service\" \"npm start --prefix media-service\" \"npm start --prefix payment-service\" \"npm start --prefix user-service\""
+},
+  "author": "",
+  "license": "ISC",
+  "description": "",
   "devDependencies": {
-    "concurrently": "^8.0.0",
-    "cross-env": "^7.0.3"
+    "concurrently": "^9.2.0"
   }
 }

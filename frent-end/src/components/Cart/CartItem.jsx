@@ -6,6 +6,7 @@ import { useTheme } from '../../context/ThemeContext';
 const CartItem = ({ item, onRemove }) => {
   const { currentTheme, themes } = useTheme();
   const theme = themes[currentTheme];
+  console.log("item",item);
   
   return (
     <div 
@@ -19,24 +20,24 @@ const CartItem = ({ item, onRemove }) => {
       <div className="flex items-center gap-4">
         <div className="w-20 h-20 overflow-hidden rounded-md shadow-sm">
           <img 
-            src={item.image || "/Info1.jpg"} 
-            alt={item.title} 
+            src={item?.thumbnail || "/Info1.jpg"} 
+            alt={item?.title} 
             className="w-full h-full object-cover transition-transform hover:scale-105 duration-300"
           />
         </div>
         <div>
           <Link 
-            to={`/course/${item.id}`} 
+            to={`/course/${item?.id}`} 
             className="text-lg font-semibold hover:underline transition-colors"
             style={{ color: theme.text }}
           >
-            {item.title}
+            {item?.title}
           </Link>
-          <p className="text-sm mt-1" style={{ color: theme.secondary }}>{item.instructor}</p>
+          <p className="text-sm mt-1" style={{ color: theme.secondary }}>{item?.instructor?.userName || item?.instructor}</p>
           <div className="flex items-center gap-2 mt-1">
-            <span className="text-sm" style={{ color: theme.secondary }}>{item.lessons} lessons</span>
+            <span className="text-sm" style={{ color: theme.secondary }}>{item?.lessons} lessons</span>
             <span className="text-sm" style={{ color: theme.secondary }}>•</span>
-            <span className="text-sm" style={{ color: theme.secondary }}>{item.students} students</span>
+            <span className="text-sm" style={{ color: theme.secondary }}>{item?.students} students</span>
           </div>
         </div>
       </div>

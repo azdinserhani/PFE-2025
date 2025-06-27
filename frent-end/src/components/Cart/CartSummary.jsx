@@ -2,27 +2,43 @@ import React from "react";
 import { Link } from "react-router";
 import { useTheme } from "../../context/ThemeContext";
 import { useTranslation } from "react-i18next";
-import { useSelector } from "react-redux";
+
+import { paymentRequest } from "../../utils/axios";
+import { useDispatch } from "react-redux";
+import { clearCart } from "../../redux/features/cartSlice";
 
 const CartSummary = ({ total, itemCount, items }) => {
   const { currentTheme, themes } = useTheme();
   const theme = themes[currentTheme];
-  console.log("Cart items:", items);
-
-
+  const dispatch = useDispatch();
   const { t } = useTranslation();
   const handleCheckout = async () => {
-    const response = await fetch("/api/create-checkout-session", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${userToken}`,
-      },
-      body: JSON.stringify({ cartItems }),
-    });
-    const data = await response.json();
-    window.location.href = data.url;
+    try {
+      const response = await paymentRequest.post("/api/payment/create-checkout-session", {
+        "cartItems": items.map(item => ({
+          id: item.id,
+          name: item.title,
+          price: item.price,
+          quantity: 1
+        }))
+      }
+      );
+
+      const data = response.data;
+      
+      if (data.url) {
+        window.location.href = data.url;
+        dispatch(clearCart());
+      } else {
+        throw new Error("No checkout URL received from server");
+      }
+    } catch (error) {
+      console.error("Error creating checkout session:", error);
+      // You might want to show a user-friendly error message here
+      alert("Failed to create checkout session. Please try again.");
+    }
   };
+  
 
   return (
     <div
@@ -70,7 +86,7 @@ const CartSummary = ({ total, itemCount, items }) => {
         <button
           className="w-full text-white py-3 px-4 rounded-md font-medium transition-all hover:shadow-md duration-300"
           style={{ backgroundColor: theme.primary }}
-          onClick={() => console.log("Proceed to checkout")}
+          onClick={()=>handleCheckout()}
         >
           {t("cart.summary.checkout")}
         </button>

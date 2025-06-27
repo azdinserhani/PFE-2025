@@ -28,3 +28,8 @@ export const userRequest = axios.create({
   baseURL: BASE_URL,
   headers: token ? { Authorization: `Bearer ${token}` } : {},
 });
+const userToken = JSON.parse(JSON.parse(persistedData).user).token;
+export const paymentRequest = axios.create({
+  baseURL: import.meta.env.VITE_PAYMENT_URL,
+  headers: userToken ? { Authorization: `Bearer ${userToken}` } : {},
+});
