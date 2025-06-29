@@ -60,6 +60,7 @@ CREATE TABLE lesson(
     is_free BOOLEAN NOT NULL,
     CONSTRAINT fk_module FOREIGN KEY (module_id) REFERENCES module(id) ON DELETE CASCADE
 );
+ALTER TABLE lesson ADD COLUMN duration_seconds INT;
 
 CREATE TABLE exam(
     id SERIAL PRIMARY KEY NOT NULL,
