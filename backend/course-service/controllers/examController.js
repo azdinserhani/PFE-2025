@@ -3,6 +3,7 @@ import examServices from "../services/examService.js";
 const examController = {
   createExam: async (req, res) => {
     try {
+      console.log(req.body);
       const createdExam = await examServices.createExam(req.body);
       res.status(201).json({
         success: true,

@@ -23,6 +23,7 @@ import PlayCourse from "./pages/PlayCourse/PlayCourse";
 import CourseByInstructor from "./pages/InstroctorDashbaord/CourseByInstructor";
 import Analytics from "./pages/InstroctorDashbaord/Analytics";
 import CreateCourse from "./pages/InstroctorDashbaord/CreateCourse";
+import EditCourse from "./pages/InstroctorDashbaord/EditCourse";
 import { useSelector } from "react-redux";
 import Cart from "./pages/Cart";
 import Settings from "./pages/Settings";
@@ -144,6 +145,14 @@ function AnimatedRoutes() {
               element={
                 <ProtectedRoute>
                   <CreateCourse />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/instructor/edit-course/:courseId"
+              element={
+                <ProtectedRoute>
+                  <EditCourse />
                 </ProtectedRoute>
               }
             />

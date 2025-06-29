@@ -23,20 +23,22 @@ import {
   reorderSections,
   setCourseInfo,
   resetCourse,
+  setSections,
 } from "../../redux/features/courseSlice";
 import { MdDragIndicator } from "react-icons/md";
 import {
   uploadFile,
-  createCourseWithContent,
   getCategories,
+  getCourseById,
+  updateCourse,
 } from "../../redux/ApiCalls";
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router";
+import { useNavigate, useParams } from "react-router";
 import { AiOutlineLoading3Quarters } from "react-icons/ai";
 
-const CreateCourse = () => {
+const EditCourse = () => {
   const navigate = useNavigate();
-  const [courseId, setCourseId] = useState(null);
+  const { courseId } = useParams();
   const [img, setImg] = useState(null);
   const [imgUrl, setImgUrl] = useState(null);
   const [fileName, setFileName] = useState("");
@@ -47,6 +49,7 @@ const CreateCourse = () => {
   const [categoryId, setCategoryId] = useState(null);
   const [categories, setCategories] = useState([]);
   const [progress, setProgress] = useState(0);
+  const [courseLoaded, setCourseLoaded] = useState(false);
   const { course, sec } = useSelector((stat) => ({
     sec: stat.course.sections,
     course: stat.course,
@@ -58,82 +61,52 @@ const CreateCourse = () => {
   const { currentTheme, themes } = useTheme();
   const theme = themes[currentTheme];
   const [isLoading, setIsLoading] = useState(false);
-  const [errors, setErrors] = useState({
-    title: "",
-    description: "",
-    price: "",
-    categoryId: "",
-    thumbnail: "",
-  });
 
-  // Local storage functions for course data
-  const saveCourseToLocalStorage = (courseData) => {
-    try {
-      localStorage.setItem('courseCreationData', JSON.stringify(courseData));
-    } catch (error) {
-      console.error('Error saving course data to localStorage:', error);
-    }
-  };
-
-  const loadCourseFromLocalStorage = () => {
-    try {
-      const savedData = localStorage.getItem('courseCreationData');
-      return savedData ? JSON.parse(savedData) : null;
-    } catch (error) {
-      console.error('Error loading course data from localStorage:', error);
-      return null;
-    }
-  };
-
-  const clearCourseFromLocalStorage = () => {
-    try {
-      localStorage.removeItem('courseCreationData');
-    } catch (error) {
-      console.error('Error clearing course data from localStorage:', error);
-    }
-  };
-
-  // Load saved course data on component mount
+  // Fetch course details and categories
   useEffect(() => {
-    const savedCourseData = loadCourseFromLocalStorage();
-    if (savedCourseData) {
-      setTitle(savedCourseData.title || "");
-      setDescription(savedCourseData.description || "");
-      setPrice(savedCourseData.price || "");
-      setCategory(savedCourseData.category || "");
-      setCategoryId(savedCourseData.categoryId || null);
-      setImg(savedCourseData.img || null);
-      setImgUrl(savedCourseData.imgUrl || null);
-      setFileName(savedCourseData.fileName || "");
-    }
-  }, []);
-
-  // Save course data to localStorage whenever form values change
-  useEffect(() => {
-    const courseData = {
-      title,
-      description,
-      price,
-      category,
-      categoryId,
-      img,
-      imgUrl,
-      fileName,
+    const fetchCourseData = async () => {
+      try {
+        setIsLoading(true);
+        const [courseData, categoriesData] = await Promise.all([
+          getCourseById(courseId),
+          getCategories(),
+        ]);
+        console.log(courseData);
+        
+        // Populate form fields with existing course data
+        setTitle(courseData.title || "");
+        setDescription(courseData.description || "");
+        setPrice(courseData.price || "");
+        setImgUrl(courseData.image || null);
+        setImg(courseData.thumbnail || null);
+        setCategoryId(courseData.category.id || null);
+        
+        // Find and set category name
+        const selectedCategory = categoriesData.find(cat => cat.id === courseData.categoryId);
+        setCategory(selectedCategory ? selectedCategory.name : "");
+        
+        setCategories(categoriesData);
+        
+        // Set sections in Redux store if available
+        if (courseData.sections && courseData.sections.length > 0) {
+          dispatch(setSections(courseData.sections));
+        }
+        
+        setCourseLoaded(true);
+      } catch (error) {
+        console.error("Error fetching course data:", error);
+        alert("Failed to load course data. Please try again.");
+        navigate("/instructorCourse");
+      } finally {
+        setIsLoading(false);
+      }
     };
-    
-    // Only save if at least one field has data
-    if (title || description || price || category || imgUrl) {
-      saveCourseToLocalStorage(courseData);
-    }
-  }, [title, description, price, category, categoryId, img, imgUrl, fileName]);
 
-  useEffect(() => {
-    const fetchCategories = async () => {
-      const categories = await getCategories();
-      setCategories(categories);
-    };
-    fetchCategories();
-  }, []);
+    if (courseId) {
+      fetchCourseData();
+    }
+  }, [courseId, dispatch, navigate]);
+
   useEffect(() => {
     const handleBeforeUnload = (e) => {
       e.preventDefault();
@@ -147,115 +120,28 @@ const CreateCourse = () => {
     };
   }, []);
 
-  const validateForm = () => {
-    const newErrors = {
-      title: "",
-      description: "",
-      price: "",
-      categoryId: "",
-      thumbnail: "",
-    };
-    let isValid = true;
-
-    // Title validation
-    if (!title) {
-      newErrors.title = "Title is required";
-      isValid = false;
-    } else if (title.length < 3) {
-      newErrors.title = "Title must be at least 3 characters long";
-      isValid = false;
-    } else if (title.length > 100) {
-      newErrors.title = "Title cannot exceed 100 characters";
-      isValid = false;
-    }
-
-    // Description validation
-    if (!description) {
-      newErrors.description = "Description is required";
-      isValid = false;
-    } else if (description.length < 10) {
-      newErrors.description = "Description must be at least 10 characters long";
-      isValid = false;
-    } else if (description.length > 500) {
-      newErrors.description = "Description cannot exceed 500 characters";
-      isValid = false;
-    }
-
-    // Price validation
-    if (!price) {
-      newErrors.price = "Price is required";
-      isValid = false;
-    } else if (isNaN(price) || Number(price) < 0) {
-      newErrors.price = "Price must be a positive number";
-      isValid = false;
-    }
-
-    // Category validation
-    if (!categoryId) {
-      newErrors.categoryId = "Category is required";
-      isValid = false;
-    }
-
-    // Image validation
-    if (!imgUrl) {
-      newErrors.thumbnail = "Course image is required";
-      isValid = false;
-    }
-
-    setErrors(newErrors);
-    return isValid;
-  };
-
-  const handleCreateCourse = async () => {
-    if (!validateForm()) {
-      return;
-    }
+  const handleUpdateCourse = async () => {
     try {
-      setIsLoading(true);
-      const courseInfo = {
+      await updateCourse({
+        id: courseId,
         title,
         description,
         price,
         categoryId,
         image: imgUrl,
-      };
-      dispatch(setCourseInfo(courseInfo));
-      await createCourseWithContent({
-        ...courseInfo,
-        sections: sec,
       });
-      dispatch(resetCourse());
-      
-      // Don't reset form data immediately - keep it for exam creation
-      // The user can manually clear it using the "Clear Form" button
-      alert("Course created successfully! You can now create an exam or start a new course.");
-      navigate("/instructorCourse");
+      navigate(`/course/${courseId}`);
     } catch (error) {
-      console.error("Error creating course:", error);
-      alert("Failed to create course. Please try again.");
-    } finally {
-      setIsLoading(false);
+      console.error("Error updating course:", error);
     }
   };
 
-  // Function to clear form and start fresh
-  const handleClearForm = () => {
-    setTitle("");
-    setDescription("");
-    setPrice("");
-    setCategory("");
-    setCategoryId(null);
-    setImg(null);
-    setImgUrl(null);
-    setFileName("");
-    setErrors({
-      title: "",
-      description: "",
-      price: "",
-      categoryId: "",
-      thumbnail: "",
-    });
-    clearCourseFromLocalStorage();
+  // Function to cancel editing and go back
+  const handleCancel = () => {
+    if (confirm("Are you sure you want to cancel?")) {
+      dispatch(resetCourse());
+      navigate("/instructorCourse");
+    }
   };
 
   // DnD sensors configuration
@@ -270,9 +156,9 @@ const CreateCourse = () => {
 
   const handleFileChange = async (event) => {
     const file = event.target.files[0];
-    const url = await uploadFile(file);
-    setImgUrl(url.url);
     if (file) {
+      const url = await uploadFile(file);
+      setImgUrl(url.url);
       setFileName(file.name);
       setImg(URL.createObjectURL(file));
     }
@@ -312,7 +198,26 @@ const CreateCourse = () => {
   const activeSectionIndex = sec.findIndex(
     (section) => section.id === activeId
   );
-  console.log(sec);
+
+  // Show loading state while fetching course data
+  if (!courseLoaded && isLoading) {
+    return (
+      <div
+        className="container mx-auto p-6 h-screen flex items-center justify-center"
+        style={{ backgroundColor: theme.background }}
+      >
+        <div className="flex flex-col items-center gap-4">
+          <AiOutlineLoading3Quarters
+            className="animate-spin"
+            size={40}
+            style={{ color: theme.primary }}
+          />
+          <p style={{ color: theme.text }}>Loading course data...</p>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div
       className="container mx-auto p-6 h-screen flex flex-col gap-6 "
@@ -320,7 +225,7 @@ const CreateCourse = () => {
     >
       <div className="flex justify-between items-center">
         <h1 className="text-2xl font-bold" style={{ color: theme.primary }}>
-          Create a New Course
+          Edit Course
         </h1>
         <span style={{ color: theme.secondary }}>
           Complete all fields ({Math.round(progress / 20)}/5)
@@ -346,7 +251,7 @@ const CreateCourse = () => {
               <TbCategory fontSize={30} style={{ color: theme.primary }} />
             </div>
             <h2 className="text-xl font-semibold" style={{ color: theme.text }}>
-              Customize Your Course
+              Course Information
             </h2>
           </div>
           <div
@@ -361,19 +266,14 @@ const CreateCourse = () => {
               value={title}
               onChange={(e) => setTitle(e.target.value)}
               placeholder="Enter course title"
-              className={`mt-2 rounded-md p-3 w-full focus:outline-none focus:ring-2 ${
-                errors.title ? "border-red-500" : ""
-              }`}
+              className="mt-2 rounded-md p-3 w-full focus:outline-none focus:ring-2"
               style={{
                 backgroundColor: theme.background,
                 color: theme.text,
-                borderColor: errors.title ? "#ef4444" : theme.border,
+                borderColor: theme.border,
                 borderWidth: "1px",
               }}
             />
-            {errors.title && (
-              <p className="text-red-500 text-sm mt-1">{errors.title}</p>
-            )}
           </div>
           <div
             className="shadow-md p-6 rounded-lg"
@@ -387,19 +287,14 @@ const CreateCourse = () => {
               value={description}
               onChange={(e) => setDescription(e.target.value)}
               placeholder="Enter course description"
-              className={`mt-2 rounded-md p-3 w-full focus:outline-none focus:ring-2 ${
-                errors.description ? "border-red-500" : ""
-              }`}
+              className="mt-2 rounded-md p-3 w-full focus:outline-none focus:ring-2"
               style={{
                 backgroundColor: theme.background,
                 color: theme.text,
-                borderColor: errors.description ? "#ef4444" : theme.border,
+                borderColor: theme.border,
                 borderWidth: "1px",
               }}
             />
-            {errors.description && (
-              <p className="text-red-500 text-sm mt-1">{errors.description}</p>
-            )}
           </div>
           <div
             className="shadow-md p-6 rounded-lg"
@@ -417,11 +312,9 @@ const CreateCourse = () => {
             />
             <label
               htmlFor="image"
-              className={`mt-2 w-full h-52 flex justify-center items-center cursor-pointer border-dashed rounded-md overflow-hidden ${
-                errors.thumbnail ? "border-red-500" : ""
-              }`}
+              className="mt-2 w-full h-52 flex justify-center items-center cursor-pointer border-dashed rounded-md overflow-hidden"
               style={{
-                borderColor: errors.thumbnail ? "#ef4444" : theme.border,
+                borderColor: theme.border,
                 borderWidth: "1px",
                 backgroundColor: theme.background,
               }}
@@ -436,9 +329,6 @@ const CreateCourse = () => {
                 <FaImage style={{ color: theme.secondary, fontSize: "3rem" }} />
               )}
             </label>
-            {errors.thumbnail && (
-              <p className="text-red-500 text-sm mt-1">{errors.thumbnail}</p>
-            )}
           </div>
           <div className="flex gap-2">
             <div
@@ -472,10 +362,11 @@ const CreateCourse = () => {
               </h2>
               <div className="relative">
                 <select
-                  value={category}
+                  value={categoryId || ""}
                   onChange={(e) => {
-                    setCategory(e.target.value);
                     setCategoryId(e.target.value);
+                    const selectedCategory = categories.find(cat => cat.id === e.target.value);
+                    setCategory(selectedCategory ? selectedCategory.name : "");
                   }}
                   className="appearance-auto mt-2 px-2 rounded-md p-3 w-full focus:outline-none focus:ring-2"
                   style={{
@@ -529,7 +420,7 @@ const CreateCourse = () => {
                   >
                     {sec.map((section, index) => (
                       <SectionItem
-                        section={section.name}
+                        section={section.name || section.title}
                         index={index}
                         key={section.id || `section-${index}`}
                         id={section.id}
@@ -579,7 +470,7 @@ const CreateCourse = () => {
                                 className="text-md font-medium"
                                 style={{ color: theme.primary }}
                               >
-                                {activeSection?.title}
+                                {activeSection?.title || activeSection?.name}
                               </h2>
                             </div>
                           </div>
@@ -620,7 +511,7 @@ const CreateCourse = () => {
 
                 {sec && sec.length > 0 && (
                   <button
-                    onClick={() => navigate(`/create-exam/20`)}
+                    onClick={() => navigate(`/create-exam/${courseId}`)}
                     className="p-3 w-full flex cursor-pointer justify-center items-center rounded-md gap-2 font-semibold transition duration-300"
                     style={{
                       backgroundColor: theme.background,
@@ -635,7 +526,7 @@ const CreateCourse = () => {
                       e.currentTarget.style.backgroundColor = theme.background;
                     }}
                   >
-                    <FaFileAlt /> Create Course Exam
+                    <FaFileAlt /> Edit Course Exam
                   </button>
                 )}
               </div>
@@ -649,7 +540,7 @@ const CreateCourse = () => {
           </div>
           <div className="w-full flex items-center justify-end gap-3">
             <button
-              onClick={handleClearForm}
+              onClick={handleCancel}
               className="px-4 py-1.5 rounded-md font-medium cursor-pointer h-12 flex-1 transition-all duration-300 transform flex items-center justify-center hover:-translate-y-[1px]"
               style={{
                 backgroundColor: theme.background,
@@ -667,47 +558,26 @@ const CreateCourse = () => {
                 e.currentTarget.style.boxShadow = `0 2px 6px ${theme.secondary}20`;
               }}
             >
-              Clear Form
+              Cancel
             </button>
             <button
-              onClick={() => handleCreateCourse()}
-              disabled={isLoading}
-              className={`
-                px-4 py-1.5 rounded-md font-medium cursor-pointer h-12 flex-[2]
-                transition-all duration-300 transform flex items-center justify-center 
-                hover:-translate-y-[1px] ${
-                  isLoading ? "opacity-70 cursor-not-allowed" : ""
-                }
-              `}
+              onClick={handleUpdateCourse}
+              className="px-4 py-1.5 rounded-md font-medium cursor-pointer h-12 flex-[2] transition-all duration-300 transform flex items-center justify-center hover:-translate-y-[1px]"
               style={{
                 backgroundColor: theme.primary,
                 color: theme.cardBg,
                 boxShadow: `0 2px 6px ${theme.primary}30`,
               }}
               onMouseOver={(e) => {
-                if (!isLoading) {
-                  e.currentTarget.style.backgroundColor = `${theme.primary}e0`;
-                  e.currentTarget.style.boxShadow = `0 4px 10px ${theme.primary}50`;
-                }
+                e.currentTarget.style.backgroundColor = `${theme.primary}e0`;
+                e.currentTarget.style.boxShadow = `0 4px 10px ${theme.primary}50`;
               }}
               onMouseOut={(e) => {
-                if (!isLoading) {
-                  e.currentTarget.style.backgroundColor = theme.primary;
-                  e.currentTarget.style.boxShadow = `0 2px 6px ${theme.primary}30`;
-                }
+                e.currentTarget.style.backgroundColor = theme.primary;
+                e.currentTarget.style.boxShadow = `0 2px 6px ${theme.primary}30`;
               }}
             >
-              {isLoading ? (
-                <div className="flex items-center gap-2">
-                  <AiOutlineLoading3Quarters
-                    className="animate-spin"
-                    size={20}
-                  />
-                  Creating...
-                </div>
-              ) : (
-                "Create Course"
-              )}
+              Update Course
             </button>
           </div>
         </div>
@@ -716,4 +586,4 @@ const CreateCourse = () => {
   );
 };
 
-export default CreateCourse;
+export default EditCourse; 

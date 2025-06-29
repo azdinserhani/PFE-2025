@@ -244,7 +244,7 @@ const CoursesTable = () => {
       renderCell: (params) => {
         return (
           <div className="flex gap-3 mx-auto">
-            <Link to={ "/course/" + params.row.id }>
+            <Link to={ "/instructor/edit-course/" + params.row.id }>
               <button
                 className="px-4 py-1.5 rounded-md text-sm font-medium cursor-pointer transition-all duration-300 flex items-center justify-center"
                 style={ {

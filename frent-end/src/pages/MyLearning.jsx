@@ -4,6 +4,7 @@ import CourseCard from "../components/LandingPage/CourseCard";
 import { motion } from "framer-motion";
 import { useTheme } from "../context/ThemeContext";
 import { userRequest } from "../utils/axios";
+import { useSelector } from "react-redux";
 
 const MyLearning = () => {
   const [enrolledCourses, setEnrolledCourses] = useState([]);
@@ -23,19 +24,19 @@ const MyLearning = () => {
     };
     getEnroolledCourses();
   }, []);
-
+  const { items, total } = useSelector((state) => state.cart);
   const cards = [
     {
       title: "Enrolled Courses",
-      number: 25,
+      number: enrolledCourses.length,
     },
     {
       title: "Completed Courses",
-      number: 43,
+      number: 0,
     },
     {
       title: "Pending Courses",
-      number: 25,
+      number: items.length,
     },
   ];
 

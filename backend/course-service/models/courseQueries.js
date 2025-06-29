@@ -122,21 +122,47 @@ const courseQueries = {
     return result.rows[0];
   },
   updateCourse: async (course_id, course) => {
-    const { title, description, instructor_id, price, categoryId, thumbnail } =
-      course;
-    const query = `UPDATE course SET title = $1, description = $2, instructor_id = $3, price = $4, category_id = $5, thumbnail = $6 WHERE id = $7 RETURNING *`;
-    const values = [
-      title,
-      description,
-      instructor_id,
-      price,
-      categoryId,
-      thumbnail,
-      course_id,
-    ];
+    const updateFields = [];
+    const values = [];
+    let paramCount = 0;
+
+    // Dynamically build update query based on provided fields
+    if (course.title !== undefined) {
+      updateFields.push(`title = $${++paramCount}`);
+      values.push(course.title);
+    }
+    if (course.description !== undefined) {
+      updateFields.push(`description = $${++paramCount}`);
+      values.push(course.description);
+    }
+    if (course.instructor_id !== undefined) {
+      updateFields.push(`instructor_id = $${++paramCount}`);
+      values.push(course.instructor_id);
+    }
+    if (course.price !== undefined) {
+      updateFields.push(`price = $${++paramCount}`);
+      values.push(course.price);
+    }
+    if (course.categoryId !== undefined) {
+      updateFields.push(`category_id = $${++paramCount}`);
+      values.push(course.categoryId);
+    }
+    if (course.thumbnail !== undefined) {
+      updateFields.push(`thumbnail = $${++paramCount}`);
+      values.push(course.thumbnail);
+    }
+
+    // Add updated_at timestamp
+    updateFields.push(`updated_at = NOW()`);
+
+    // Add course_id as the last parameter
+    values.push(course_id);
+
+    const query = `UPDATE course SET ${updateFields.join(', ')} WHERE id = $${++paramCount} RETURNING *`;
     const result = await db.query(query, values);
     return result.rows[0];
   },
+  
   deleteCourse: async (course_id) => {
     const query = `DELETE FROM course WHERE id = $1 RETURNING *`;
     const values = [course_id];

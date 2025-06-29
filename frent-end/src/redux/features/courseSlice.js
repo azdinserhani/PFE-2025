@@ -120,6 +120,9 @@ const courseSlice = createSlice({
         state.sections = updatedSections;
       }
     },
+    setSections: (state, action) => {
+      state.sections = action.payload;
+    },
   },
 });
 
@@ -132,6 +135,7 @@ export const {
   addQuizQuestion,
   reorderSections,
   resetCourse,
+  setSections,
 } = courseSlice.actions;
 
 export default courseSlice.reducer;

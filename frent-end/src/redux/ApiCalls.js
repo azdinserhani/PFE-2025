@@ -272,6 +272,28 @@ export const getCourseById = async (id) => {
   }
 };
 
+export const updateCourse = async (courseData) => {
+  const { id, title, description, price, categoryId, image, sections } = courseData;
+  try {
+    
+    const res = await userRequest.patch(`/api/v1/course/update/${id}`, {
+      title,
+      description,
+      price,
+      categoryId,
+      thumbnail: image,
+    });
+
+    // TODO: Add logic to update sections if needed
+    // For now, we're only updating the basic course information
+    
+    return res.data.data;
+  } catch (error) {
+    console.error(`Error updating course "${id}":`, error);
+    throw error;
+  }
+};
+
 //category api calls
 export const createCategory = async (category) => {
   try {

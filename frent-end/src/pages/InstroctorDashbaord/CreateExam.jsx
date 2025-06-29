@@ -3,6 +3,7 @@ import { useParams, useNavigate } from "react-router";
 import { useTheme } from "../../context/ThemeContext";
 import { FaPlus, FaTrash, FaSave } from "react-icons/fa";
 import { AiOutlineLoading3Quarters } from "react-icons/ai";
+import { createExam } from "../../redux/ApiCalls";
 
 const CreateExam = () => {
   const { courseId } = useParams();
@@ -12,6 +13,7 @@ const CreateExam = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [examTitle, setExamTitle] = useState("");
   const [examDescription, setExamDescription] = useState("");
+  const [savedCourseData, setSavedCourseData] = useState(null);
   const [questions, setQuestions] = useState([
     {
       id: 1,
@@ -20,6 +22,18 @@ const CreateExam = () => {
       correctAnswer: 0,
     },
   ]);
+
+  // Load saved course data from localStorage
+  useEffect(() => {
+    try {
+      const savedData = localStorage.getItem('courseCreationData');
+      if (savedData) {
+        setSavedCourseData(JSON.parse(savedData));
+      }
+    } catch (error) {
+      console.error('Error loading course data from localStorage:', error);
+    }
+  }, []);
 
   const addQuestion = () => {
     setQuestions([
@@ -107,13 +121,12 @@ const CreateExam = () => {
         })),
       };
 
-      // Add your API call here
-      // await createExam(examData);
-      console.log(examData);
+     
+      
       // Store exam data in localStorage
       localStorage.setItem('exams', JSON.stringify(examData));
       
-      // navigate(`/course/${courseId}`);
+      navigate(-1);
     } catch (error) {
       console.error("Error creating exam:", error);
       alert("Failed to create exam. Please try again.");
@@ -128,12 +141,88 @@ const CreateExam = () => {
       style={{ backgroundColor: theme.background }}
     >
       <div className="max-w-4xl mx-auto">
-        <h1
-          className="text-2xl font-bold mb-6"
-          style={{ color: theme.primary }}
-        >
-          Create Course Exam
-        </h1>
+        <div className="flex justify-between items-center mb-6">
+          <h1
+            className="text-2xl font-bold"
+            style={{ color: theme.primary }}
+          >
+            Create Course Exam
+          </h1>
+          <button
+            onClick={() => navigate(-1)}
+            className="px-4 py-2 rounded-md font-medium transition-all duration-300"
+            style={{
+              backgroundColor: theme.background,
+              color: theme.secondary,
+              borderColor: theme.secondary,
+              borderWidth: "1px",
+            }}
+            onMouseOver={(e) => {
+              e.currentTarget.style.backgroundColor = `${theme.secondary}10`;
+            }}
+            onMouseOut={(e) => {
+              e.currentTarget.style.backgroundColor = theme.background;
+            }}
+          >
+            ← Back to Course
+          </button>
+        </div>
+
+        {/* Course Information */}
+        {savedCourseData && (
+          <div
+            className="shadow-md p-6 rounded-lg mb-6"
+            style={{ backgroundColor: theme.cardBg }}
+          >
+            <h2
+              className="text-lg font-semibold mb-4"
+              style={{ color: theme.text }}
+            >
+              Course Information
+            </h2>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div>
+                <p className="text-sm font-medium" style={{ color: theme.secondary }}>
+                  Course Title:
+                </p>
+                <p className="text-base" style={{ color: theme.text }}>
+                  {savedCourseData.title || "No title set"}
+                </p>
+              </div>
+              <div>
+                <p className="text-sm font-medium" style={{ color: theme.secondary }}>
+                  Price:
+                </p>
+                <p className="text-base" style={{ color: theme.text }}>
+                  ${savedCourseData.price || "0"}
+                </p>
+              </div>
+              <div className="md:col-span-2">
+                <p className="text-sm font-medium" style={{ color: theme.secondary }}>
+                  Description:
+                </p>
+                <p
+                  className="text-base"
+                  style={{ color: theme.text }}
+                >
+                  {savedCourseData.description || "No description set"}
+                </p>
+              </div>
+              {savedCourseData.imgUrl && (
+                <div className="md:col-span-2">
+                  <p className="text-sm font-medium mb-2" style={{ color: theme.secondary }}>
+                    Course Image:
+                  </p>
+                  <img
+                    src={savedCourseData.imgUrl}
+                    alt="Course"
+                    className="w-32 h-20 object-cover rounded-md"
+                  />
+                </div>
+              )}
+            </div>
+          </div>
+        )}
 
         {/* Exam Details */}
         <div
@@ -295,11 +384,11 @@ const CreateExam = () => {
           {isLoading ? (
             <div className="flex items-center gap-2">
               <AiOutlineLoading3Quarters className="animate-spin" size={20} />
-              Creating Exam...
+              Saving Exam...
             </div>
           ) : (
             <div className="flex items-center gap-2">
-              <FaSave /> Create Exam
+              <FaSave /> Save Exam
             </div>
           )}
         </button>
