@@ -31,10 +31,13 @@ import {
   getCategories,
   getCourseById,
   updateCourse,
+  deleteModule,
 } from "../../redux/ApiCalls";
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router";
 import { AiOutlineLoading3Quarters } from "react-icons/ai";
+import { FaExclamationTriangle } from "react-icons/fa";
+import { deleteLecture } from "../../redux/ApiCalls";
 
 const EditCourse = () => {
   const navigate = useNavigate();
@@ -48,8 +51,20 @@ const EditCourse = () => {
   const [category, setCategory] = useState("");
   const [categoryId, setCategoryId] = useState(null);
   const [categories, setCategories] = useState([]);
+  const [courseData, setCourseData] = useState(null);
   const [progress, setProgress] = useState(0);
   const [courseLoaded, setCourseLoaded] = useState(false);
+  
+  // Confirmation modal states
+  const [confirmModal, setConfirmModal] = useState({
+    isOpen: false,
+    type: '', // 'module' or 'lesson'
+    itemId: null,
+    moduleId: null, // for lesson deletion
+    title: '',
+    message: ''
+  });
+
   const { course, sec } = useSelector((stat) => ({
     sec: stat.course.sections,
     course: stat.course,
@@ -71,8 +86,8 @@ const EditCourse = () => {
           getCourseById(courseId),
           getCategories(),
         ]);
+        setCourseData(courseData);
         console.log(courseData);
-        
         // Populate form fields with existing course data
         setTitle(courseData.title || "");
         setDescription(courseData.description || "");
@@ -141,6 +156,142 @@ const EditCourse = () => {
     if (confirm("Are you sure you want to cancel?")) {
       dispatch(resetCourse());
       navigate("/instructorCourse");
+    }
+  };
+
+  // Delete Module
+  const handleDeleteModule = async (moduleId) => {
+    // Show confirmation popup before deleting
+    if (!confirm("Are you sure you want to delete this module? This action cannot be undone.")) {
+      return; // User cancelled deletion
+    }
+    
+    try {
+      await deleteModule(moduleId);
+      setCourseData(prev => ({
+        ...prev,
+        modules: prev.modules.filter(module => module.id !== moduleId)
+      }));
+    } catch (error) {
+      console.error("Error deleting module:", error);
+      alert("Failed to delete module. Please try again.");
+    }
+  };
+  // Dlete lecture
+  const handleDeleteLecture = async (moduleId) => {
+    
+    
+    try {
+      await deleteLecture(moduleId);
+      setCourseData(prev => ({
+        ...prev,
+        modules: prev.modules.filter(module => module.id !== moduleId)
+      }));
+    } catch (error) {
+      console.error("Error deleting lecture:", error);
+      alert("Failed to delete lecture. Please try again.");
+    }
+  };
+  // Delete Lesson
+  const handleDeleteLesson = async (moduleId, lessonId) => {
+    // Show confirmation popup before deleting
+    if (!confirm("Are you sure you want to delete this lesson? This action cannot be undone.")) {
+      return; // User cancelled deletion
+    }
+    
+    try {
+      // You'll need to implement deleteLesson API call
+      // await deleteLesson(lessonId);
+      
+      // For now, update the state to remove the lesson
+      setCourseData(prev => ({
+        ...prev,
+        modules: prev.modules.map(module => 
+          module.id === moduleId 
+            ? {
+                ...module,
+                lessons: module.lessons.filter(lesson => lesson.id !== lessonId)
+              }
+            : module
+        )
+      }));
+      
+      console.log("Lesson deleted successfully");
+    } catch (error) {
+      console.error("Error deleting lesson:", error);
+      alert("Failed to delete lesson. Please try again.");
+    }
+  };
+
+  // Show confirmation modal for module deletion
+  const showDeleteModuleConfirmation = (moduleId) => {
+    setConfirmModal({
+      isOpen: true,
+      type: 'module',
+      itemId: moduleId,
+      moduleId: null,
+      title: 'Delete Module',
+      message: 'Are you sure you want to delete this module? This action cannot be undone and will permanently remove all content within this module.'
+    });
+  };
+
+  // Show confirmation modal for lesson deletion
+  const showDeleteLessonConfirmation = (moduleId, lessonId) => {
+    setConfirmModal({
+      isOpen: true,
+      type: 'lesson',
+      itemId: lessonId,
+      moduleId: moduleId,
+      title: 'Delete Lesson',
+      message: 'Are you sure you want to delete this lesson? This action cannot be undone and will permanently remove this lesson from the module.'
+    });
+  };
+
+  // Handle confirmation modal close
+  const handleConfirmModalClose = () => {
+    setConfirmModal({
+      isOpen: false,
+      type: '',
+      itemId: null,
+      moduleId: null,
+      title: '',
+      message: ''
+    });
+  };
+
+  // Handle confirmed deletion
+  const handleConfirmedDelete = async () => {
+    try {
+      if (confirmModal.type === 'module') {
+        await deleteModule(confirmModal.itemId);
+        setCourseData(prev => ({
+          ...prev,
+          modules: prev.modules.filter(module => module.id !== confirmModal.itemId)
+        }));
+      } else if (confirmModal.type === 'lesson') {
+        // You'll need to implement deleteLesson API call
+        // await deleteLesson(confirmModal.itemId);
+        
+        // For now, update the state to remove the lesson
+        setCourseData(prev => ({
+          ...prev,
+          modules: prev.modules.map(module => 
+            module.id === confirmModal.moduleId 
+              ? {
+                  ...module,
+                  lessons: module.lessons.filter(lesson => lesson.id !== confirmModal.itemId)
+                }
+              : module
+          )
+        }));
+      }
+      
+      // Close the modal
+      handleConfirmModalClose();
+      
+    } catch (error) {
+      console.error(`Error deleting ${confirmModal.type}:`, error);
+      alert(`Failed to delete ${confirmModal.type}. Please try again.`);
     }
   };
 
@@ -387,7 +538,7 @@ const EditCourse = () => {
             </div>
           </div>
         </div>
-        <div className="flex flex-col gap-6 flex-1">
+        <div className="flex flex-col gap-6 flex-1 ">
           <div className="flex gap-3 items-center">
             <div
               className="p-3 rounded-full"
@@ -407,136 +558,95 @@ const EditCourse = () => {
               className="flex flex-col gap-4 p-2"
               style={{ minHeight: "100px" }}
             >
-              {sec && sec.length > 0 ? (
-                <DndContext
-                  sensors={sensors}
-                  collisionDetection={closestCenter}
-                  onDragStart={handleDragStart}
-                  onDragEnd={handleDragEnd}
+              {courseData?.modules?.map((module) => (
+                <div
+                  key={module.id}
+                  className="border rounded-lg p-4 mb-4 transition-all duration-300 hover:shadow-lg"
+                  style={{
+                    backgroundColor: `${theme.primary}05`,
+                    borderColor: `${theme.primary}30`,
+                  }}
                 >
-                  <SortableContext
-                    items={sec.map((section) => section.id)}
-                    strategy={verticalListSortingStrategy}
+                  <div className="flex items-center justify-between mb-3">
+                    <h3 
+                      className="text-lg font-semibold"
+                      style={{ color: theme.text }}
+                    >
+                      {module.title}
+                    </h3>
+                    <div className="flex items-center gap-2">
+                      <button
+                        className="p-2 rounded-md transition-all duration-200 hover:bg-blue-100"
+                        style={{ color: theme.primary }}
+                        title="Edit Module"
+                      >
+                        <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
+                        </svg>
+                      </button>
+                      <button
+                        className="p-2 rounded-md transition-all duration-200 hover:bg-red-100"
+                        style={{ color: '#ef4444' }}
+                        title="Delete Module"
+                        onClick={() => showDeleteModuleConfirmation(module.id)}
+                      >
+                        <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                        </svg>
+                      </button>
+                    </div>
+                  </div>
+                  <p 
+                    className="text-sm mb-3"
+                    style={{ color: theme.secondary }}
                   >
-                    {sec.map((section, index) => (
-                      <SectionItem
-                        section={section.name || section.title}
-                        index={index}
-                        key={section.id || `section-${index}`}
-                        id={section.id}
-                        theme={theme}
-                      />
-                    ))}
-                  </SortableContext>
-                  <DragOverlay adjustScale={true}>
-                    {activeId ? (
+                    {module.description}
+                  </p>
+                  <div className="space-y-2">
+                    {module?.lessons?.map((lesson, index) => (
                       <div
-                        className="rounded-md px-4 py-3 opacity-90 w-full"
+                        key={lesson.id || index}
+                        className="flex items-center justify-between p-2 rounded-md"
                         style={{
-                          backgroundColor: `${theme.primary}05`,
-                          borderColor: theme.primary,
-                          borderWidth: "2px",
-                          borderStyle: "dashed",
-                          boxShadow: `0 10px 15px -3px ${theme.primary}30, 0 4px 6px -4px ${theme.primary}20`,
+                          backgroundColor: `${theme.background}`,
+                          border: `1px solid ${theme.border}`,
                         }}
                       >
-                        <div className="flex items-center gap-3">
-                          <div className="flex items-center justify-center p-1.5 rounded-md">
-                            <div
-                              className="p-1.5 rounded-md flex items-center justify-center"
-                              style={{
-                                backgroundColor: `${theme.primary}20`,
-                                border: `1px solid ${theme.primary}40`,
-                              }}
-                            >
-                              <MdDragIndicator
-                                size={20}
-                                style={{ color: theme.primary }}
-                              />
-                            </div>
-                          </div>
-                          <div className="flex flex-col">
-                            <div className="flex items-center">
-                              <span
-                                className="font-semibold mr-2 px-2 py-0.5 text-sm rounded-md"
-                                style={{
-                                  backgroundColor: `${theme.primary}15`,
-                                  color: theme.primary,
-                                }}
-                              >
-                                Section {activeSectionIndex + 1}
-                              </span>
-                              <h2
-                                className="text-md font-medium"
-                                style={{ color: theme.primary }}
-                              >
-                                {activeSection?.title || activeSection?.name}
-                              </h2>
-                            </div>
-                          </div>
+                        <span 
+                          className="text-sm"
+                          style={{ color: theme.text }}
+                        >
+                          {lesson.title}
+                        </span>
+                        <div className="flex items-center gap-1">
+                          <button
+                            className="p-1 rounded transition-all duration-200 hover:bg-blue-100"
+                            style={{ color: theme.primary }}
+                            title="Edit Lesson"
+                          >
+                            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
+                            </svg>
+                          </button>
+                          <button
+                            className="p-1 rounded transition-all duration-200 hover:bg-red-100"
+                            style={{ color: '#ef4444' }}
+                            title="Delete Lesson"
+                            onClick={() => showDeleteLessonConfirmation(module.id, lesson.id)}
+                          >
+                            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                            </svg>
+                          </button>
                         </div>
                       </div>
-                    ) : null}
-                  </DragOverlay>
-                </DndContext>
-              ) : (
-                <div
-                  className="text-center p-4"
-                  style={{ color: theme.secondary }}
-                >
-                  No sections added yet. Add a section to get started.
+                    ))}
+                  </div>
                 </div>
-              )}
+              ))}
             </div>
-            {!sectionFormOpen && (
-              <div className="flex flex-col gap-3">
-                <button
-                  onClick={() => setSectionFormOpen(!sectionFormOpen)}
-                  className="p-3 w-full flex cursor-pointer justify-center items-center rounded-md gap-2 font-semibold transition duration-300"
-                  style={{
-                    backgroundColor: theme.background,
-                    color: theme.primary,
-                    borderColor: theme.primary,
-                    borderWidth: "1px",
-                  }}
-                  onMouseOver={(e) => {
-                    e.currentTarget.style.backgroundColor = `${theme.primary}20`;
-                  }}
-                  onMouseOut={(e) => {
-                    e.currentTarget.style.backgroundColor = theme.background;
-                  }}
-                >
-                  <FaPlus style={{ color: theme.secondary }} /> Add Section
-                </button>
-
-                {sec && sec.length > 0 && (
-                  <button
-                    onClick={() => navigate(`/create-exam/${courseId}`)}
-                    className="p-3 w-full flex cursor-pointer justify-center items-center rounded-md gap-2 font-semibold transition duration-300"
-                    style={{
-                      backgroundColor: theme.background,
-                      color: theme.secondary,
-                      borderColor: theme.secondary,
-                      borderWidth: "1px",
-                    }}
-                    onMouseOver={(e) => {
-                      e.currentTarget.style.backgroundColor = `${theme.secondary}20`;
-                    }}
-                    onMouseOut={(e) => {
-                      e.currentTarget.style.backgroundColor = theme.background;
-                    }}
-                  >
-                    <FaFileAlt /> Edit Course Exam
-                  </button>
-                )}
-              </div>
-            )}
-            {sectionFormOpen && (
-              <AddSectionForm
-                setSectionFormOpen={setSectionFormOpen}
-                theme={theme}
-              />
-            )}
+            
+            
           </div>
           <div className="w-full flex items-center justify-end gap-3">
             <button
@@ -582,8 +692,87 @@ const EditCourse = () => {
           </div>
         </div>
       </div>
+      
+      {/* Confirmation Modal */}
+      <ConfirmationModal
+        isOpen={confirmModal.isOpen}
+        onClose={handleConfirmModalClose}
+        onConfirm={handleConfirmedDelete}
+        title={confirmModal.title}
+        message={confirmModal.message}
+        theme={theme}
+      />
     </div>
   );
 };
 
 export default EditCourse; 
+
+
+// Custom Confirmation Modal Component
+const ConfirmationModal = ({ isOpen, onClose, onConfirm, title, message, theme }) => {
+  if (!isOpen) return null;
+
+  return (
+    <div 
+      className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4"
+      onClick={onClose}
+    >
+      <div 
+        className="rounded-lg shadow-xl max-w-md w-full mx-4 transform transition-all duration-300 scale-100"
+        style={{ backgroundColor: theme.cardBg }}
+        onClick={(e) => e.stopPropagation()}
+      >
+        <div className="p-6">
+          <div className="flex items-center gap-4 mb-4">
+            <div 
+              className="p-3 rounded-full"
+              style={{ backgroundColor: '#fee2e2' }}
+            >
+              <FaExclamationTriangle 
+                className="text-red-500" 
+                size={24}
+              />
+            </div>
+            <h3 
+              className="text-lg font-semibold"
+              style={{ color: theme.text }}
+            >
+              {title}
+            </h3>
+          </div>
+          
+          <p 
+            className="text-sm mb-6 leading-relaxed"
+            style={{ color: theme.secondary }}
+          >
+            {message}
+          </p>
+          
+          <div className="flex gap-3 justify-end">
+            <button
+              onClick={onClose}
+              className="px-4 py-2 rounded-md font-medium transition-all duration-200 hover:shadow-md"
+              style={{
+                backgroundColor: theme.background,
+                color: theme.secondary,
+                border: `1px solid ${theme.border}`,
+              }}
+            >
+              Cancel
+            </button>
+            <button
+              onClick={onConfirm}
+              className="px-4 py-2 rounded-md font-medium text-white transition-all duration-200 hover:shadow-md hover:bg-red-600"
+              style={{
+                backgroundColor: '#ef4444',
+              }}
+            >
+              Delete
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};

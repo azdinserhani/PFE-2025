@@ -335,3 +335,22 @@ export const createExam = async (courseId) => {
     throw error;
   }
 };
+export const deleteModule = async (moduleId) => {
+  try {
+    const res = await userRequest.delete(`/api/v1/course/module/delete/${moduleId}`);
+    return res.data.data;
+  } catch (error) {
+    console.error(`Error deleting module "${moduleId}":`, error);
+    throw error;
+  }
+};
+
+export const deleteLecture = async (lessonId) => {
+  try {
+    const res = await userRequest.delete(`/api/v1/course/lecture/${lessonId}`);
+    return res.data.data;
+  } catch (error) {
+    console.error(`Error deleting lesson "${lessonId}":`, error);
+    throw error;
+  }
+};
