@@ -45,6 +45,7 @@ const PlayCourse = () => {
 
   const handleLessonClick = (lesson) => {
     setSelectedLesson(lesson);
+    console.log("lesson", lesson.id);
   };
 
   return (

@@ -34,14 +34,15 @@ export const addVideoToLectureAction = async (
   dispatch,
   sectionId,
   lectureId,
-
-  video_url
+  video_url,
+  duration
 ) => {
   dispatch(
     addVideoToLecture({
       sectionIndex: sectionId,
       lectureIndex: lectureId,
       video_url: video_url,
+      duration_seconds: duration,
     })
   );
 };
@@ -195,6 +196,7 @@ export const createCourseWithContent = async (course) => {
             number: index + 1,
             video_url: lecture.video_url,
             lessons_details: "Lecture content",
+            duration_seconds: parseInt(lecture.duration_seconds),
             is_free: index === 0, // Make first lecture free
           });
         }

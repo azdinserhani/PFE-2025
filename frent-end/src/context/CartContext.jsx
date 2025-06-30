@@ -38,7 +38,6 @@ export const CartProvider = ({ children }) => {
     
     if (existingItem) {
       // If already in cart, do nothing or show a notification
-      console.log('Course already in cart');
       return;
     }
     

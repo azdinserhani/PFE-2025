@@ -229,6 +229,11 @@ const courseQueries = {
             'id', module.id,
             'title', module.name,
             'order_index', module.number,
+            'total_duration', (
+              SELECT COALESCE(SUM(lesson.duration_seconds), 0)
+              FROM lesson
+              WHERE lesson.module_id = module.id
+            ),
             'lessons', (
               SELECT json_agg(
                 json_build_object(
@@ -237,6 +242,7 @@ const courseQueries = {
                   'content', lesson.video_url,
                   'order_index', lesson.number,
                   'lesson_details', lesson.lessons_details,
+                  'duration', lesson.duration_seconds,
                   'is_free', lesson.is_free,
                   'completion_stats', (
                     SELECT json_build_object(
@@ -302,7 +308,8 @@ const courseQueries = {
       )
     ) as course_content
 FROM course
-WHERE course.id = $1;`;
+WHERE course.id = $1;
+`;
     const values = [course_id];
     const result = await db.query(query, values);
 

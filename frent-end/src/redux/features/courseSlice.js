@@ -42,10 +42,11 @@ const courseSlice = createSlice({
         type: "lecture",
         title,
         video_url: null,
+        duration_seconds: null,
       });
     },
     addVideoToLecture: (state, action) => {
-      const { sectionIndex, lectureIndex, video_url } = action.payload;
+      const { sectionIndex, lectureIndex, video_url, duration_seconds } = action.payload;
 
       const section = state.sections[sectionIndex];
       if (!section) {
@@ -63,6 +64,7 @@ const courseSlice = createSlice({
 
       if (lecture.type === "lecture") {
         lecture.video_url = video_url;
+        lecture.duration_seconds = duration_seconds;
       } else {
         console.warn(`Item at lectureIndex ${lectureIndex} is not a lecture.`);
       }

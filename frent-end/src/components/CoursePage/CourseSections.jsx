@@ -11,7 +11,25 @@ export default function CourseSections({
   const [open, setOpen] = useState(false);
   const { currentTheme, themes } = useTheme();
   const theme = themes[currentTheme];
+  
+const formateDuration = (seconds) => {
+  const hours = Math.floor(seconds / 3600);
+  const minutes = Math.floor((seconds % 3600) / 60);
+  const remainingSeconds = Math.floor(seconds % 60);
 
+  let formatted = "";
+  if (hours > 0) {
+    formatted += `${hours}h `;
+  }
+  if (minutes > 0) {
+    formatted += `${minutes}m `;
+  }
+  if (remainingSeconds > 0 || formatted === "") {
+    formatted += `${remainingSeconds}s`;
+  }
+
+  return formatted.trim();
+};
   return (
     <div
       className="flex flex-col p-4 w-full min-w-md rounded-xl shadow-lg transition-all duration-300"
@@ -53,7 +71,7 @@ export default function CourseSections({
             color: theme.primary,
           }}
         >
-          {module?.duration}
+          {formateDuration(module?.total_duration)}
         </span>
       </motion.div>
 
@@ -115,7 +133,7 @@ export default function CourseSections({
                 color: lesson.locked ? theme.secondary : theme.primary,
               }}
             >
-              {lesson.duration}
+              {formateDuration(lesson.duration)}
             </span>
           </motion.div>
         ))}

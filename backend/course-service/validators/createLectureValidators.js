@@ -15,7 +15,7 @@ const createLessonSchema = Joi.object({
     "number.min": "Lesson number must be at least 1",
     "any.required": "Lesson number is required",
   }),
-  video_url: Joi.string().required().messages({
+  video_url: Joi.required().messages({
     "string.empty": "Video URL is required",
     "any.required": "Video URL is required",
   }),
@@ -25,6 +25,9 @@ const createLessonSchema = Joi.object({
   is_free: Joi.boolean().required().messages({
     "boolean.base": "Is Free must be a boolean value",
     "any.required": "Is Free is required",
+  }),
+  duration_seconds: Joi.number().optional().messages({
+    "number.base": "Duration must be a number",
   }),
 });
 

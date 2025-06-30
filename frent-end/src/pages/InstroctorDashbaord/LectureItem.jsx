@@ -25,9 +25,9 @@ const LectureItem = React.memo(({ lecture, index, sectionId, theme }) => {
 
     try {
       const fileUrl = await uploadFile(file);
-      
       setVideoFileurl(fileUrl.url);
-      addVideoToLectureAction(dispatch, sectionId, index, fileUrl.url);
+      addVideoToLectureAction(dispatch, sectionId, index, fileUrl.url, fileUrl.duration);
+
     } catch (error) {
       console.error("Video upload failed:", error);
     } finally {

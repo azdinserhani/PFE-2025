@@ -98,7 +98,6 @@ const CoursesTable = () => {
     const fetchCourses = async () => {
       try {
         const fetchCourses = await getCourseByInstructor(user.id);
-        console.log("fetchCourses", fetchCourses);
 
         setCourseRows(fetchCourses);
       } catch (error) {
@@ -120,7 +119,6 @@ const CoursesTable = () => {
     }
   };
 
-  console.log("rows", rows);
 
   const handleSearch = (e) => {
     setSearchTerm(e.target.value);

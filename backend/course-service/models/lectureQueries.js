@@ -2,10 +2,10 @@ import * as db from "../config/db.js";
 
 const lectureQueries = {
   createLesson: async (lesson) => {
-    const { module_id, name, number, video_url, lessons_details, is_free } =
+    const { module_id, name, number, video_url, lessons_details, is_free, duration_seconds } =
       lesson;
-    const query = `INSERT INTO lesson (module_ID, name, number, video_url, lessons_details, is_free) 
-                      VALUES ($1, $2, $3, $4, $5, $6) 
+    const query = `INSERT INTO lesson (module_ID, name, number, video_url, lessons_details, is_free, duration_seconds) 
+                      VALUES ($1, $2, $3, $4, $5, $6, $7) 
                       RETURNING *`;
     const values = [
       module_id,
@@ -14,6 +14,7 @@ const lectureQueries = {
       video_url,
       lessons_details,
       is_free,
+      duration_seconds,
     ];
     const result = await db.query(query, values);
     return result.rows[0];

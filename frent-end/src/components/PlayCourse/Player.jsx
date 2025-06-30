@@ -2,7 +2,7 @@ import Plyr from "plyr-react";
 import "plyr-react/plyr.css"; // Import styles
 
 const Player = ({ lesson }) => {
-  console.log(lesson);
+
 
   const videoSrc = lesson?.content;
   return (

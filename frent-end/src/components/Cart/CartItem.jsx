@@ -6,7 +6,6 @@ import { useTheme } from '../../context/ThemeContext';
 const CartItem = ({ item, onRemove }) => {
   const { currentTheme, themes } = useTheme();
   const theme = themes[currentTheme];
-  console.log("item",item);
   
   return (
     <div 
