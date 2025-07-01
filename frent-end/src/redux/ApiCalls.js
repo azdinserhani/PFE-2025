@@ -354,3 +354,32 @@ export const deleteLecture = async (lessonId) => {
     throw error;
   }
 };
+
+export const updateModule = async (moduleId, moduleData) => {
+  try {
+    const res = await userRequest.put(`/api/v1/course/module/update/${moduleId}`, {
+      name: moduleData.title,
+      number: moduleData.number
+    });
+    console.log(res.data.data);
+    
+    return res.data.data;
+  } catch (error) {
+    console.error(`Error updating module "${moduleId}":`, error);
+    throw error;
+  }
+};
+
+export const updateLecture = async (lectureId, lectureData) => {
+  
+  try {
+    const res = await userRequest.put(`/api/v1/course/lecture/${lectureId}`, {
+      module_id: lectureData.moduleId,
+      name: lectureData.title
+    });
+    return res.data.data;
+  } catch (error) {
+    console.error(`Error updating lecture "${lectureId}":`, error);
+    throw error;
+  }
+};

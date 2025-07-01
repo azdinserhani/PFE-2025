@@ -13,7 +13,9 @@ const moduleQueries = {
     const setClause = Object.keys(updatedFields)
       .map((key, index) => `${key} = $${index + 2}`)
       .join(", ");
+    console.log(setClause);
     const values = [id, ...Object.values(updatedFields)];
+    console.log(values);
     const query = `UPDATE module SET ${setClause} WHERE id = $1 RETURNING *`;
     const result = await db.query(query, values);
     return result.rows[0];

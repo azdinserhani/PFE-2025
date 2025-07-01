@@ -32,6 +32,8 @@ import {
   getCourseById,
   updateCourse,
   deleteModule,
+  updateModule,
+  updateLecture,
 } from "../../redux/ApiCalls";
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router";
@@ -54,6 +56,15 @@ const EditCourse = () => {
   const [courseData, setCourseData] = useState(null);
   const [progress, setProgress] = useState(0);
   const [courseLoaded, setCourseLoaded] = useState(false);
+  
+  // Editing states
+  const [editingItem, setEditingItem] = useState({
+    type: null, // 'module' or 'lesson'
+    id: null,
+    moduleId: null, // for lesson editing
+    title: '',
+    number: null
+  });
   
   // Confirmation modal states
   const [confirmModal, setConfirmModal] = useState({
@@ -292,6 +303,108 @@ const EditCourse = () => {
     } catch (error) {
       console.error(`Error deleting ${confirmModal.type}:`, error);
       alert(`Failed to delete ${confirmModal.type}. Please try again.`);
+    }
+  };
+
+  // Start editing module title
+  const startEditingModule = (moduleId, currentTitle, currentNumber) => {
+    setEditingItem({
+      type: 'module',
+      id: moduleId,
+      moduleId: null,
+      title: currentTitle,
+      number: currentNumber
+    });
+  };
+
+  // Start editing lesson title
+  const startEditingLesson = (lessonId, moduleId, currentTitle, currentNumber) => {
+    setEditingItem({
+      type: 'lesson',
+      id: lessonId,
+      moduleId: moduleId,
+      title: currentTitle,
+      number: currentNumber
+    });
+  };
+
+  // Cancel editing
+  const cancelEditing = () => {
+    setEditingItem({
+      type: null,
+      id: null,
+      moduleId: null,
+      title: '',
+      number: null
+    });
+  };
+
+  // Save module title
+  const saveModuleTitle = async () => {
+    try {
+      await updateModule(editingItem.id, { title: editingItem.title, number: editingItem.number });
+      
+      // Update local state
+      setCourseData(prev => ({
+        ...prev,
+        modules: prev.modules.map(module => 
+          module.id === editingItem.id 
+            ? { ...module, title: editingItem.title, number: editingItem.number }
+            : module
+        )
+      }));
+      
+      cancelEditing();
+    } catch (error) {
+      console.error("Error updating module title:", error);
+      alert("Failed to update module title. Please try again.");
+    }
+  };
+
+  // Save lesson title
+  const saveLessonTitle = async () => {
+    try {
+      await updateLecture(editingItem.id, { title: editingItem.title, moduleId: editingItem.moduleId });
+      
+      // Update local state
+      setCourseData(prev => ({
+        ...prev,
+        modules: prev.modules.map(module => 
+          module.id === editingItem.moduleId 
+            ? {
+                ...module,
+                lessons: module.lessons.map(lesson => 
+                  lesson.id === editingItem.id 
+                    ? { ...lesson, title: editingItem.title, number: editingItem.number, module_id: editingItem.moduleId }
+                    : lesson
+                )
+              }
+            : module
+        )
+      }));
+      
+      cancelEditing();
+    } catch (error) {
+      console.error("Error updating lesson title:", error);
+      alert("Failed to update lesson title. Please try again.");
+    }
+  };
+
+  // Handle save action
+  const handleSaveEdit = () => {
+    if (editingItem.type === 'module') {
+      saveModuleTitle();
+    } else if (editingItem.type === 'lesson') {
+      saveLessonTitle();
+    }
+  };
+
+  // Handle key press in edit input
+  const handleEditKeyPress = (e) => {
+    if (e.key === 'Enter') {
+      handleSaveEdit();
+    } else if (e.key === 'Escape') {
+      cancelEditing();
     }
   };
 
@@ -568,33 +681,73 @@ const EditCourse = () => {
                   }}
                 >
                   <div className="flex items-center justify-between mb-3">
-                    <h3 
-                      className="text-lg font-semibold"
-                      style={{ color: theme.text }}
-                    >
-                      {module.title}
-                    </h3>
-                    <div className="flex items-center gap-2">
-                      <button
-                        className="p-2 rounded-md transition-all duration-200 hover:bg-blue-100"
-                        style={{ color: theme.primary }}
-                        title="Edit Module"
-                      >
-                        <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
-                        </svg>
-                      </button>
-                      <button
-                        className="p-2 rounded-md transition-all duration-200 hover:bg-red-100"
-                        style={{ color: '#ef4444' }}
-                        title="Delete Module"
-                        onClick={() => showDeleteModuleConfirmation(module.id)}
-                      >
-                        <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
-                        </svg>
-                      </button>
-                    </div>
+                    {editingItem.type === 'module' && editingItem.id === module.id ? (
+                      <div className="flex items-center gap-2 flex-1">
+                        <input
+                          type="text"
+                          value={editingItem.title}
+                          onChange={(e) => setEditingItem(prev => ({ ...prev, title: e.target.value }))}
+                          onKeyDown={handleEditKeyPress}
+                          className="text-lg font-semibold bg-transparent border-b-2 focus:outline-none flex-1"
+                          style={{ 
+                            color: theme.text,
+                            borderColor: theme.primary
+                          }}
+                          autoFocus
+                        />
+                        <button
+                          onClick={handleSaveEdit}
+                          className="p-1 rounded-md transition-all duration-200 hover:bg-green-100"
+                          style={{ color: '#10b981' }}
+                          title="Save"
+                        >
+                          <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                          </svg>
+                        </button>
+                        <button
+                          onClick={cancelEditing}
+                          className="p-1 rounded-md transition-all duration-200 hover:bg-red-100"
+                          style={{ color: '#ef4444' }}
+                          title="Cancel"
+                        >
+                          <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                          </svg>
+                        </button>
+                      </div>
+                    ) : (
+                      <>
+                        <h3 
+                          className="text-lg font-semibold"
+                          style={{ color: theme.text }}
+                        >
+                          {module.title}
+                        </h3>
+                        <div className="flex items-center gap-2">
+                          <button
+                            className="p-2 rounded-md transition-all duration-200 hover:bg-blue-100"
+                            style={{ color: theme.primary }}
+                            title="Edit Module"
+                            onClick={() => startEditingModule(module.id, module.title, module.order_index)}
+                          >
+                            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
+                            </svg>
+                          </button>
+                          <button
+                            className="p-2 rounded-md transition-all duration-200 hover:bg-red-100"
+                            style={{ color: '#ef4444' }}
+                            title="Delete Module"
+                            onClick={() => showDeleteModuleConfirmation(module.id)}
+                          >
+                            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                            </svg>
+                          </button>
+                        </div>
+                      </>
+                    )}
                   </div>
                   <p 
                     className="text-sm mb-3"
@@ -612,33 +765,75 @@ const EditCourse = () => {
                           border: `1px solid ${theme.border}`,
                         }}
                       >
-                        <span 
-                          className="text-sm"
-                          style={{ color: theme.text }}
-                        >
-                          {lesson.title}
-                        </span>
-                        <div className="flex items-center gap-1">
-                          <button
-                            className="p-1 rounded transition-all duration-200 hover:bg-blue-100"
-                            style={{ color: theme.primary }}
-                            title="Edit Lesson"
-                          >
-                            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
-                            </svg>
-                          </button>
-                          <button
-                            className="p-1 rounded transition-all duration-200 hover:bg-red-100"
-                            style={{ color: '#ef4444' }}
-                            title="Delete Lesson"
-                            onClick={() => showDeleteLessonConfirmation(module.id, lesson.id)}
-                          >
-                            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
-                            </svg>
-                          </button>
-                        </div>
+                        {editingItem.type === 'lesson' && editingItem.id === lesson.id ? (
+                          <div className="flex items-center gap-2 flex-1">
+                            <input
+                              type="text"
+                              value={editingItem.title}
+                              onChange={(e) => setEditingItem(prev => ({ ...prev, title: e.target.value }))}
+                              onKeyDown={handleEditKeyPress}
+                              className="text-sm bg-transparent border-b focus:outline-none flex-1"
+                              style={{ 
+                                color: theme.text,
+                                borderColor: theme.primary
+                              }}
+                              autoFocus
+                            />
+                            <button
+                              onClick={handleSaveEdit}
+                              className="p-1 rounded transition-all duration-200 hover:bg-green-100"
+                              style={{ color: '#10b981' }}
+                              title="Save"
+                            >
+                              <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                              </svg>
+                            </button>
+                            <button
+                              onClick={cancelEditing}
+                              className="p-1 rounded transition-all duration-200 hover:bg-red-100"
+                              style={{ color: '#ef4444' }}
+                              title="Cancel"
+                            >
+                              <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                              </svg>
+                            </button>
+                          </div>
+                        ) : (
+                          <>
+                            <span 
+                              className="text-sm"
+                              style={{ color: theme.text }}
+                            >
+                              {lesson.title}
+                            </span>
+                            <div className="flex items-center gap-1">
+                              <button
+                                className="p-1 rounded transition-all duration-200 hover:bg-blue-100"
+                                style={{ color: theme.primary }}
+                                title="Edit Lesson"
+                                onClick={() => {
+                                  startEditingLesson(lesson.id, module.id, lesson.title, lesson.order_index, lesson.module_id); 
+                                }}
+                              >
+                                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
+                                </svg>
+                              </button>
+                              <button
+                                className="p-1 rounded transition-all duration-200 hover:bg-red-100"
+                                style={{ color: '#ef4444' }}
+                                title="Delete Lesson"
+                                onClick={() => showDeleteLessonConfirmation(module.id, lesson.id)}
+                              >
+                                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                                </svg>
+                              </button>
+                            </div>
+                          </>
+                        )}
                       </div>
                     ))}
                   </div>
