@@ -3,6 +3,7 @@ import cors from "cors";
 import dotenv from "dotenv";
 import adminRoute from "./routes/admin.js";
 import userRoute from "./routes/user.js";
+import teacherRoute from "./routes/teacherRoute.js";
 dotenv.config();
 
 // Initialize express app
@@ -13,9 +14,9 @@ app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-app.use("/", adminRoute);
-app.use("/", userRoute);
-
+app.use("/admin", adminRoute);
+app.use("/user", userRoute);
+app.use("/teachers", teacherRoute);
 app.get("/", (req, res) => {
   res.json({
     message: "user Service API",
