@@ -1,13 +1,23 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import InstructorsCard from "./InstructorsCard";
 import { useTheme } from "../../context/ThemeContext";
 import { motion } from "framer-motion";
 import { useTranslation } from "react-i18next";
+import { getInstructor } from "../../redux/ApiCalls";
 
 const Instructors = () => {
   const { currentTheme, themes } = useTheme();
   const theme = themes[currentTheme];
   const { t } = useTranslation();
+  const [instructors, setInstructors] = useState([]);
+  useEffect(() => {
+    const fetchInstructors = async () => {
+      const res = await getInstructor();
+      setInstructors(res);
+    };
+    fetchInstructors();
+  }, []);
+  
   const instructorsContent = [
     {
       Img: "/instu1.jpg",
@@ -86,7 +96,7 @@ const Instructors = () => {
         animate={{ opacity: 1 }}
         transition={{ duration: 0.5, delay: 0.4 }}
       >
-        {instructorsContent.map((instructor, index) => (
+        {instructors.map((instructor, index) => (
           <motion.div
             key={index}
             initial={{ opacity: 0, y: 20 }}

@@ -6,7 +6,7 @@ import { BsTwitterX } from "react-icons/bs";
 import { motion } from "framer-motion";
 import { useTheme } from "../../context/ThemeContext";
 
-const InstructorCard = () => {
+const InstructorCard = ({ teacherInfo }) => {
   const { currentTheme, themes } = useTheme();
   const theme = themes[currentTheme];
 
@@ -51,7 +51,7 @@ const InstructorCard = () => {
         transition={{ duration: 0.3 }}
       >
         <img
-          src="/newsPart.png"
+          src={teacherInfo?.teacher_profile_pic}
           alt="Instructor"
           className="h-full w-full object-cover"
         />

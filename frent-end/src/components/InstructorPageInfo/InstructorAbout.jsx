@@ -2,14 +2,14 @@ import React from "react";
 import { useTheme } from "../../context/ThemeContext";
 import { motion } from "framer-motion";
 
-const InstructorAbout = () => {
+const InstructorAbout = ({ teacherInfo }) => {
   const { currentTheme, themes } = useTheme();
   const theme = themes[currentTheme];
 
   const paragraphs = [
     {
-      text: "I'm Angela, a developer with a passion for teaching. I'm the lead instructor at the London App Brewery, London's leading Programming Bootcamp. I've helped hundreds of thousands of students learn to code and change their lives by becoming developers. I've been invited by companies such as Twitter, Facebook, and Google to teach their employees.",
-      highlighted: ["Angela", "London App Brewery"],
+      text: teacherInfo?.about || "I'm Angela, a developer with a passion for teaching. I'm the lead instructor at the London App Brewery, London's leading Programming Bootcamp. I've helped hundreds of thousands of students learn to code and change their lives by becoming developers. I've been invited by companies such as Twitter, Facebook, and Google to teach their employees.",
+      highlighted: [],
     },
     {
       text: "My first foray into programming was when I was just 12 years old, wanting to build my own Space Invader game. Since then, I've made hundreds of websites, apps, and games. But most importantly, I realized that my greatest passion is teaching. I spend most of my time researching how to make learning to code fun and make hard concepts easy to understand. I apply everything I discover into my bootcamp courses.",

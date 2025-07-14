@@ -118,9 +118,10 @@ export const registerUser = async (dispatch, user) => {
     if (res.status === 201) {
       dispatch(loginSuccess(res.data.data));
     } else {
-      dispatch(loginFailure(data.message));
+      dispatch(loginFailure(res.data.message));
     }
   } catch (error) {
+    console.log(error);
     dispatch(loginFailure(error.message));
   }
 };
@@ -383,3 +384,22 @@ export const updateLecture = async (lectureId, lectureData) => {
     throw error;
   }
 };
+
+export const getTeacherInfo = async (id) => {
+  try {
+    const res = await publicRequest.get(`/api/v1/user/teachers/${id}`);
+    return res.data.data;
+  } catch (error) {
+    console.error(`Error getting teacher info "${id}":`, error);
+    throw error;
+  }
+};
+export const getInstructor = async () => {
+  try {
+    const res = await publicRequest.get("/api/v1/user/teachers");
+    return res.data.data;
+  } catch (error) {
+    console.error(`Error getting instructors:`, error);
+    throw error;
+  }
+}

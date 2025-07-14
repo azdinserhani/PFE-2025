@@ -2,11 +2,12 @@ import React from "react";
 import { useTheme } from "../../context/ThemeContext";
 import { motion } from "framer-motion";
 import { FaStar, FaUserGraduate, FaBook } from "react-icons/fa";
+import { useNavigate } from "react-router";
 
 const InstructorsCard = ({ item }) => {
   const { currentTheme, themes } = useTheme();
   const theme = themes[currentTheme];
-
+  const navigate = useNavigate();
   return (
     <motion.div
       className="flex flex-col gap-6 p-6 rounded-xl transition-all duration-300"
@@ -28,8 +29,8 @@ const InstructorsCard = ({ item }) => {
           transition={{ duration: 0.3 }}
         >
           <img
-            src={item.Img}
-            alt={item.name}
+            src={item.teacher_profile_pic}
+            alt={item.teacher_name}
             className="w-full h-full object-cover"
           />
         </motion.div>
@@ -49,10 +50,10 @@ const InstructorsCard = ({ item }) => {
 
       <div className="text-center space-y-2">
         <h3 className="text-xl font-bold" style={{ color: theme.text }}>
-          {item.name}
+          {item.teacher_name}
         </h3>
         <p className="text-sm font-medium" style={{ color: theme.secondary }}>
-          {item.desc}
+          {/* {item.teacher_description} */}
         </p>
       </div>
 
@@ -64,7 +65,7 @@ const InstructorsCard = ({ item }) => {
           <div className="flex items-center justify-center gap-1 mb-1">
             <FaBook size={14} style={{ color: theme.primary }} />
             <span className="text-sm font-medium" style={{ color: theme.text }}>
-              {item.stats.courses}
+              {item.number_of_courses}
             </span>
           </div>
           <p className="text-xs" style={{ color: theme.secondary }}>
@@ -79,7 +80,7 @@ const InstructorsCard = ({ item }) => {
           <div className="flex items-center justify-center gap-1 mb-1">
             <FaUserGraduate size={14} style={{ color: theme.primary }} />
             <span className="text-sm font-medium" style={{ color: theme.text }}>
-              {item.stats.students}
+              {item.number_of_students}
             </span>
           </div>
           <p className="text-xs" style={{ color: theme.secondary }}>
@@ -87,20 +88,11 @@ const InstructorsCard = ({ item }) => {
           </p>
         </div>
 
-        <div className="text-center">
-          <div className="flex items-center justify-center gap-1 mb-1">
-            <FaStar size={14} style={{ color: theme.primary }} />
-            <span className="text-sm font-medium" style={{ color: theme.text }}>
-              {item.stats.rating}
-            </span>
-          </div>
-          <p className="text-xs" style={{ color: theme.secondary }}>
-            Rating
-          </p>
-        </div>
+        
       </div>
 
       <motion.button
+        onClick={() => navigate(`/instructor/${item.id}`)}
         className="w-full py-2 rounded-lg font-medium text-sm transition-all duration-300"
         style={{
           backgroundColor: `${theme.primary}15`,

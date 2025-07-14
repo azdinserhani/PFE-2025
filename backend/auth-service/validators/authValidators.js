@@ -9,20 +9,20 @@ const registerSchema = Joi.object({
     "any.required": "Username is required",
   }),
 
-  email: Joi.string().email().max(20).required().messages({
+  email: Joi.string().email().max(50).required().messages({
     "string.email": "Please provide a valid email address",
-    "string.max": "Email cannot exceed 20 characters",
+    "string.max": "Email cannot exceed 50 characters",
     "any.required": "Email is required",
   }),
 
   password: Joi.string()
     .min(8)
     .required()
-    .pattern(new RegExp("^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)[a-zA-Z\\d]{8,}$"))
+    // .pattern(new RegExp("^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)[a-zA-Z\\d]{8,}$"))
     .messages({
       "string.min": "Password must be at least 8 characters long",
-      "string.pattern.base":
-        "Password must contain at least one uppercase letter, one lowercase letter, and one number",
+      // "string.pattern.base":
+      //   "Password must contain at least one uppercase letter, one lowercase letter, and one number",
       "any.required": "Password is required",
     }),
 

@@ -4,20 +4,20 @@ import { FaUserFriends } from "react-icons/fa";
 import { motion } from "framer-motion";
 import { useTheme } from "../../context/ThemeContext";
 
-const InstructorInfo = () => {
+const InstructorInfo = ({ teacherInfo }) => {
   const { currentTheme, themes } = useTheme();
   const theme = themes[currentTheme];
 
   const stats = [
     {
       icon: <IoIosPlayCircle fontSize={20} />,
-      label: "7 Courses",
-      value: "7",
+      label: `${teacherInfo?.number_of_courses} Courses`,
+      value: teacherInfo?.number_of_courses,
     },
     {
       icon: <FaUserFriends fontSize={20} />,
-      label: "Students",
-      value: "1,545",
+      label: `${teacherInfo?.number_of_students} Students`,
+      value: teacherInfo?.number_of_students,
     },
   ];
 
@@ -45,7 +45,7 @@ const InstructorInfo = () => {
         animate={{ opacity: 1 }}
         transition={{ delay: 0.3 }}
       >
-        Dr. Angela Yu
+        {teacherInfo?.teacher_name}
       </motion.h3>
 
       <motion.h4
@@ -55,7 +55,7 @@ const InstructorInfo = () => {
         animate={{ opacity: 1 }}
         transition={{ delay: 0.4 }}
       >
-        Developer and Lead Instructor
+        {teacherInfo?.teacher_email}
       </motion.h4>
 
       <motion.div
