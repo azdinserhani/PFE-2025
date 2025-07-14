@@ -33,6 +33,8 @@ import { useEffect } from "react";
 import { useNavigate, Navigate } from "react-router";
 import { useTranslation } from "react-i18next";
 import CreateExam from "./pages/InstroctorDashbaord/CreateExam";
+import ExamPage from "./pages/ExamPage";
+import CertificatePage from "./pages/CertificatePage";
 import './i18n';
 import './styles/rtl.css';
 
@@ -90,6 +92,8 @@ function AnimatedRoutes() {
             <Route path="/instructor/:id" element={<InstructorPageInfo />} />
             <Route path="/cart" element={<Cart />} />
             <Route path="/create-exam/:id" element={<CreateExam />} />
+            <Route path="/exam/:id" element={<ExamPage />} />
+            <Route path="/certificate/:id" element={<CertificatePage />} />
           </Route>
 
           <Route

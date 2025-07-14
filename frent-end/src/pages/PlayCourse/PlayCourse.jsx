@@ -11,8 +11,9 @@ import {
   FaChevronLeft,
   FaCode,
   FaEye,
+  FaPlug,
 } from "react-icons/fa";
-import { useParams } from "react-router";
+import { useNavigate, useParams } from "react-router";
 import { getCourseById } from "../../redux/ApiCalls";
 
 const PlayCourse = () => {
@@ -24,7 +25,7 @@ const PlayCourse = () => {
   const theme = themes[currentTheme];
   const [course, setCourse] = useState({});
   const [selectedLesson, setSelectedLesson] = useState(null);
-
+  const navigate = useNavigate();
   useEffect(() => {
     const fetchCourse = async () => {
       const res = await getCourseById(id);
@@ -45,7 +46,7 @@ const PlayCourse = () => {
 
   const handleLessonClick = (lesson) => {
     setSelectedLesson(lesson);
-    console.log("lesson", lesson.id);
+
   };
 
   return (
@@ -137,6 +138,20 @@ const PlayCourse = () => {
                       selectedLesson={selectedLesson}
                     />
                   ))}
+                  <div className="flex justify-center items-center mt-4">
+                    <button
+                      onClick={() => {
+                        navigate(`/exam/${id}`);
+                      }}
+                      className="px-4 py-2 rounded-md transition-all duration-300 cursor-pointer w-full"
+                      style={{
+                        backgroundColor: theme.primary,
+                        color: "#fff",
+                      }}
+                    >
+                      Take the exam
+                    </button>
+                  </div>
                 </div>
               ) : (
                 <div

@@ -11,12 +11,64 @@ const examQuery = {
   },
 
   getExamById: async (id) => {
-    const result = await query("SELECT * FROM exam WHERE id = $1", [id]);
+    const result = await query(`SELECT
+  e.id AS exam_id,
+  e.title AS exam_title,
+  e.description AS exam_description,
+  json_agg(
+    json_build_object(
+      'question_id', q.id,
+      'question_text', q.text,
+      'question_number', q.number,
+      'choices', (
+        SELECT json_agg(
+          json_build_object(
+            'choice_id', c.id,
+            'choice_text', c.text
+          )
+        )
+        FROM choice c
+        WHERE c.question_id = q.id
+      )
+    )
+    ORDER BY q.number
+  ) AS questions
+FROM exam e
+JOIN question q ON q.exam_id = e.id
+WHERE e.id = $1
+GROUP BY e.id, e.title, e.description;
+`, [id]);
     return result.rows[0];
   },
 
   getAllExams: async () => {
-    const result = await query("SELECT * FROM exam");
+    const result = await query(`SELECT
+  e.id AS exam_id,
+  e.title AS exam_title,
+  e.description AS exam_description,
+  json_agg(
+    json_build_object(
+      'question_id', q.id,
+      'question_text', q.text,
+      'question_number', q.number,
+      'choices', (
+        SELECT json_agg(
+          json_build_object(
+            'choice_id', c.id,
+            'choice_text', c.text
+          )
+        )
+        FROM choice c
+        WHERE c.question_id = q.id
+      )
+    )
+    ORDER BY q.number
+  ) AS questions
+FROM exam e
+JOIN question q ON q.exam_id = e.id
+GROUP BY e.id, e.title, e.description;
+
+`);
     return result.rows;
   },
 

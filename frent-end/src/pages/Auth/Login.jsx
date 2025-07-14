@@ -331,7 +331,7 @@ const Login = () => {
               </button>
 
               {/* Social login divider */ }
-              <div className="flex items-center my-6">
+              {/* <div className="flex items-center my-6">
                 <div
                   className="flex-grow h-px"
                   style={ { backgroundColor: theme.border } }
@@ -343,10 +343,10 @@ const Login = () => {
                   className="flex-grow h-px"
                   style={ { backgroundColor: theme.border } }
                 ></div>
-              </div>
+              </div> */}
 
               {/* Social login buttons */ }
-              <div className="grid grid-cols-2 gap-4">
+              {/* <div className="grid grid-cols-2 gap-4">
                 <button
                   type="button"
                   className="flex items-center justify-center gap-2 py-2.5 px-4 rounded-md transition duration-300"
@@ -401,7 +401,7 @@ const Login = () => {
                   </svg>
                   <span>Apple</span>
                 </button>
-              </div>
+              </div> */}
             </form>
           </div>
         </div>
